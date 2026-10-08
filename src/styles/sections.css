@@ -1,0 +1,635 @@
+/* ==========================================================================
+   06 — Metrics: precise, technical, almost an instrument panel.
+   ========================================================================== */
+.metrics {
+  padding-block: var(--section-pad);
+  background: var(--brown-900);
+  color: var(--cream);
+}
+
+.metrics__grid {
+  display: grid;
+  gap: 1px;
+  border: 1px solid var(--line-dark);
+  border-radius: var(--radius);
+  background: var(--line-dark);
+  overflow: hidden;
+}
+
+.metric {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: clamp(22px, 3vw, 36px);
+  background: var(--brown-900);
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.7s var(--ease-out),
+    transform 0.7s var(--ease-out),
+    background-color 0.3s ease;
+  transition-delay: calc(var(--i) * 0.12s), calc(var(--i) * 0.12s), 0s;
+}
+
+.metrics__grid.is-visible .metric {
+  opacity: 1;
+  transform: none;
+}
+
+.metric:hover {
+  background: var(--brown-800);
+}
+
+.metric__code {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: var(--on-dark-muted);
+}
+
+.metric__signal {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--pink);
+  animation: pulse-dot 2.2s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.4s);
+}
+
+.metric__value {
+  margin-top: 12px;
+  font-size: clamp(3.4rem, 2.4rem + 4vw, 6rem);
+  font-weight: 750;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+  font-variant-numeric: tabular-nums;
+  color: var(--cream);
+}
+
+.metric__suffix {
+  color: var(--pink-light);
+}
+
+.metric__title {
+  margin-top: 10px;
+  font-size: 1.25rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.metric__caption {
+  font-size: var(--fs-small);
+  color: var(--on-dark-muted);
+}
+
+/* A technical ruler that fills when the numbers arrive. */
+.metric__ruler {
+  position: relative;
+  height: 10px;
+  margin-top: 18px;
+  background: repeating-linear-gradient(90deg, var(--line-dark) 0 1px, transparent 1px 10px);
+}
+
+.metric__ruler::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 2px;
+  background: var(--pink);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 1.4s var(--ease-out);
+  transition-delay: calc(0.2s + var(--i) * 0.16s);
+}
+
+.metrics__grid.is-visible .metric__ruler::after {
+  transform: scaleX(1);
+}
+
+@media (min-width: 640px) {
+  .metrics__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1100px) {
+  .metrics__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ==========================================================================
+   07 — Final CTA: minimal and strong. Concentric rings: a cup seen from above.
+   ========================================================================== */
+.final {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: min(92svh, 860px);
+  padding-block: var(--section-pad);
+  background: var(--brown);
+  color: var(--cream);
+  text-align: center;
+  overflow: hidden;
+}
+
+.final__rings {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: min(130vw, 1100px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.final__rings span {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgb(245 239 226 / 0.12);
+  border-radius: 50%;
+  transform: scale(0.6);
+  opacity: 0;
+  transition:
+    transform 1.6s var(--ease-out),
+    opacity 1.6s var(--ease-out);
+}
+
+.final__rings span:nth-child(2) {
+  inset: 14%;
+  border-color: rgb(245 239 226 / 0.18);
+  border-style: dashed;
+  transition-delay: 0.15s;
+}
+
+.final__rings span:nth-child(3) {
+  inset: 30%;
+  border: 0;
+  background: radial-gradient(closest-side, var(--brown-800), var(--brown-700) 88%, rgb(245 239 226 / 0.2) 99%, transparent);
+  transition-delay: 0.3s;
+}
+
+.final.is-visible .final__rings span {
+  transform: none;
+  opacity: 1;
+}
+
+.final.is-visible .final__rings span:nth-child(2) {
+  animation: spin 60s linear infinite;
+}
+
+.final__inner {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 22px;
+}
+
+.final__title {
+  max-width: 14ch;
+  font-size: clamp(2.5rem, 1.4rem + 5vw, 6rem);
+  font-weight: 750;
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+  color: var(--cream);
+}
+
+.final__sub {
+  max-width: 46ch;
+  font-size: var(--fs-lead);
+  color: var(--on-dark-muted);
+}
+
+.final__cta {
+  margin-top: 10px;
+  min-width: min(100%, 260px);
+}
+
+/* ==========================================================================
+   08 — Contacts
+   ========================================================================== */
+.contact {
+  padding-block: var(--section-pad);
+  background: var(--cream);
+}
+
+.contact__inner {
+  display: grid;
+  gap: clamp(36px, 6vw, 80px);
+}
+
+.contact__info {
+  display: grid;
+  align-content: start;
+  gap: 24px;
+}
+
+.contact__info .section-head {
+  margin-bottom: 8px;
+}
+
+.contact__whatsapp {
+  justify-self: stretch;
+}
+
+.contact__wa-icon {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+
+.contact__wa-icon path:last-child {
+  fill: currentColor;
+  stroke: none;
+}
+
+.phone {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 4px 16px;
+  padding: 18px 20px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--cream-50);
+}
+
+.phone__label {
+  grid-column: 1 / -1;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.phone__number {
+  font-size: clamp(1.375rem, 1.1rem + 1.2vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.phone__number:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--pink);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+}
+
+.phone__copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--white);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.phone__copy:hover {
+  border-color: var(--pink);
+}
+
+.phone__copy svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+
+.phone__status {
+  grid-column: 1 / -1;
+  min-height: 1.4em;
+  font-size: var(--fs-small);
+  font-weight: 600;
+}
+
+.phone__status.is-copied::before {
+  content: '✓ ';
+  color: var(--pink);
+}
+
+/* Form */
+.form {
+  position: relative;
+  display: grid;
+  gap: 18px;
+  padding: clamp(22px, 4vw, 40px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--white);
+  box-shadow: 0 40px 80px -60px rgb(28 16 11 / 0.6);
+}
+
+.form__ticket {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 14px;
+  border-bottom: 1px dashed var(--line-strong);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+}
+
+.form__title {
+  font-size: var(--fs-h3);
+}
+
+.form__note {
+  font-size: var(--fs-small);
+  color: var(--ink-muted);
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field label {
+  font-weight: 600;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  min-height: 54px;
+  padding: 14px 16px;
+  border: 1.5px solid var(--line-strong);
+  border-radius: 14px;
+  background: var(--cream-50);
+  font-size: 1rem;
+  line-height: 1.4;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: var(--ink-muted);
+}
+
+.field input:hover,
+.field textarea:hover {
+  border-color: var(--brown);
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--pink);
+  background: var(--white);
+  box-shadow: 0 0 0 4px rgb(224 74 149 / 0.2);
+}
+
+.field.has-error input,
+.field.has-error textarea {
+  border-color: var(--pink);
+  border-width: 2px;
+}
+
+.field__hint {
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+}
+
+.field__error {
+  display: flex;
+  gap: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--brown);
+}
+
+.field__error::before {
+  content: '!';
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--pink);
+  color: var(--white);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.form__status:empty {
+  display: none;
+}
+
+.form__message {
+  padding: 14px 16px;
+  border-radius: 14px;
+  font-size: var(--fs-small);
+}
+
+.form__message a {
+  font-weight: 700;
+  text-decoration-color: var(--pink);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.form__message--success {
+  background: var(--brown);
+  color: var(--cream);
+}
+
+.form__message--success strong {
+  color: var(--pink-light);
+}
+
+.form__message--error {
+  border: 1.5px solid var(--pink);
+  background: var(--cream-50);
+  color: var(--brown);
+}
+
+@media (min-width: 960px) {
+  .contact__inner {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    align-items: start;
+  }
+
+  .contact__whatsapp {
+    justify-self: start;
+  }
+}
+
+/* ==========================================================================
+   09 — Footer
+   ========================================================================== */
+.footer {
+  padding-block: clamp(56px, 8vw, 96px) 28px;
+  background: var(--brown-900);
+  color: var(--cream);
+}
+
+.footer__inner {
+  display: grid;
+  gap: 36px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--line-dark);
+}
+
+.footer__brand {
+  display: grid;
+  gap: 14px;
+  max-width: 40ch;
+}
+
+.footer__brand .logo {
+  font-size: 2rem;
+}
+
+.footer__description {
+  color: var(--cream);
+}
+
+.footer__tagline {
+  font-size: var(--fs-small);
+  color: var(--on-dark-muted);
+}
+
+.footer__heading {
+  margin-bottom: 14px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--pink-light);
+}
+
+.footer__col ul {
+  display: grid;
+  gap: 2px;
+}
+
+.footer__col a,
+.footer__link-button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: var(--fs-small);
+  color: var(--cream);
+  text-decoration: none;
+}
+
+.footer__col a:hover,
+.footer__link-button:hover {
+  color: var(--pink-light);
+}
+
+.footer__bottom {
+  display: grid;
+  gap: 8px;
+  padding-top: 24px;
+  font-size: 0.8125rem;
+  color: var(--on-dark-muted);
+}
+
+.footer__binary {
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--pink-light);
+  opacity: 0.6;
+}
+
+@media (min-width: 760px) {
+  .footer__inner {
+    grid-template-columns: 2fr repeat(3, 1fr);
+  }
+
+  .footer__bottom {
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .footer__binary {
+    text-align: center;
+  }
+}
+
+/* Legal dialog */
+.legal {
+  width: min(560px, 100% - 32px);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--cream-50);
+  color: var(--brown);
+}
+
+.legal::backdrop {
+  background: rgb(28 16 11 / 0.7);
+}
+
+.legal[open] {
+  animation: menu-in 0.3s var(--ease-out);
+}
+
+.legal__inner {
+  display: grid;
+  gap: 16px;
+  padding: clamp(24px, 5vw, 40px);
+}
+
+.legal__title {
+  font-size: var(--fs-h3);
+}
+
+.legal__inner .button {
+  justify-self: start;
+  margin-top: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .metric {
+    opacity: 1;
+    transform: none;
+  }
+
+  .metric__ruler::after,
+  .final__rings span {
+    transform: none;
+    opacity: 1;
+  }
+
+  .final.is-visible .final__rings span:nth-child(2),
+  .metric__signal {
+    animation: none;
+  }
+}

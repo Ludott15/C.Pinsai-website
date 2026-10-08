@@ -1,0 +1,105 @@
+{
+  "solutions": [
+    {
+      "id": "tailored",
+      "index": "S/01",
+      "kicker": "Tailored Service",
+      "title": "Tailored Service",
+      "concept": "La tecnologia non arriva come un pacchetto standard: la progettiamo attorno al modo in cui lavori.",
+      "manifesto": ["Non adattiamo te al software;", "adattiamo il software a te."],
+      "toggle": {
+        "label": "Confronta l'approccio",
+        "standard": "Software standard",
+        "tailored": "Tailored",
+        "standardCaption": "Il tuo lavoro deve entrare nella scatola.",
+        "tailoredCaption": "La scatola prende la forma del tuo lavoro."
+      },
+      "code": "fit(software, { to: \"te\" })",
+      "cta": { "label": "Prenota una consulenza", "href": "#contatti" }
+    },
+    {
+      "id": "facilitai",
+      "index": "S/02",
+      "kicker": "Coaching",
+      "title": "Facilit-AI",
+      "concept": "Il Coaching per imprenditori, progettato per introdurti nel mondo AI da trainer specializzati in tecniche di apprendimento Non-Formale.",
+      "pillars": [
+        { "label": "Per chi", "value": "Imprenditori" },
+        { "label": "Con chi", "value": "Trainer specializzati" },
+        { "label": "Come", "value": "Apprendimento Non-Formale" }
+      ],
+      "aside": "Prima si impara a usarla. Poi si decide dove farla lavorare.",
+      "cta": { "label": "Parliamone", "href": "#contatti" }
+    }
+  ],
+  "verticals": [
+    {
+      "id": "restaurant-classic",
+      "index": "V/01",
+      "kicker": "Classic",
+      "title": "Infrastruttura per la Ristorazione",
+      "concept": "Tutto quello che ti serve in un solo posto.",
+      "description": "Un'infrastruttura operativa completa, non un semplice gestionale: ogni reparto parla con gli altri.",
+      "hubLabel": "un solo posto",
+      "features": [
+        "Prenotazioni",
+        "Richieste clienti",
+        "Gestione dipendenti",
+        "Gestione rimanenze",
+        "Gestione scadenze",
+        "Appuntamenti",
+        "Automazioni per acquisizione nuovi clienti",
+        "Automazioni per fidelizzazione clienti"
+      ],
+      "cta": { "label": "Prenota una consulenza", "href": "#contatti" }
+    },
+    {
+      "id": "restaurant-events",
+      "index": "V/02",
+      "kicker": "Eventi",
+      "title": "Ristorazione — Eventi",
+      "concept": "Un’infrastruttura automatizzata per permettere al cliente di customizzare il proprio evento direttamente da casa.",
+      "description": "Il cliente può organizzare e personalizzare il proprio evento senza essere costretto a recarsi fisicamente nella struttura.",
+      "journey": [
+        { "label": "Da casa", "detail": "il cliente apre l'evento" },
+        { "label": "Personalizza", "detail": "sceglie e modifica i dettagli" },
+        { "label": "In struttura", "detail": "arriva tutto già organizzato" }
+      ],
+      "story": "E chi lo sa, magari il prossimo matrimonio sarà di una coppia di stranieri.",
+      "cta": { "label": "Parliamone", "href": "#contatti" }
+    },
+    {
+      "id": "gym",
+      "index": "V/03",
+      "kicker": "In arrivo",
+      "status": "COMING SOON",
+      "title": "Infrastruttura Totale per le Palestre",
+      "concept": "Un intero ecosistema per gestire la palestra da un unico ambiente.",
+      "layers": [
+        {
+          "id": "admin",
+          "level": "01",
+          "name": "ADMIN HUB",
+          "lead": "Per la gestione di",
+          "items": ["Clienti", "Scadenze", "Dipendenti", "Coach", "Statistiche di gestione", "Rendita"]
+        },
+        {
+          "id": "coach",
+          "level": "02",
+          "name": "COACH HUB",
+          "lead": "L'ambiente dedicato ai coach per",
+          "items": ["Gestire i propri clienti", "Monitorare i clienti seguiti", "Organizzare il proprio lavoro", "Seguire i processi di allenamento"]
+        },
+        {
+          "id": "user",
+          "level": "03",
+          "name": "USER INTERFACE",
+          "lead": "La nostra interfaccia proprietaria dedicata interamente all'utente, per",
+          "items": ["Monitorare i propri processi", "Vedere le proprie statistiche", "Confrontare le statistiche con altri utenti collegati"],
+          "gem": "la nostra piccola gemma"
+        }
+      ],
+      "cta": { "label": "Chiedi informazioni", "href": "#contatti" }
+    }
+  ]
+}

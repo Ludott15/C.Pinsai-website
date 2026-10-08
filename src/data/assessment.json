@@ -1,0 +1,159 @@
+{
+  "intro": {
+    "index": "02",
+    "kicker": "THE COFFEE CHECK",
+    "title": "Possiamo Aiutarti? Facciamo un Check.",
+    "subtitle": "Rispondi a 4 semplici domande. Bastano pochi secondi per capire dove il tuo lavoro può diventare più semplice, veloce e automatizzato.",
+    "concept": "Prima di prepararti il caffè, capiamo quanto tempo stai perdendo.",
+    "startLabel": "Cominciamo",
+    "meta": [
+      "4 domande",
+      "pochi secondi",
+      "nessun dato salvato"
+    ]
+  },
+  "ui": {
+    "progressLabel": "Domanda {current} di {total}",
+    "backLabel": "Indietro",
+    "nextLabel": "Avanti",
+    "restartLabel": "Rifai il Coffee Check"
+  },
+  "questions": [
+    {
+      "id": 1,
+      "category": "TEMPO",
+      "label": "Dove se ne va il tempo?",
+      "visual": "transfer",
+      "microcopy": "Vediamo dove possiamo alleggerire il lavoro.",
+      "question": "In una settimana tipo, quante ore stima che il suo team (o lei stesso) passi a ricopiare dati, schedare fatture/ricevute o inserire manualmente ordini/fascicoli da un supporto all'altro?",
+      "answers": [
+        {
+          "label": "Meno di 2 ore",
+          "score": 1
+        },
+        {
+          "label": "Tra 2 e 5 ore",
+          "score": 2
+        },
+        {
+          "label": "Tra 6 e 12 ore",
+          "score": 3
+        },
+        {
+          "label": "Più di 15 ore",
+          "score": 4
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "category": "TEMPO DI RISPOSTA",
+      "label": "QUANTO VELOCE RISPONDI?",
+      "visual": "inbox",
+      "microcopy": "Il tuo tempo vale più di una sequenza di clic.",
+      "selectionMicrocopy": "Un cliente non dovrebbe aspettare mentre tu lavori.",
+      "question": "Quando un cliente richiede un'informazione, un preventivo o un intervento tramite email/WhatsApp fuori orario o mentre siete operativi, qual è il tempo medio prima che riceva un riscontro strutturato?",
+      "answers": [
+        {
+          "label": "Meno di 15 min",
+          "score": 1
+        },
+        {
+          "label": "Da 1 a 4 ore",
+          "score": 2
+        },
+        {
+          "label": "Entro 24 ore",
+          "score": 3
+        },
+        {
+          "label": "Capita di dimenticarlo",
+          "score": 4
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "category": "DIPENDENZA DAI PROCESSI",
+      "label": "E se mancasse qualcuno?",
+      "visual": "network",
+      "microcopy": "Ci siamo quasi.",
+      "question": "Se la persona chiave che gestisce la segreteria, i preventivi o l'accoglienza dovesse mancare improvvisamente per 10 giorni, quanto ne risentirebbe l'operatività quotidiana?",
+      "answers": [
+        {
+          "label": "Nessun problema, tutti i processi sono automatizzati e documentati",
+          "score": 1
+        },
+        {
+          "label": "Qualche rallentamento gestibile",
+          "score": 2
+        },
+        {
+          "label": "Caos totale",
+          "score": 4
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "category": "OPPORTUNITÀ",
+      "label": "Cosa faresti con il tempo che possiamo restituirti?",
+      "visual": "clock",
+      "microcopy": "Ultima domanda.",
+      "question": "Se da lunedì prossimo potesse recuperare magicamente il 25% del tempo impiegato in attività ripetitive, su cosa lo investirebbe prioritariamente?",
+      "answers": [
+        {
+          "label": "Chiudere più contratti / seguire più clienti",
+          "score": 1
+        },
+        {
+          "label": "Migliorare la qualità del servizio",
+          "score": 2
+        },
+        {
+          "label": "Ridurre lo stress",
+          "score": 3
+        }
+      ]
+    }
+  ],
+  "result": {
+    "title": "Il tuo Coffee Check è pronto.",
+    "subtitle": "Abbiamo individuato dove il tuo business potrebbe recuperare tempo, continuità e spazio operativo.",
+    "receiptTitle": "Scontrino del Coffee Check",
+    "profileLabel": "Profilo",
+    "scaleLabel": "Dove ti trovi",
+    "nextQuestion": "Vuoi capire da dove cominciare?",
+    "primaryCta": {
+      "label": "Parliamone davanti a un caffè",
+      "href": "#contatti"
+    },
+    "secondaryCta": {
+      "label": "Scopri le soluzioni",
+      "href": "#soluzioni"
+    },
+    "profiles": [
+      {
+        "id": "solid",
+        "min": 4,
+        "max": 6,
+        "title": "OPERATIVITÀ GIÀ SOLIDA",
+        "copy": "Il tuo assetto operativo sembra già avere una buona struttura. Il prossimo passo potrebbe essere capire dove l'automazione può trasformare il tempo recuperato in crescita."
+      },
+      {
+        "id": "recover",
+        "min": 7,
+        "max": 10,
+        "title": "SPAZIO DA RECUPERARE",
+        "copy": "Ci sono attività ripetitive e passaggi operativi che potrebbero liberare tempo prezioso. È proprio qui che una buona infrastruttura può iniziare a fare la differenza."
+      },
+      {
+        "id": "potential",
+        "min": 11,
+        "max": 15,
+        "title": "POTENZIALE DI AUTOMAZIONE",
+        "copy": "Una parte significativa del lavoro sembra dipendere ancora da attività manuali, tempi di risposta o persone chiave. Qui l'automazione potrebbe avere un impatto importante sulla continuità operativa."
+      }
+    ]
+  }
+}

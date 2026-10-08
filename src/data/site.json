@@ -1,0 +1,171 @@
+{
+  "brand": {
+    "name": "C.PINSAI",
+    "description": "Soluzioni di Intelligenza Artificiale che ti aiutano nel lavoro di tutti i giorni."
+  },
+  "navigation": [
+    {
+      "label": "Home",
+      "href": "#home"
+    },
+    {
+      "label": "Self-Assessment",
+      "href": "#coffee-check"
+    },
+    {
+      "label": "Soluzioni",
+      "href": "#soluzioni"
+    },
+    {
+      "label": "Numeri",
+      "href": "#numeri"
+    },
+    {
+      "label": "Contatti",
+      "href": "#contatti"
+    }
+  ],
+  "navCta": {
+    "label": "Parliamone",
+    "href": "#contatti"
+  },
+  "hero": {
+    "kicker": "Caffè · Codice · AI · Persone",
+    "headline": [
+      "Come bere un caffè,",
+      "ma te lo prepariamo noi."
+    ],
+    "subheadline": "Soluzioni di Intelligenza Artificiale che ti aiutano nel lavoro di tutti i giorni.",
+    "cta": {
+      "label": "Inizia il Self-Assessment",
+      "href": "#coffee-check"
+    },
+    "ticket": [
+      {
+        "key": "ordine",
+        "value": "espresso.ai"
+      },
+      {
+        "key": "zucchero",
+        "value": "0 byte"
+      },
+      {
+        "key": "preparato da",
+        "value": "persone"
+      }
+    ],
+    "scrollHint": "Scorri per entrare nel caffè"
+  },
+  "dive": {
+    "label": "Dive into coffee",
+    "title": "Sotto la crema, c'è il codice.",
+    "steps": [
+      "Caffè",
+      "Profondità",
+      "Codice",
+      "AI"
+    ]
+  },
+  "solutionsIntro": {
+    "index": "04",
+    "kicker": "Soluzioni",
+    "title": "La tua Soluzione AI",
+    "subtitle": "Scegli tra i pacchetti base e prenota una consulenza per poter personalizzare il servizio giusto per te"
+  },
+  "verticalsIntro": {
+    "index": "05",
+    "kicker": "Infrastrutture verticali",
+    "title": "Infrastrutture Verticali",
+    "subtitle": "Non un gestionale in più: un'infrastruttura operativa costruita attorno al tuo settore."
+  },
+  "metricsIntro": {
+    "index": "06",
+    "kicker": "Numeri",
+    "title": "I Numeri Parlano Chiaro",
+    "subtitle": "Risultati concreti che le nostre aziende partner hanno ottenuto"
+  },
+  "finalCta": {
+    "index": "07",
+    "kicker": "ready.state = true",
+    "headline": "Pronto a Trasformare il Tuo Business?",
+    "subheadline": "Unisciti alle aziende che hanno già fatto il salto verso l'efficienza AI-powered",
+    "cta": {
+      "label": "Inizia Ora",
+      "href": "#contatti"
+    }
+  },
+  "contact": {
+    "index": "08",
+    "kicker": "Contatti",
+    "title": "Parliamone Davanti a un Caffè",
+    "subtitle": "Virtuale o reale, siamo qui per ascoltarti e costruire la soluzione perfetta per te",
+    "phoneDisplay": "+39 339 427 7111",
+    "phoneE164": "+393394277111",
+    "whatsappLabel": "Scrivimi su WhatsApp",
+    "whatsappGreeting": "Ciao C.PINSAI, vorrei parlare di un progetto.",
+    "copyLabel": "Copia numero",
+    "copiedLabel": "Numero copiato",
+    "copyErrorLabel": "Copia non riuscita: seleziona il numero manualmente",
+    "form": {
+      "title": "Oppure raccontaci tutto qui",
+      "note": "Il messaggio viene preparato su WhatsApp: decidi tu quando inviarlo.",
+      "submitLabel": "Prepara il messaggio",
+      "fields": {
+        "name": {
+          "label": "Nome",
+          "placeholder": "Il tuo nome",
+          "errorRequired": "Inserisci il tuo nome.",
+          "errorShort": "Il nome deve avere almeno 2 caratteri."
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "tua@email.com",
+          "errorRequired": "Inserisci la tua email.",
+          "errorInvalid": "Controlla l'email: sembra mancare qualcosa (es. nome@dominio.it)."
+        },
+        "message": {
+          "label": "Messaggio",
+          "placeholder": "Raccontaci del tuo progetto...",
+          "hint": "Almeno 10 caratteri: anche due righe vanno benissimo.",
+          "errorRequired": "Scrivi il tuo messaggio.",
+          "errorShort": "Il messaggio deve avere almeno 10 caratteri."
+        }
+      },
+      "errorSummary": "Alcuni campi vanno sistemati prima di continuare.",
+      "successTitle": "Messaggio pronto.",
+      "successText": "Lo abbiamo aperto su WhatsApp: ti basta premere invio.",
+      "blockedText": "Il browser ha bloccato l'apertura di WhatsApp. Usa il collegamento qui sotto per inviare il messaggio.",
+      "openLinkLabel": "Apri il messaggio su WhatsApp",
+      "messageTemplate": "Ciao C.PINSAI, sono {name} ({email}).\n\n{message}"
+    }
+  },
+  "footer": {
+    "tagline": "Caffè, codice e persone. Prepariamo l'AI attorno al modo in cui lavori.",
+    "navTitle": "Sezioni",
+    "contactTitle": "Contatti",
+    "legalTitle": "Note legali",
+    "rights": "Tutti i diritti riservati.",
+    "signature": "Preparato con cura, servito caldo."
+  },
+  "legal": [
+    {
+      "id": "privacy",
+      "label": "Privacy",
+      "title": "Privacy",
+      "paragraphs": [
+        "Questo sito non raccoglie, non salva e non trasmette a server propri i dati inseriti nel modulo contatti.",
+        "Quando invii il modulo, i dati vengono usati solo per comporre un messaggio WhatsApp che puoi rivedere e decidere se inviare. Da quel momento il trattamento segue le condizioni di WhatsApp.",
+        "Per qualsiasi richiesta sui tuoi dati puoi contattarci al +39 339 427 7111."
+      ]
+    },
+    {
+      "id": "cookie",
+      "label": "Cookie",
+      "title": "Cookie",
+      "paragraphs": [
+        "Questo sito non utilizza cookie, né tecnici né di profilazione, e non integra strumenti di tracciamento di terze parti.",
+        "I caratteri tipografici sono serviti direttamente dal sito, senza richieste a servizi esterni."
+      ]
+    }
+  ]
+}
