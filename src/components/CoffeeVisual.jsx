@@ -2,7 +2,7 @@ import CoffeeSteam from './CoffeeSteam.jsx';
 
 /* Shared silhouette of the porcelain body (viewBox 400 × 320). */
 const BODY_PATH = 'M84 72 C 86 150, 118 226, 172 236 L 228 236 C 282 226, 314 150, 316 72 A 116 24 0 0 1 84 72 Z';
-const HANDLE_PATH = 'M16 14 C 52 2, 80 20, 76 50 C 72 80, 42 92, 4 84';
+const HANDLE_PATH = 'M16 16 C 50 0, 84 16, 80 50 C 76 84, 44 96, 12 84';
 
 /**
  * The hero cup, built from independent layers so it can move in 3D:
@@ -55,6 +55,8 @@ export default function CoffeeVisual({ brandName }) {
               </filter>
             </defs>
 
+            {/* The saucer is drawn 14 units higher so the cup foot sits in the centre of its well */}
+            <g transform="translate(0 -14)">
             {/* Cast shadow on the table */}
             <ellipse className="coffee__shadow" cx="200" cy="294" rx="184" ry="22" filter="url(#cup-blur-soft)" />
 
@@ -75,8 +77,10 @@ export default function CoffeeVisual({ brandName }) {
             <path d="M90 259 A 110 20.5 0 0 1 310 259" fill="none" stroke="#4B2D20" strokeWidth="2" opacity=".2" />
             <path d="M92 261 A 108 19.5 0 0 0 308 261" fill="none" stroke="#FFFFFF" strokeWidth="2.4" opacity=".95" />
 
+            </g>
+
             {/* Contact shadow of the cup foot */}
-            <ellipse cx="204" cy="248" rx="72" ry="11" fill="#2A1810" opacity=".34" filter="url(#cup-blur-tight)" />
+            <ellipse cx="200" cy="247" rx="72" ry="11" fill="#2A1810" opacity=".34" filter="url(#cup-blur-tight)" />
             <ellipse cx="200" cy="244" rx="58" ry="7" fill="#1C100B" opacity=".28" />
           </svg>
 
@@ -93,9 +97,9 @@ export default function CoffeeVisual({ brandName }) {
                 <path d={HANDLE_PATH} fill="none" stroke="#4B2D20" strokeWidth="22" strokeLinecap="round" />
                 <path d={HANDLE_PATH} fill="none" stroke="url(#cup-handle)" strokeWidth="14.5" strokeLinecap="round" />
                 {/* Inner occlusion on the lower curve, light along the outer top */}
-                <path d="M74 58 C 70 78, 44 88, 10 82" fill="none" stroke="#4B2D20" strokeOpacity=".16" strokeWidth="5" strokeLinecap="round" />
-                <path d="M30 11 C 54 8, 72 22, 73 40" fill="none" stroke="#FFFFFF" strokeWidth="3.2" strokeLinecap="round" />
-                <path d="M40 18 C 58 22, 66 34, 66 48" fill="none" stroke="#4B2D20" strokeOpacity=".1" strokeWidth="3" strokeLinecap="round" />
+                <path d="M77 60 C 72 80, 46 90, 16 82" fill="none" stroke="#4B2D20" strokeOpacity=".16" strokeWidth="5" strokeLinecap="round" />
+                <path d="M30 11 C 56 4, 76 20, 77 40" fill="none" stroke="#FFFFFF" strokeWidth="3.2" strokeLinecap="round" />
+                <path d="M42 19 C 62 20, 70 34, 70 50" fill="none" stroke="#4B2D20" strokeOpacity=".1" strokeWidth="3" strokeLinecap="round" />
               </svg>
             </div>
             <div className="coffee__handle-edge" />
@@ -135,35 +139,21 @@ export default function CoffeeVisual({ brandName }) {
                 <stop offset="45%" stopColor="#F5EFE2" />
                 <stop offset="100%" stopColor="#4B2D20" stopOpacity=".35" />
               </linearGradient>
-              <radialGradient id="cup-coffee" cx="44%" cy="38%" r="64%">
+              <radialGradient id="cup-coffee" cx="46%" cy="40%" r="62%">
                 <stop offset="0%" stopColor="#4B2D20" />
-                <stop offset="48%" stopColor="#3A2218" />
-                <stop offset="82%" stopColor="#2A1810" />
+                <stop offset="55%" stopColor="#2A1810" />
                 <stop offset="100%" stopColor="#1C100B" />
               </radialGradient>
               <radialGradient id="cup-crema" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#F5EFE2" stopOpacity=".1" />
-                <stop offset="45%" stopColor="#F5EFE2" stopOpacity=".06" />
-                <stop offset="78%" stopColor="#F5EFE2" stopOpacity=".2" />
-                <stop offset="92%" stopColor="#F5EFE2" stopOpacity=".38" />
-                <stop offset="100%" stopColor="#1C100B" stopOpacity=".5" />
+                <stop offset="72%" stopColor="#F5EFE2" stopOpacity="0" />
+                <stop offset="90%" stopColor="#F5EFE2" stopOpacity=".32" />
+                <stop offset="100%" stopColor="#F5EFE2" stopOpacity=".1" />
               </radialGradient>
-              <filter id="cup-crema-texture" x="0" y="0" width="100%" height="100%">
-                <feTurbulence type="fractalNoise" baseFrequency="0.035 0.16" numOctaves="3" seed="7" />
-                <feColorMatrix
-                  type="matrix"
-                  values="0 0 0 0 0.96  0 0 0 0 0.94  0 0 0 0 0.89  0 0 0 1.8 -0.82"
-                />
-                <feComposite in2="SourceGraphic" operator="in" />
-              </filter>
               <filter id="cup-glow" x="-30%" y="-30%" width="160%" height="160%">
                 <feGaussianBlur stdDeviation="4" />
               </filter>
               <clipPath id="cup-body-clip">
                 <path d={BODY_PATH} />
-              </clipPath>
-              <clipPath id="cup-coffee-clip">
-                <ellipse cx="200" cy="76" rx="101" ry="17.5" />
               </clipPath>
             </defs>
 
@@ -210,22 +200,12 @@ export default function CoffeeVisual({ brandName }) {
               <ellipse cx="200" cy="72.5" rx="109" ry="20.5" fill="url(#cup-inner-wall)" />
               <path d="M91 72.5 A 109 20.5 0 0 1 309 72.5" fill="none" stroke="#4B2D20" strokeWidth="1.2" opacity=".22" />
 
-              {/* Espresso, crema and its tiger-striped texture */}
+              {/* Espresso with its crema ring */}
               <ellipse cx="200" cy="76" rx="101" ry="17.5" fill="url(#cup-coffee)" />
               <ellipse cx="200" cy="76" rx="101" ry="17.5" fill="url(#cup-crema)" />
-              <g clipPath="url(#cup-coffee-clip)">
-                <rect x="99" y="58" width="202" height="36" fill="#FFFFFF" filter="url(#cup-crema-texture)" opacity=".26" />
-                <path d="M150 82 C 174 76, 200 78, 216 82 C 232 86, 250 85, 264 79" fill="none" stroke="#F5EFE2" strokeWidth="1.6" strokeLinecap="round" opacity=".2" />
-                <circle cx="114" cy="78" r="1.8" fill="#F5EFE2" opacity=".55" />
-                <circle cx="121" cy="84" r="1.2" fill="#F5EFE2" opacity=".5" />
-                <circle cx="282" cy="72" r="1.6" fill="#F5EFE2" opacity=".5" />
-                <circle cx="276" cy="83" r="1.1" fill="#F5EFE2" opacity=".45" />
-                <circle cx="230" cy="90" r="1.3" fill="#F5EFE2" opacity=".4" />
-              </g>
 
-              {/* Meniscus: shadow of the front lip, light on the far edge */}
-              <path d="M99 76 A 101 17.5 0 0 0 301 76" fill="none" stroke="#1C100B" strokeWidth="3" opacity=".55" />
-              <path d="M112 70 A 101 17.5 0 0 1 288 70" fill="none" stroke="#F5EFE2" strokeWidth="1.4" opacity=".45" />
+              {/* Meniscus: shadow of the front lip */}
+              <path d="M99 76 A 101 17.5 0 0 0 301 76" fill="none" stroke="#1C100B" strokeWidth="3" opacity=".45" />
               <ellipse className="coffee__surface-glint" cx="174" cy="71" rx="28" ry="4" fill="#F5EFE2" opacity=".22" />
 
               {/* Glaze highlight on the back of the rim */}
