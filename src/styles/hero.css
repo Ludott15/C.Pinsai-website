@@ -277,7 +277,8 @@
   height: 27%;
   border: 3px solid var(--brown);
   border-radius: 999px;
-  background: var(--white);
+  background: linear-gradient(90deg, var(--cream), var(--white) 45%, var(--cream-50) 70%, var(--cream));
+  box-shadow: inset -2px 0 0 rgb(75 45 32 / 0.14);
   opacity: var(--edge, 0);
   transform: rotateY(90deg);
 }
