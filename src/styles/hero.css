@@ -1,0 +1,680 @@
+/* ==========================================================================
+   01 — Hero. The section is a tall scroll track; the stage sticks to the viewport
+   while the scroll timeline (utils/dive.js) writes --text, --turn, --tilt, --zoom,
+   --steam, --fill, --dive and --steps on the track.
+   ========================================================================== */
+.hero {
+  --cup-w: clamp(150px, min(66vw, (100svh - 420px) / 1.35), 330px);
+  position: relative;
+  height: 250vh;
+  height: 250svh;
+  background: var(--cream);
+}
+
+.hero__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: clip;
+}
+
+/* Discreet binary backdrop: "C.PINSAI" encoded in ASCII, drifting very slowly. */
+.hero__binary {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding-block: 12vh;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.3em;
+  white-space: nowrap;
+  color: var(--brown);
+  opacity: 0.075;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 55%, transparent 20%, #000 75%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 55%, transparent 20%, #000 75%);
+  transform: translateY(calc(var(--p, 0) * -80px));
+}
+
+.hero__binary span {
+  display: block;
+  transform: translateX(calc(var(--row) * -41px));
+  animation: binary-drift 70s linear infinite alternate;
+  animation-delay: calc(var(--row) * -6s);
+}
+
+@keyframes binary-drift {
+  to {
+    translate: -18% 0;
+  }
+}
+
+.hero__grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  gap: 14px;
+  height: 100%;
+  padding-block: calc(var(--header-h) + 18px) max(20px, env(safe-area-inset-bottom));
+}
+
+.hero__kicker,
+.hero__aside,
+.hero__ticket,
+.hero__hint {
+  opacity: calc(1 - var(--text, 0));
+  transform: translateY(calc(var(--text, 0) * 28px));
+}
+
+.hero:is([data-phase='dive'], [data-phase='deep']) :is(.hero__kicker, .hero__aside, .hero__ticket, .hero__hint) {
+  visibility: hidden;
+}
+
+.hero__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.hero__kicker-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--pink);
+  box-shadow: 0 0 0 4px rgb(224 74 149 / 0.18);
+  animation: pulse-dot 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  50% {
+    box-shadow: 0 0 0 7px rgb(224 74 149 / 0.06);
+  }
+}
+
+.hero__title {
+  font-size: var(--fs-h1);
+  font-weight: 750;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+}
+
+.hero__line {
+  display: block;
+  opacity: calc(1 - var(--text, 0));
+}
+
+.hero__line--a {
+  transform: translateX(calc(var(--text, 0) * -14vw));
+}
+
+.hero__line--b {
+  font-weight: 350;
+  transform: translateX(calc(var(--text, 0) * 14vw));
+}
+
+.hero__line--b em {
+  font-weight: 750;
+  color: var(--pink);
+}
+
+.hero__visual {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+
+.hero__aside {
+  display: grid;
+  gap: 16px;
+}
+
+.hero__sub {
+  max-width: 36ch;
+  font-size: var(--fs-lead);
+  line-height: 1.45;
+  color: var(--ink-muted);
+}
+
+.hero__cta {
+  width: 100%;
+}
+
+.hero__ticket {
+  display: none;
+}
+
+.hero__hint {
+  display: none;
+}
+
+/* ==========================================================================
+   Cup — geometry: the visual box is 400 × 540 units; the cup SVG (400 × 320)
+   sits at the bottom; the coffee surface centre is at (200, 296) → 50% 54.8%.
+   ========================================================================== */
+.coffee {
+  position: relative;
+  width: var(--cup-w);
+  aspect-ratio: 400 / 540;
+}
+
+.hero[data-phase='deep'] .coffee {
+  visibility: hidden;
+}
+
+.coffee__camera {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 54.8%;
+  transform: scale(var(--zoom, 1));
+  perspective: 1100px;
+  perspective-origin: 50% 40%;
+}
+
+.coffee__cup {
+  position: absolute;
+  inset: auto 0 0;
+  aspect-ratio: 400 / 320;
+  transform-origin: 50% 23.75%;
+  transform: rotateX(calc(var(--tilt, 0) * -16deg));
+}
+
+.coffee__saucer,
+.coffee__body {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.coffee__saucer {
+  transform-origin: 50% 82%;
+  transform: scaleY(calc(1 + var(--tilt, 0) * 0.55));
+}
+
+.coffee__shadow {
+  fill: var(--brown);
+  opacity: calc(0.16 + var(--tilt, 0) * 0.12);
+}
+
+.coffee__shell {
+  transform-box: view-box;
+  transform-origin: 200px 72px;
+  transform: scaleY(calc(1 - var(--tilt, 0) * 0.32));
+}
+
+.coffee__mouth {
+  transform-box: view-box;
+  transform-origin: 200px 76px;
+  transform: scaleY(calc(1 + var(--tilt, 0) * 1.6));
+}
+
+.coffee__logo {
+  font-family: var(--font-sans);
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  fill: var(--brown);
+  transform-box: view-box;
+  transform-origin: 200px 150px;
+  transform: translateX(calc(var(--sin, 0) * 92px)) scaleX(var(--cos, 1));
+  opacity: clamp(0, calc(var(--cos, 1) * 3), 1);
+}
+
+.coffee__surface-glint {
+  animation: glint 6s ease-in-out infinite;
+}
+
+@keyframes glint {
+  50% {
+    opacity: 0.38;
+  }
+}
+
+/* The handle orbits the vertical axis of the cup in real 3D space; a second plane,
+   perpendicular to it, gives the handle its thickness when seen edge-on. */
+.coffee__orbit {
+  position: absolute;
+  inset: 0;
+  z-index: var(--handle-layer, 0);
+  perspective: 1100px;
+  transform-style: preserve-3d;
+  transform: rotateY(calc(var(--turn, 0) * 1deg));
+}
+
+.coffee__handle {
+  position: absolute;
+  left: 72.5%;
+  top: 27.5%;
+  width: 22.5%;
+  height: 31.25%;
+}
+
+.coffee__handle svg {
+  width: 100%;
+  height: 100%;
+}
+
+.coffee__handle-edge {
+  position: absolute;
+  left: 82.25%;
+  top: 29.5%;
+  width: 5.5%;
+  height: 27%;
+  border: 3px solid var(--brown);
+  border-radius: 999px;
+  background: var(--white);
+  opacity: var(--edge, 0);
+  transform: rotateY(90deg);
+}
+
+/* ==========================================================================
+   Binary steam — pink glyphs born on the surface, drifting like vapour.
+   ========================================================================== */
+.steam {
+  --rise: calc(var(--cup-w) * 0.62);
+  position: absolute;
+  inset: 0 0 auto;
+  height: 55%;
+  font-family: var(--font-mono);
+  font-size: calc(var(--cup-w) * 0.05);
+  font-weight: 600;
+  color: #e04a95;
+  opacity: var(--steam, 1);
+  pointer-events: none;
+}
+
+.steam__wisp {
+  position: absolute;
+  left: calc(50% + var(--offset));
+  bottom: 0;
+  width: 36%;
+  height: 100%;
+  transform-origin: 50% 100%;
+  transform: translateX(-50%);
+  animation: wisp-sway var(--sway) ease-in-out infinite alternate;
+}
+
+.steam__bit {
+  position: absolute;
+  bottom: 0;
+  left: calc(50% + var(--x0));
+  font-size: var(--size);
+  line-height: 1;
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: steam-rise var(--dur) cubic-bezier(0.33, 0.1, 0.45, 1) var(--delay) infinite;
+}
+
+.steam__bit--soft {
+  animation-name: steam-rise-soft;
+}
+
+@keyframes wisp-sway {
+  from {
+    transform: translateX(-54%) skewX(-8deg);
+  }
+  to {
+    transform: translateX(-46%) skewX(9deg);
+  }
+}
+
+@keyframes steam-rise {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(var(--s0)) rotate(0deg);
+  }
+  14% {
+    opacity: var(--o);
+  }
+  42% {
+    transform: translate3d(var(--x1), calc(var(--rise) * -0.4), 0) scale(calc(var(--s0) + 0.25), var(--s0))
+      rotate(calc(var(--rot) * 0.35));
+  }
+  72% {
+    opacity: calc(var(--o) * 0.55);
+    transform: translate3d(var(--x2), calc(var(--rise) * -0.74), 0) scale(var(--s1), calc(var(--s1) * 0.8))
+      rotate(calc(var(--rot) * 0.75));
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--x3), calc(var(--rise) * -1), 0) scale(calc(var(--s1) * 1.25)) rotate(var(--rot));
+  }
+}
+
+@keyframes steam-rise-soft {
+  0% {
+    opacity: 0;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) scale(var(--s0));
+  }
+  18% {
+    opacity: var(--o);
+  }
+  55% {
+    filter: blur(0.6px);
+    transform: translate3d(var(--x2), calc(var(--rise) * -0.55), 0) scale(var(--s1)) rotate(calc(var(--rot) * 0.5));
+  }
+  100% {
+    opacity: 0;
+    filter: blur(1.6px);
+    transform: translate3d(var(--x3), calc(var(--rise) * -1.05), 0) scale(calc(var(--s1) * 1.35)) rotate(var(--rot));
+  }
+}
+
+/* ==========================================================================
+   03 — Dive into coffee. A brown circle opens from the coffee surface
+   and becomes the environment of the Coffee Check.
+   ========================================================================== */
+.dive {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  --radius: calc(var(--fill, 0) * 164vmax - 4vmax);
+  background:
+    radial-gradient(circle at var(--cx, 50%) var(--cy, 55%), var(--brown-700) 0, var(--brown-800) 60%),
+    var(--brown-800);
+  /* Soft, liquid edge: the coffee spreads instead of being cut out. */
+  -webkit-mask-image: radial-gradient(
+    circle at var(--cx, 50%) var(--cy, 55%),
+    #000 var(--radius),
+    transparent calc(var(--radius) + 4vmax)
+  );
+  mask-image: radial-gradient(
+    circle at var(--cx, 50%) var(--cy, 55%),
+    #000 var(--radius),
+    transparent calc(var(--radius) + 4vmax)
+  );
+  pointer-events: none;
+}
+
+.dive__rain {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: var(--dive, 0);
+}
+
+.dive__rain span {
+  position: absolute;
+  top: -10%;
+  left: calc(3% + var(--col) * 7%);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.4em;
+  writing-mode: vertical-rl;
+  color: var(--pink-light);
+  opacity: var(--alpha);
+  animation: rain var(--fall) linear var(--start) infinite;
+}
+
+@keyframes rain {
+  from {
+    transform: translateY(-20%);
+  }
+  to {
+    transform: translateY(60%);
+  }
+}
+
+.dive__copy {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 22px;
+  text-align: center;
+  opacity: var(--dive, 0);
+  transform: translateY(calc((1 - var(--dive, 0)) * 36px));
+}
+
+.dive__label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--pink-light);
+}
+
+.dive__title {
+  max-width: 16ch;
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  color: var(--cream);
+  text-wrap: balance;
+}
+
+.dive__steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 0;
+  font-family: var(--font-mono);
+  font-size: clamp(0.75rem, 0.7rem + 0.3vw, 0.9375rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cream);
+}
+
+.dive__steps li {
+  opacity: clamp(0.25, calc(var(--steps, 0) * 4 - var(--i)), 1);
+}
+
+.dive__steps li:not(:last-child)::after {
+  content: '→';
+  margin: 0 14px;
+  color: var(--pink-light);
+}
+
+.dive__steps li:last-child {
+  color: var(--pink-light);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   Static hero (reduced motion): no sticky track, no dive — the band below
+   still carries the cream → coffee transition, as a gradient.
+   ========================================================================== */
+.hero--static {
+  height: auto;
+}
+
+.hero--static .hero__stage {
+  position: relative;
+  height: auto;
+  overflow: visible;
+}
+
+.hero--static .hero__grid {
+  min-height: 100svh;
+}
+
+.hero--static .dive {
+  position: relative;
+  inset: auto;
+  min-height: 70svh;
+  padding-block: 120px 96px;
+  -webkit-mask-image: none;
+  mask-image: none;
+  background: linear-gradient(to bottom, var(--cream) 0, var(--brown-700) 34%, var(--brown-800) 70%);
+}
+
+.hero--static :is(.dive__rain, .dive__copy) {
+  opacity: 1;
+  transform: none;
+}
+
+.hero--static .dive__steps li {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   Desktop composition: the headline is split diagonally around the cup.
+   ========================================================================== */
+@media (min-width: 960px) {
+  .hero {
+    --cup-w: clamp(230px, min(29vw, (100svh - 250px) / 1.32), 470px);
+  }
+
+  .hero__grid {
+    grid-template-columns: minmax(0, 1fr) var(--cup-w) minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    column-gap: clamp(20px, 3vw, 56px);
+    row-gap: 18px;
+    padding-bottom: 28px;
+  }
+
+  .hero__kicker {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: end;
+  }
+
+  .hero__title {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    display: grid;
+    grid-template-columns: subgrid;
+    align-self: stretch;
+    padding-block: 3vh 1vh;
+  }
+
+  .hero__line--a {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: start;
+  }
+
+  .hero__line--b {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: end;
+    text-align: right;
+  }
+
+  .hero__visual {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    align-self: end;
+  }
+
+  .hero__aside {
+    grid-column: 1;
+    grid-row: 3;
+    align-content: end;
+  }
+
+  .hero__cta {
+    width: auto;
+    justify-self: start;
+  }
+
+  .hero__ticket {
+    grid-column: 3;
+    grid-row: 3;
+    align-self: end;
+    justify-self: end;
+    display: grid;
+    gap: 6px;
+    min-width: 230px;
+    padding: 14px 18px;
+    border: 1px dashed var(--line-strong);
+    border-radius: var(--radius-sm);
+    background: var(--cream-50);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+
+  .hero__ticket div {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .hero__ticket dt {
+    color: var(--ink-muted);
+  }
+
+  .hero__ticket dd {
+    font-weight: 600;
+  }
+
+  .hero__hint {
+    grid-column: 2;
+    grid-row: 3;
+    align-self: end;
+    display: grid;
+    justify-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    text-align: center;
+  }
+
+  .hero__hint-line {
+    width: 1px;
+    height: 34px;
+    background: linear-gradient(var(--pink), transparent);
+    animation: hint 2s var(--ease-in-out) infinite;
+    transform-origin: top;
+  }
+
+  @keyframes hint {
+    0% {
+      transform: scaleY(0);
+    }
+    60% {
+      transform: scaleY(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scaleY(1);
+      opacity: 0;
+    }
+  }
+}
+
+@media (min-width: 960px) and (max-height: 720px) {
+  .hero__ticket {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Steam freezes into a still, readable plume. */
+  .steam__wisp,
+  .hero__binary span {
+    animation: none;
+  }
+
+  .steam__bit {
+    animation: none;
+    opacity: calc(var(--o) * (1 - var(--py)));
+    transform: translate3d(calc(var(--x2) * var(--py)), calc(var(--rise) * var(--py) * -1), 0)
+      scale(calc(var(--s0) + var(--py) * 0.5));
+  }
+
+  .dive__rain span {
+    animation: none;
+  }
+}

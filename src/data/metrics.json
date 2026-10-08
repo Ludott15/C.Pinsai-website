@@ -1,0 +1,36 @@
+{
+  "items": [
+    {
+      "id": "efficiency",
+      "value": 200,
+      "suffix": "%",
+      "title": "Incremento Efficienza",
+      "caption": "Team productivity boost medio",
+      "code": "team.productivity"
+    },
+    {
+      "id": "time",
+      "value": 60,
+      "suffix": "%+",
+      "title": "Tempo Risparmiato",
+      "caption": "Su operazioni manuali",
+      "code": "manual.ops"
+    },
+    {
+      "id": "precision",
+      "value": 99,
+      "suffix": "%",
+      "title": "Precisione Decisionale",
+      "caption": "Data-driven insights",
+      "code": "decisions.data"
+    },
+    {
+      "id": "uptime",
+      "value": 24,
+      "suffix": "/7",
+      "title": "Operatività Continua",
+      "caption": "AI sempre attiva",
+      "code": "ai.status"
+    }
+  ]
+}

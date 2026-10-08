@@ -1,0 +1,872 @@
+/* ==========================================================================
+   04 — Solutions. We surface from the coffee: a crema edge rises over the brown.
+   ========================================================================== */
+.services {
+  position: relative;
+  padding-block: calc(var(--section-pad) * 0.6) var(--section-pad);
+  background: var(--cream);
+}
+
+.services__crema {
+  position: absolute;
+  inset: auto 0 100%;
+  height: clamp(40px, 7vw, 110px);
+  margin-bottom: -1px;
+  pointer-events: none;
+}
+
+.services__crema svg {
+  width: 100%;
+  height: 100%;
+  fill: var(--cream);
+}
+
+.services__grid,
+.verticals__grid {
+  display: grid;
+  gap: 20px;
+}
+
+/* ==========================================================================
+   Service shell (shared)
+   ========================================================================== */
+.service {
+  --mx: 0.5;
+  --my: 0.5;
+  --accent: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: clamp(22px, 3.5vw, 40px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--cream-50);
+  isolation: isolate;
+  opacity: 0;
+  transform: translateY(34px);
+  transition:
+    opacity 0.8s var(--ease-out),
+    transform 0.8s var(--ease-out),
+    box-shadow 0.4s var(--ease-out),
+    border-color 0.4s var(--ease-out);
+}
+
+.service.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.service:hover {
+  --accent: 1;
+  border-color: var(--line-strong);
+  box-shadow:
+    0 30px 60px -40px rgb(28 16 11 / 0.55),
+    0 1px 0 var(--line);
+  transform: translateY(-4px);
+}
+
+.service__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.service__index {
+  color: var(--ink-muted);
+  transition: color 0.3s ease;
+}
+
+.service:hover .service__index {
+  color: var(--brown);
+}
+
+.service__kicker {
+  padding: 4px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+}
+
+.service__title {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  letter-spacing: calc(-0.035em + var(--accent) * 0.01em);
+  transition: letter-spacing 0.5s var(--ease-out);
+}
+
+.service__concept {
+  max-width: 52ch;
+  font-size: var(--fs-lead);
+  line-height: 1.45;
+}
+
+.service__concept--large {
+  font-size: clamp(1.375rem, 1.1rem + 1.1vw, 2rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+}
+
+.service__description {
+  max-width: 56ch;
+  color: var(--ink-muted);
+}
+
+.service__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  align-self: flex-start;
+  min-height: 44px;
+  margin-top: auto;
+  padding-top: 8px;
+  font-weight: 650;
+  text-decoration: none;
+  background: linear-gradient(var(--pink), var(--pink)) left bottom / calc(var(--accent) * 100%) 2px no-repeat;
+  transition: background-size 0.45s var(--ease-out);
+}
+
+.service__cta:hover {
+  background-size: 100% 2px;
+}
+
+.service__cta-arrow {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--brown);
+  color: var(--cream);
+  transition:
+    transform 0.4s var(--ease-spring),
+    background-color 0.3s ease;
+}
+
+.service:hover .service__cta-arrow {
+  background: var(--pink);
+  color: var(--white);
+  transform: translateX(4px) rotate(-12deg);
+}
+
+/* The pink line that follows the pointer along the bottom edge. */
+.service__tracker {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: -1px;
+  height: 2px;
+  pointer-events: none;
+}
+
+.service__tracker::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: calc(var(--mx) * 100%);
+  width: 96px;
+  height: 2px;
+  margin-left: -48px;
+  border-radius: 2px;
+  background: var(--pink);
+  opacity: var(--accent);
+  transition:
+    opacity 0.3s ease,
+    left 0.12s linear;
+}
+
+/* Tiny pink registration marks that appear on hover. */
+.service__corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: var(--pink);
+  border-style: solid;
+  opacity: var(--accent);
+  pointer-events: none;
+  transition:
+    opacity 0.3s ease,
+    transform 0.4s var(--ease-out);
+}
+
+.service__corner--tl {
+  top: 12px;
+  left: 12px;
+  border-width: 2px 0 0 2px;
+  transform: translate(calc((1 - var(--accent)) * 6px), calc((1 - var(--accent)) * 6px));
+}
+
+.service__corner--br {
+  right: 12px;
+  bottom: 12px;
+  border-width: 0 2px 2px 0;
+  transform: translate(calc((var(--accent) - 1) * 6px), calc((var(--accent) - 1) * 6px));
+}
+
+/* ==========================================================================
+   Tailored Service
+   ========================================================================== */
+.service--tailored {
+  background: var(--brown);
+  border-color: var(--brown);
+  color: var(--cream);
+}
+
+.service--tailored .service__index,
+.service--tailored:hover .service__index {
+  color: var(--on-dark-muted);
+}
+
+.service--tailored .service__kicker {
+  border-color: var(--line-dark);
+  color: var(--pink-light);
+}
+
+.service--tailored .service__cta-arrow {
+  background: var(--cream);
+  color: var(--brown);
+}
+
+.tailored__manifesto {
+  display: grid;
+  gap: 2px;
+  font-size: clamp(1.5rem, 1.1rem + 1.8vw, 2.6rem);
+  font-weight: 350;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
+.tailored__manifesto strong {
+  font-weight: 750;
+  color: var(--pink-light);
+}
+
+.tailored__lab {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid var(--line-dark);
+  border-radius: 18px;
+  background: var(--brown-800);
+}
+
+.tailored__toggle {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  justify-self: start;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--brown-900);
+}
+
+.tailored__toggle button {
+  min-height: 40px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  color: var(--on-dark-muted);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.tailored__toggle button[aria-pressed='true'] {
+  background: var(--pink);
+  color: var(--white);
+}
+
+.tailored__fit {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(4, clamp(26px, 5vw, 40px));
+  gap: 6px;
+  padding: 14px;
+}
+
+.tailored__frame {
+  grid-column: 2 / 6;
+  grid-row: 1 / 5;
+  margin: -6px;
+  border: 2px solid var(--cream);
+  border-radius: 6px;
+  transition:
+    opacity 0.5s ease,
+    transform 0.6s var(--ease-out);
+}
+
+.tailored__block {
+  border-radius: 7px;
+  background: var(--cream);
+  transition:
+    opacity 0.5s ease,
+    transform 0.6s var(--ease-spring),
+    outline-color 0.4s ease,
+    background-color 0.4s ease;
+  transition-delay: calc(var(--i) * 45ms);
+  outline: 2px dashed transparent;
+  outline-offset: 3px;
+}
+
+.is-standard .tailored__block.is-out {
+  opacity: 0.18;
+  transform: scale(0.82);
+}
+
+.is-tailored .tailored__frame {
+  opacity: 0;
+  transform: scale(1.08);
+}
+
+.is-tailored .tailored__block {
+  outline-color: var(--pink-light);
+}
+
+.tailored__caption {
+  font-size: var(--fs-small);
+  color: var(--cream);
+}
+
+.tailored__code {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--pink-light);
+}
+
+/* ==========================================================================
+   Facilit-AI — editorial
+   ========================================================================== */
+.service--facilitai {
+  overflow: hidden;
+}
+
+/* The wordmark below is the visual title: the heading stays for assistive technologies. */
+.service--facilitai .service__title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.facilitai__wordmark {
+  font-size: clamp(3rem, 1.6rem + 5vw, 6rem);
+  font-weight: 800;
+  line-height: 0.85;
+  letter-spacing: -0.06em;
+  color: var(--brown);
+  transform: translateX(calc(var(--accent) * -6px));
+  transition: transform 0.6s var(--ease-out);
+}
+
+.facilitai__wordmark span {
+  display: inline-block;
+  color: var(--pink);
+  transform: translateX(calc(var(--accent) * 10px));
+  transition: transform 0.6s var(--ease-spring);
+}
+
+.facilitai__concept {
+  max-width: 34ch;
+  font-size: clamp(1.25rem, 1.05rem + 0.8vw, 1.625rem);
+  font-weight: 350;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+}
+
+.facilitai__pillars {
+  display: grid;
+  border-top: 1px solid var(--line);
+}
+
+.facilitai__pillars div {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 12px;
+  padding-block: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.facilitai__pillars dt {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.facilitai__pillars dd {
+  font-weight: 600;
+}
+
+.facilitai__aside {
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--ink-muted);
+}
+
+.facilitai__aside::before {
+  content: '// ';
+  color: var(--pink);
+}
+
+/* ==========================================================================
+   05 — Verticals
+   ========================================================================== */
+.verticals {
+  padding-block: 0 var(--section-pad);
+  background: var(--cream);
+}
+
+.verticals .section-head {
+  padding-top: clamp(48px, 6vw, 80px);
+  border-top: 1px solid var(--line);
+}
+
+/* Restaurant — Classic: eight modules around one hub */
+.ops {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.ops__module {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  min-height: 84px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--cream);
+  font-size: var(--fs-small);
+  font-weight: 550;
+  line-height: 1.3;
+  transition:
+    border-color 0.3s ease,
+    transform 0.4s var(--ease-out),
+    background-color 0.3s ease;
+}
+
+.ops__module:hover {
+  border-color: var(--pink);
+  background: var(--white);
+  transform: translateY(-2px);
+}
+
+.ops__num {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--ink-muted);
+}
+
+.ops__module:hover .ops__num {
+  color: var(--brown);
+}
+
+.ops__hub {
+  position: relative;
+  grid-column: 1 / -1;
+  grid-row: 1;
+  display: grid;
+  place-items: center;
+  min-height: 112px;
+  border-radius: 14px;
+  background: var(--brown);
+  color: var(--cream);
+  overflow: hidden;
+}
+
+.ops__hub-ring {
+  position: absolute;
+  width: 220px;
+  aspect-ratio: 1;
+  border: 1px dashed rgb(245 239 226 / 0.35);
+  border-radius: 50%;
+  animation: spin 40s linear infinite;
+}
+
+.ops__hub-ring::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  border-radius: 50%;
+  background: var(--pink);
+}
+
+.ops__hub-label {
+  position: relative;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* Restaurant — Events */
+.journey {
+  position: relative;
+  display: grid;
+  gap: 0;
+}
+
+.journey::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 7px;
+  border-left: 2px dotted var(--line-strong);
+}
+
+.journey__step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  column-gap: 16px;
+  padding-block: 8px;
+}
+
+.journey__dot {
+  grid-row: 1 / 3;
+  width: 16px;
+  height: 16px;
+  margin-top: 3px;
+  border: 2px solid var(--brown);
+  border-radius: 50%;
+  background: var(--cream-50);
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+  transition-delay: calc(var(--i) * 0.12s);
+}
+
+.service--events:hover .journey__dot {
+  border-color: var(--pink);
+  background: var(--pink);
+}
+
+.journey__label {
+  font-weight: 650;
+}
+
+.journey__detail {
+  font-size: var(--fs-small);
+  color: var(--ink-muted);
+}
+
+.story {
+  display: grid;
+  gap: 8px;
+  padding: 18px 20px;
+  border-left: 3px solid var(--pink);
+  border-radius: 0 14px 14px 0;
+  background: var(--cream);
+}
+
+.story__label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.story__text {
+  font-size: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  font-weight: 350;
+  font-style: italic;
+  line-height: 1.35;
+}
+
+/* Gym — coming soon */
+.service--gym {
+  background: var(--brown-800);
+  border-color: var(--brown-800);
+  color: var(--cream);
+}
+
+.service--gym .service__index,
+.service--gym:hover .service__index {
+  color: var(--on-dark-muted);
+}
+
+.service--gym .service__kicker {
+  border-color: var(--line-dark);
+}
+
+.service--gym .badge {
+  animation: soon 2.8s ease-in-out infinite;
+}
+
+@keyframes soon {
+  50% {
+    box-shadow: 0 0 0 6px rgb(224 74 149 / 0.18);
+  }
+}
+
+.service--gym .service__cta-arrow {
+  background: var(--cream);
+  color: var(--brown);
+}
+
+.gym {
+  display: grid;
+  gap: 28px;
+}
+
+.gym__stack {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  height: 210px;
+  perspective: 800px;
+}
+
+.gym__plate {
+  position: absolute;
+  top: calc(30px + var(--i) * 56px);
+  display: grid;
+  place-items: center;
+  width: min(300px, 80%);
+  height: 92px;
+  border: 1.5px solid var(--line-dark);
+  border-radius: 18px;
+  background: var(--brown-700);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  color: var(--on-dark-muted);
+  transform: rotateX(58deg) rotateZ(-38deg) translateZ(calc(var(--i) * -6px));
+  transition:
+    transform 0.6s var(--ease-out),
+    border-color 0.3s ease;
+  transition-delay: calc(var(--i) * 60ms);
+  z-index: calc(3 - var(--i));
+}
+
+.gym__plate--user {
+  border-color: var(--pink);
+  color: var(--pink-light);
+  background:
+    repeating-linear-gradient(90deg, rgb(224 74 149 / 0.14) 0 2px, transparent 2px 14px),
+    var(--brown-700);
+}
+
+.service--gym:hover .gym__plate {
+  transform: rotateX(58deg) rotateZ(-38deg) translateY(calc((var(--i) - 1) * 18px));
+}
+
+.gym__layers {
+  display: grid;
+  gap: 12px;
+}
+
+.gym__layer {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border: 1px solid var(--line-dark);
+  border-radius: 16px;
+  background: var(--brown-700);
+}
+
+.gym__layer--gem {
+  border-color: var(--pink);
+}
+
+.gym__level {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  font-size: var(--fs-micro);
+  letter-spacing: 0.14em;
+}
+
+.gym__level .mono {
+  color: var(--pink-light);
+}
+
+.gym__name {
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+.gym__gem {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--pink);
+  color: var(--white);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-style: italic;
+  letter-spacing: 0;
+}
+
+.gym__lead {
+  font-size: var(--fs-small);
+  color: var(--on-dark-muted);
+}
+
+.gym__items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.gym__items li {
+  padding: 5px 11px;
+  border: 1px solid var(--line-dark);
+  border-radius: 999px;
+  font-size: 0.875rem;
+}
+
+/* ==========================================================================
+   Layouts
+   ========================================================================== */
+@media (min-width: 720px) {
+  .ops {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .ops__hub {
+    grid-column: 2;
+    grid-row: 2;
+    min-height: 0;
+    border-radius: 50%;
+    aspect-ratio: 1;
+    align-self: center;
+  }
+
+  .ops__hub-ring {
+    width: 84%;
+  }
+
+  .journey {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+
+  .journey::before {
+    top: 15px;
+    bottom: auto;
+    left: 8px;
+    right: 8px;
+    border-left: 0;
+    border-top: 2px dotted var(--line-strong);
+  }
+
+  .journey__step {
+    grid-template-columns: 1fr;
+    row-gap: 6px;
+  }
+
+  .journey__dot {
+    grid-row: auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .services__grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    align-items: start;
+    gap: 24px;
+  }
+
+  .service--tailored {
+    grid-column: 1 / span 7;
+  }
+
+  .service--facilitai {
+    grid-column: 8 / span 5;
+    margin-top: 120px;
+  }
+
+  .verticals__grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .service--restaurant {
+    grid-column: 1 / span 7;
+  }
+
+  .service--events {
+    grid-column: 8 / span 5;
+    align-self: end;
+  }
+
+  .service--events .journey {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .service--events .journey::before {
+    top: 10px;
+    bottom: 10px;
+    left: 7px;
+    right: auto;
+    border-top: 0;
+    border-left: 2px dotted var(--line-strong);
+  }
+
+  .service--events .journey__step {
+    grid-template-columns: 16px 1fr;
+  }
+
+  .service--events .journey__dot {
+    grid-row: 1 / 3;
+  }
+
+  .service--gym {
+    grid-column: 1 / -1;
+  }
+
+  .gym {
+    grid-template-columns: minmax(260px, 4fr) minmax(0, 8fr);
+    align-items: center;
+    gap: 40px;
+  }
+
+  .gym__stack {
+    height: 260px;
+  }
+
+  .gym__layers {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .service {
+    opacity: 1;
+    transform: none;
+  }
+
+  .ops__hub-ring,
+  .service--gym .badge {
+    animation: none;
+  }
+}
