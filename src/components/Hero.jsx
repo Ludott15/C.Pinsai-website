@@ -4,6 +4,7 @@ import ScrollDive from './ScrollDive.jsx';
 import { useReducedMotion } from '../hooks/useReducedMotion.js';
 import { useScrollProgress } from '../hooks/useScrollProgress.js';
 import { applyDiveState, clearDiveState } from '../utils/dive.js';
+import { updateHandle } from '../utils/handle.js';
 import { toBinary } from '../utils/text.js';
 
 /** Vertical position of the coffee surface inside the cup visual box (see CoffeeVisual geometry). */
@@ -11,13 +12,19 @@ const COFFEE_CENTER_Y = 296 / 540;
 
 export default function Hero({ content, dive, brandName }) {
   const trackRef = useRef(null);
+  const handleRef = useRef(null);
   const reducedMotion = useReducedMotion();
 
-  const onProgress = useCallback((progress) => applyDiveState(trackRef.current, progress), []);
+  const onProgress = useCallback((progress) => {
+    const state = applyDiveState(trackRef.current, progress);
+    updateHandle(handleRef.current, state['--turn'], state['--tilt']);
+  }, []);
   useScrollProgress(trackRef, onProgress, !reducedMotion);
 
   useEffect(() => {
-    if (reducedMotion && trackRef.current) clearDiveState(trackRef.current);
+    if (!reducedMotion || !trackRef.current) return;
+    clearDiveState(trackRef.current);
+    updateHandle(handleRef.current, 0, 0);
   }, [reducedMotion]);
 
   /* The dive opens from the centre of the coffee: keep its position (relative to the sticky stage) up to date. */
@@ -75,7 +82,7 @@ export default function Hero({ content, dive, brandName }) {
           </h1>
 
           <div className="hero__visual">
-            <CoffeeVisual brandName={brandName} />
+            <CoffeeVisual brandName={brandName} handleRef={handleRef} />
           </div>
 
           <div className="hero__aside">

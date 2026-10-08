@@ -1,13 +1,16 @@
 import CoffeeSteam from './CoffeeSteam.jsx';
+import { HANDLE_LAYERS, getHandlePaths } from '../utils/handle.js';
+
+const initialHandle = getHandlePaths();
 
 /* Shared silhouette of the porcelain body (viewBox 400 × 320). */
 const BODY_PATH = 'M84 72 C 86 150, 118 226, 172 236 L 228 236 C 282 226, 314 150, 316 72 A 116 24 0 0 1 84 72 Z';
-const HANDLE_PATH = 'M16 16 C 50 0, 84 16, 80 50 C 76 84, 44 96, 12 84';
 
 /**
  * The hero cup, built from independent layers so it can move in 3D:
  * - the saucer and the porcelain body are SVG planes (the cup is symmetric, so they never need to turn);
- * - the handle orbits the vertical axis in real CSS 3D space and is occluded by the body when it passes behind;
+ * - the handle is a 3D porcelain tube, re-projected for every rotation (utils/handle.js) and stacked
+ *   behind or in front of the body depending on which side it is on;
  * - the printed logo slides around the body following the same rotation;
  * - the coffee mouth opens up as the camera tilts, until the camera falls into it (see ScrollDive).
  * Every moving value comes from CSS custom properties written by the scroll timeline.
@@ -15,7 +18,7 @@ const HANDLE_PATH = 'M16 16 C 50 0, 84 16, 80 50 C 76 84, 44 96, 12 84';
  * Shading is built only from the brand palette: white and cream for the porcelain,
  * translucent brown for shadows and occlusion, darker browns and cream for the espresso and its crema.
  */
-export default function CoffeeVisual({ brandName }) {
+export default function CoffeeVisual({ brandName, handleRef }) {
   const [initial, rest] = brandName.split('.');
 
   return (
@@ -84,25 +87,20 @@ export default function CoffeeVisual({ brandName }) {
             <ellipse cx="200" cy="244" rx="58" ry="7" fill="#1C100B" opacity=".28" />
           </svg>
 
-          <div className="coffee__orbit" aria-hidden="true">
-            <div className="coffee__handle">
-              <svg viewBox="0 0 90 100">
-                <defs>
-                  <linearGradient id="cup-handle" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0%" stopColor="#FFFFFF" />
-                    <stop offset="55%" stopColor="#FBF8F1" />
-                    <stop offset="100%" stopColor="#F5EFE2" />
-                  </linearGradient>
-                </defs>
-                <path d={HANDLE_PATH} fill="none" stroke="#4B2D20" strokeWidth="22" strokeLinecap="round" />
-                <path d={HANDLE_PATH} fill="none" stroke="url(#cup-handle)" strokeWidth="14.5" strokeLinecap="round" />
-                {/* Inner occlusion on the lower curve, light along the outer top */}
-                <path d="M77 60 C 72 80, 46 90, 16 82" fill="none" stroke="#4B2D20" strokeOpacity=".16" strokeWidth="5" strokeLinecap="round" />
-                <path d="M30 11 C 56 4, 76 20, 77 40" fill="none" stroke="#FFFFFF" strokeWidth="3.2" strokeLinecap="round" />
-                <path d="M42 19 C 62 20, 70 34, 70 50" fill="none" stroke="#4B2D20" strokeOpacity=".1" strokeWidth="3" strokeLinecap="round" />
-              </svg>
-            </div>
-          </div>
+          <svg ref={handleRef} className="coffee__handle" viewBox="0 0 400 320" aria-hidden="true">
+            {HANDLE_LAYERS.map((layer, index) => (
+              <path
+                key={layer.id}
+                d={initialHandle[index]}
+                fill="none"
+                stroke={layer.color}
+                strokeOpacity={layer.opacity}
+                strokeWidth={layer.width}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            ))}
+          </svg>
 
           <svg className="coffee__body" viewBox="0 0 400 320" aria-hidden="true">
             <defs>

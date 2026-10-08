@@ -41,6 +41,7 @@ export function applyDiveState(node, progress) {
      the handle is drawn over the body only while it swings towards the viewer. */
   node.style.setProperty('--handle-layer', state['--sin'] < -0.05 ? '2' : '0');
   node.dataset.phase = progress < 0.2 ? 'surface' : progress < 0.88 ? 'dive' : 'deep';
+  return state;
 }
 
 export function clearDiveState(node) {
