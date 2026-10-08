@@ -23,7 +23,6 @@ export function getDiveState(progress) {
     '--turn': turn,
     '--sin': Math.sin(radians),
     '--cos': Math.cos(radians),
-    '--edge': Math.abs(Math.sin(radians)),
     '--tilt': easeInOut(segment(progress, 0.18, 0.55)),
     '--zoom': 1 + easeIn(segment(progress, 0.32, 0.82)) * (MAX_ZOOM - 1),
     '--steam': 1 - segment(progress, 0.2, 0.42),

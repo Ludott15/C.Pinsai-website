@@ -102,7 +102,6 @@ export default function CoffeeVisual({ brandName }) {
                 <path d="M42 19 C 62 20, 70 34, 70 50" fill="none" stroke="#4B2D20" strokeOpacity=".1" strokeWidth="3" strokeLinecap="round" />
               </svg>
             </div>
-            <div className="coffee__handle-edge" />
           </div>
 
           <svg className="coffee__body" viewBox="0 0 400 320" aria-hidden="true">
@@ -207,9 +206,6 @@ export default function CoffeeVisual({ brandName }) {
               {/* Meniscus: shadow of the front lip */}
               <path d="M99 76 A 101 17.5 0 0 0 301 76" fill="none" stroke="#1C100B" strokeWidth="3" opacity=".45" />
               <ellipse className="coffee__surface-glint" cx="174" cy="71" rx="28" ry="4" fill="#F5EFE2" opacity=".22" />
-
-              {/* Glaze highlight on the back of the rim */}
-              <path d="M120 58 A 116 24 0 0 1 176 49" fill="none" stroke="#F5EFE2" strokeWidth="2" strokeLinecap="round" />
             </g>
           </svg>
         </div>

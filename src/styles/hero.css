@@ -245,8 +245,7 @@
   }
 }
 
-/* The handle orbits the vertical axis of the cup in real 3D space; a second plane,
-   perpendicular to it, gives the handle its thickness when seen edge-on. */
+/* The handle orbits the vertical axis of the cup in real 3D space. */
 .coffee__orbit {
   position: absolute;
   inset: 0;
@@ -270,19 +269,6 @@
   overflow: visible;
 }
 
-.coffee__handle-edge {
-  position: absolute;
-  left: 82.25%;
-  top: 29.5%;
-  width: 5.5%;
-  height: 27%;
-  border: 3px solid var(--brown);
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--cream), var(--white) 45%, var(--cream-50) 70%, var(--cream));
-  box-shadow: inset -2px 0 0 rgb(75 45 32 / 0.14);
-  opacity: var(--edge, 0);
-  transform: rotateY(90deg);
-}
 
 /* ==========================================================================
    Binary steam — pink glyphs born on the surface, drifting like vapour.
