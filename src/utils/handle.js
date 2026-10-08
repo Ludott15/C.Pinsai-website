@@ -15,17 +15,18 @@ const RIM_Y = 72;
 const SHELL_SQUASH = 0.32;
 /** Camera distance (cup units) for the perspective of the parts swinging towards the viewer. */
 const CAMERA_DISTANCE = 900;
-const HANDLE_CENTER_Y = 138;
+const HANDLE_CENTER_Y = 146;
 
-/* Centre line: one cubic Bézier per half of the loop, from the upper joint to the lower one. */
+/* Centre line: one cubic Bézier per half of the loop, from the upper joint (just below the
+   pink band) to the lower one. */
 const CENTER_LINE = [
-  [300, 104],
-  [338, 86],
-  [376, 102],
-  [372, 138],
-  [368, 174],
-  [334, 186],
-  [296, 172],
+  [302, 120],
+  [330, 108],
+  [358, 120],
+  [356, 146],
+  [354, 172],
+  [330, 182],
+  [298, 172],
 ];
 
 /*
@@ -33,12 +34,12 @@ const CENTER_LINE = [
  * so the shading stays coherent while the tube turns.
  */
 export const HANDLE_LAYERS = [
-  { id: 'outline', width: 22, color: '#4B2D20', dx: 0, dy: 0, opacity: 1 },
-  { id: 'body', width: 15, color: '#F5EFE2', dx: 0, dy: 0, opacity: 1 },
-  { id: 'core', width: 10, color: '#FBF8F1', dx: -1.4, dy: -1.6, opacity: 1 },
-  { id: 'shade', width: 3.5, color: '#4B2D20', dx: 4, dy: 4.2, opacity: 0.16 },
-  { id: 'light', width: 5, color: '#FFFFFF', dx: -2.4, dy: -2.8, opacity: 1 },
-  { id: 'spark', width: 1.8, color: '#FFFFFF', dx: -4, dy: -4.4, opacity: 0.95 },
+  { id: 'outline', width: 18, color: '#4B2D20', dx: 0, dy: 0, opacity: 1 },
+  { id: 'body', width: 12, color: '#F5EFE2', dx: 0, dy: 0, opacity: 1 },
+  { id: 'core', width: 8, color: '#FBF8F1', dx: -1.1, dy: -1.3, opacity: 1 },
+  { id: 'shade', width: 2.8, color: '#4B2D20', dx: 3.2, dy: 3.4, opacity: 0.16 },
+  { id: 'light', width: 4, color: '#FFFFFF', dx: -1.9, dy: -2.2, opacity: 1 },
+  { id: 'spark', width: 1.5, color: '#FFFFFF', dx: -3.2, dy: -3.5, opacity: 0.95 },
 ];
 
 const format = (value) => value.toFixed(2);
