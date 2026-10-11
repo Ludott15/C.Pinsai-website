@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import Logo from './Logo.jsx';
 import LegalDialog from './LegalDialog.jsx';
+import { useHref } from '../pages/PageContext.jsx';
 import { toBinary, whatsappUrl } from '../utils/text.js';
 
 export default function Footer({ brand, content, navigation, contact, legal }) {
   const [openId, setOpenId] = useState(null);
+  const toHref = useHref();
   const year = new Date().getFullYear();
   const entry = legal.find((item) => item.id === openId) ?? null;
 
@@ -24,7 +26,7 @@ export default function Footer({ brand, content, navigation, contact, legal }) {
           <ul>
             {navigation.map((item) => (
               <li key={item.href}>
-                <a href={item.href}>{item.label}</a>
+                <a href={toHref(item.href)}>{item.label}</a>
               </li>
             ))}
           </ul>

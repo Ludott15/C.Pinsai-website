@@ -129,7 +129,7 @@ function NetworkVisual({ level }) {
 }
 
 /* Q4 — opportunity: 25% of the repetitive timeline frees itself and becomes yours. */
-function ClockVisual({ level, answers }) {
+function ClockVisual({ level, answers, question }) {
   const reducedMotion = useReducedMotion();
   const [percent, setPercent] = useState(reducedMotion ? 25 : 0);
 
@@ -164,14 +164,33 @@ function ClockVisual({ level, answers }) {
           <small>%</small>
         </span>
       </div>
-      <div className="timeline" aria-hidden="true">
-        {Array.from({ length: 8 }, (_, index) => (
-          <span key={index} className={`timeline__slot${index >= 6 ? ' is-free' : ''}`} style={{ '--i': index }} />
-        ))}
+      {/* One working week in 8 blocks: the last 2 (25%) are the time given back. */}
+      <div className="week">
+        <div className="week__head">
+          <span className="week__label">{question.week.label}</span>
+          <span className="week__recovered">{question.week.recovered}</span>
+        </div>
+        <div className="week__blocks">
+          {Array.from({ length: 8 }, (_, index) => (
+            <span key={index} className={`week__block${index >= 6 ? ' is-free' : ''}`} style={{ '--i': index }}>
+              {String(index + 1).padStart(2, '0')}
+            </span>
+          ))}
+        </div>
       </div>
       <p className="viz__caption">
         {level === null ? 'Tempo restituito → ?' : `Tempo restituito → ${answers[level].label}`}
       </p>
+    </div>
+  );
+}
+
+/* Bonus — an extra coffee, offered by the house. */
+function BonusVisual({ question }) {
+  return (
+    <div className="viz viz--bonus">
+      <span className="bonus__mark">+1</span>
+      <p className="viz__caption">{question.note}</p>
     </div>
   );
 }
@@ -181,6 +200,7 @@ const VISUALS = {
   inbox: InboxVisual,
   network: NetworkVisual,
   clock: ClockVisual,
+  bonus: BonusVisual,
 };
 
 export default function QuestionVisual({ type, ...props }) {

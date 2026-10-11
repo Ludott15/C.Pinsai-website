@@ -6,7 +6,8 @@
       "suffix": "%",
       "title": "Incremento Efficienza",
       "caption": "Team productivity boost medio",
-      "code": "team.productivity"
+      "code": "team.productivity",
+      "why": "Pensa all'ultima mattina passata dal tuo team a rincorrere file, email e conferme invece di lavorare sui clienti. Quando quei passaggi li fa un sistema, le stesse persone, nelle stesse ore, portano a termine più lavoro. Lo noti subito nelle scadenze: smettono di accumularsi."
     },
     {
       "id": "time",
@@ -14,7 +15,8 @@
       "suffix": "%+",
       "title": "Tempo Risparmiato",
       "caption": "Su operazioni manuali",
-      "code": "manual.ops"
+      "code": "manual.ops",
+      "why": "Ricopiare dati, sistemare fatture, aggiornare fogli: sono lavori che conosci bene e che non fanno crescere l'azienda. Seguono sempre le stesse regole, ed è per questo che sono i primi che si possono automatizzare. Il tempo che si libera torna a te, per le decisioni che solo tu puoi prendere."
     },
     {
       "id": "precision",
@@ -22,7 +24,8 @@
       "suffix": "%",
       "title": "Precisione Decisionale",
       "caption": "Data-driven insights",
-      "code": "decisions.data"
+      "code": "decisions.data",
+      "why": "Quante decisioni prendi ogni settimana su numeri incompleti o aggiornati a mano? Quando i dati arrivano da sistemi collegati, sparisce il rischio del copia-incolla sbagliato. Decidi sugli stessi numeri che vedono tutti, e lo fai con più tranquillità."
     },
     {
       "id": "uptime",
@@ -30,7 +33,9 @@
       "suffix": "/7",
       "title": "Operatività Continua",
       "caption": "AI sempre attiva",
-      "code": "ai.status"
+      "code": "ai.status",
+      "why": "I clienti scrivono la sera, nel weekend, mentre sei impegnato con qualcun altro. Un sistema sempre attivo risponde, registra la richiesta e la prepara per te. La mattina dopo non riparti da zero: trovi il lavoro già impostato."
     }
-  ]
+  ],
+  "whyLabel": "Perché conta"
 }

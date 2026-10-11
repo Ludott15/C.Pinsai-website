@@ -1,6 +1,15 @@
 import { useInView } from '../hooks/useInView.js';
 
-export default function SectionHeader({ id, index, kicker, title, subtitle, tone = 'light', align = 'start' }) {
+export default function SectionHeader({
+  id,
+  index,
+  kicker,
+  title,
+  subtitle,
+  tone = 'light',
+  align = 'start',
+  as: Heading = 'h2',
+}) {
   const [ref, inView] = useInView();
 
   return (
@@ -12,9 +21,9 @@ export default function SectionHeader({ id, index, kicker, title, subtitle, tone
         <span className="kicker__index">{index}</span>
         {kicker}
       </p>
-      <h2 id={id} className="section-head__title">
+      <Heading id={id} className="section-head__title">
         {title}
-      </h2>
+      </Heading>
       {subtitle && <p className="section-head__subtitle">{subtitle}</p>}
     </header>
   );

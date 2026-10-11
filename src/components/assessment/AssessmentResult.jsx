@@ -1,4 +1,8 @@
+import { useHref } from '../../pages/PageContext.jsx';
+
 export default function AssessmentResult({ result, profile, questions, selections, onRestart, restartLabel }) {
+  const toHref = useHref();
+
   return (
     <div className="result">
       <div className="result__head">
@@ -31,28 +35,17 @@ export default function AssessmentResult({ result, profile, questions, selection
           <p className="result__profile-label">{result.profileLabel}</p>
           <p className="result__profile-title">{profile.title}</p>
           <p className="result__copy">{profile.copy}</p>
-
-          <ol className="result__scale" aria-label={result.scaleLabel}>
-            {result.profiles.map((item) => (
-              <li
-                key={item.id}
-                className={item.id === profile.id ? 'is-current' : undefined}
-                aria-current={item.id === profile.id ? 'true' : undefined}
-              >
-                {item.title}
-              </li>
-            ))}
-          </ol>
+          <p className="result__quote">{profile.quote}</p>
         </div>
       </div>
 
       <div className="result__next">
         <p className="result__question">{result.nextQuestion}</p>
         <div className="result__actions">
-          <a className="button button--primary" href={result.primaryCta.href}>
+          <a className="button button--primary" href={toHref(result.primaryCta.href)}>
             {result.primaryCta.label}
           </a>
-          <a className="button button--ghost-light" href={result.secondaryCta.href}>
+          <a className="button button--ghost-light" href={toHref(result.secondaryCta.href)}>
             {result.secondaryCta.label}
           </a>
           <button type="button" className="text-button" onClick={onRestart}>

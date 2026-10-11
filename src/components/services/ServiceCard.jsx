@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { useInView } from '../../hooks/useInView.js';
+import { useHref } from '../../pages/PageContext.jsx';
 
 /**
  * Shared shell for every solution and vertical: reveal on scroll, pointer-following accent line,
@@ -9,6 +10,7 @@ export default function ServiceCard({ item, className = '', children }) {
   const [ref, inView] = useInView({ threshold: 0.06 });
   const frame = useRef(0);
   const titleId = `${item.id}-title`;
+  const toHref = useHref();
 
   const onPointerMove = (event) => {
     if (event.pointerType !== 'mouse') return;
@@ -41,7 +43,7 @@ export default function ServiceCard({ item, className = '', children }) {
 
       {children}
 
-      <a className="service__cta" href={item.cta.href} aria-describedby={titleId}>
+      <a className="service__cta" href={toHref(item.cta.href)} aria-describedby={titleId}>
         {item.cta.label}
         <span className="service__cta-arrow" aria-hidden="true">
           →

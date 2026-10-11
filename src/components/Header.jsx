@@ -1,13 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 import Logo from './Logo.jsx';
+import { useHref, usePage } from '../pages/PageContext.jsx';
 
 const DESKTOP_QUERY = '(min-width: 960px)';
 
-function useActiveSection(hrefs) {
+/** On the landing page, follows the section in view. */
+function useActiveSection(hrefs, enabled) {
   const [active, setActive] = useState(hrefs[0]);
 
   useEffect(() => {
-    const sections = hrefs.map((href) => document.querySelector(href)).filter(Boolean);
+    if (!enabled) return undefined;
+    const sections = hrefs
+      .filter((href) => href.startsWith('#'))
+      .map((href) => document.querySelector(href))
+      .filter(Boolean);
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -18,7 +24,7 @@ function useActiveSection(hrefs) {
     );
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
-  }, [hrefs]);
+  }, [hrefs, enabled]);
 
   return active;
 }
@@ -48,8 +54,13 @@ function useScrolled(offset = 24) {
 
 export default function Header({ brand, navigation, cta }) {
   const [open, setOpen] = useState(false);
+  const page = usePage();
+  const toHref = useHref();
   const [hrefs] = useState(() => navigation.map((item) => item.href));
-  const active = useActiveSection(hrefs);
+  const activeSection = useActiveSection(hrefs, page.id === 'home');
+  /* Inner pages highlight the menu entry they belong to (Proposte lives under Soluzioni). */
+  const isActive = (item) =>
+    page.id === 'home' ? activeSection === item.href : item.page === (page.id === 'proposte' ? 'soluzioni' : page.id);
   const scrolled = useScrolled();
   const toggleRef = useRef(null);
   const panelRef = useRef(null);
@@ -79,9 +90,9 @@ export default function Header({ brand, navigation, cta }) {
   const links = navigation.map((item) => (
     <li key={item.href}>
       <a
-        href={item.href}
+        href={toHref(item.href)}
         className="nav__link"
-        aria-current={active === item.href ? 'true' : undefined}
+        aria-current={isActive(item) ? (page.id === 'soluzioni' ? 'page' : 'true') : undefined}
         onClick={() => setOpen(false)}
       >
         {item.label}
@@ -92,7 +103,7 @@ export default function Header({ brand, navigation, cta }) {
   return (
     <header className={`header${scrolled ? ' is-scrolled' : ''}${open ? ' is-open' : ''}`}>
       <div className="header__bar">
-        <a href="#home" className="header__brand" aria-label={`${brand.name} — torna all'inizio`}>
+        <a href={toHref('#home')} className="header__brand" aria-label={`${brand.name} — torna all'inizio`}>
           <Logo name={brand.name} />
         </a>
 
@@ -100,7 +111,7 @@ export default function Header({ brand, navigation, cta }) {
           <ul>{links}</ul>
         </nav>
 
-        <a href={cta.href} className="header__cta">
+        <a href={toHref(cta.href)} className="header__cta">
           {cta.label}
         </a>
 

@@ -65,13 +65,12 @@
 
 .hero__kicker,
 .hero__aside,
-.hero__ticket,
 .hero__hint {
   opacity: calc(1 - var(--text, 0));
   transform: translateY(calc(var(--text, 0) * 28px));
 }
 
-.hero:is([data-phase='dive'], [data-phase='deep']) :is(.hero__kicker, .hero__aside, .hero__ticket, .hero__hint) {
+.hero:is([data-phase='dive'], [data-phase='deep']) :is(.hero__kicker, .hero__aside, .hero__hint) {
   visibility: hidden;
 }
 
@@ -87,12 +86,26 @@
 }
 
 .hero__kicker-dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--pink);
-  box-shadow: 0 0 0 4px rgb(224 74 149 / 0.18);
-  animation: pulse-dot 2.4s ease-in-out infinite;
+  animation: sun-glow 3.2s ease-in-out infinite;
+}
+
+/* The pink dot of the logo, glowing softly like a small sun (also used on the SVG cup). */
+@keyframes sun-glow {
+  0%,
+  100% {
+    box-shadow:
+      0 0 3px 1px rgb(224 74 149 / 0.55),
+      0 0 10px 2px rgb(224 74 149 / 0.25);
+  }
+  50% {
+    box-shadow:
+      0 0 5px 2px rgb(224 74 149 / 0.75),
+      0 0 18px 5px rgb(224 74 149 / 0.32);
+  }
 }
 
 @keyframes pulse-dot {
@@ -152,10 +165,6 @@
   width: 100%;
 }
 
-.hero__ticket {
-  display: none;
-}
-
 .hero__hint {
   display: none;
 }
@@ -171,6 +180,32 @@
 }
 
 .hero[data-phase='deep'] .coffee {
+  visibility: hidden;
+}
+
+/* WebGL cup: drawn on a canvas covering the stage, under the text and the steam.
+   Once it is ready the SVG cup fades out; the steam stays (it is HTML). */
+.hero__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-out);
+}
+
+.hero[data-renderer='webgl'] .hero__canvas {
+  opacity: 1;
+}
+
+.hero[data-renderer='webgl'] :is(.coffee__cup, .coffee__handle) {
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-out);
+}
+
+.hero[data-phase='deep'] .hero__canvas,
+.hero--static .hero__canvas {
   visibility: hidden;
 }
 
@@ -235,6 +270,25 @@
   opacity: clamp(0, calc(var(--cos, 1) * 3), 1);
 }
 
+.coffee__logo-glow {
+  fill: var(--pink);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sun-glow-svg 3.2s ease-in-out infinite;
+}
+
+@keyframes sun-glow-svg {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.15);
+  }
+}
+
 .coffee__surface-glint {
   animation: glint 6s ease-in-out infinite;
 }
@@ -245,42 +299,16 @@
   }
 }
 
-/* The handle orbits the vertical axis of the cup in real 3D space; a second plane,
-   perpendicular to it, gives the handle its thickness when seen edge-on. */
-.coffee__orbit {
+/* The handle: redrawn by utils/handle.js, layered behind or over the body. */
+.coffee__handle {
   position: absolute;
   inset: 0;
   z-index: var(--handle-layer, 0);
-  perspective: 1100px;
-  transform-style: preserve-3d;
-  transform: rotateY(calc(var(--turn, 0) * 1deg));
-}
-
-.coffee__handle {
-  position: absolute;
-  left: 72.5%;
-  top: 27.5%;
-  width: 22.5%;
-  height: 31.25%;
-}
-
-.coffee__handle svg {
   width: 100%;
   height: 100%;
+  overflow: visible;
 }
 
-.coffee__handle-edge {
-  position: absolute;
-  left: 82.25%;
-  top: 29.5%;
-  width: 5.5%;
-  height: 27%;
-  border: 3px solid var(--brown);
-  border-radius: 999px;
-  background: var(--white);
-  opacity: var(--edge, 0);
-  transform: rotateY(90deg);
-}
 
 /* ==========================================================================
    Binary steam — pink glyphs born on the surface, drifting like vapour.
@@ -388,7 +416,7 @@
   place-items: center;
   --radius: calc(var(--fill, 0) * 164vmax - 4vmax);
   background:
-    radial-gradient(circle at var(--cx, 50%) var(--cy, 55%), var(--brown-700) 0, var(--brown-800) 60%),
+    radial-gradient(circle at var(--cx, 50%) var(--cy, 55%), var(--brown) 0, var(--brown-800) 60%),
     var(--brown-800);
   /* Soft, liquid edge: the coffee spreads instead of being cut out. */
   -webkit-mask-image: radial-gradient(
@@ -586,35 +614,6 @@
     justify-self: start;
   }
 
-  .hero__ticket {
-    grid-column: 3;
-    grid-row: 3;
-    align-self: end;
-    justify-self: end;
-    display: grid;
-    gap: 6px;
-    min-width: 230px;
-    padding: 14px 18px;
-    border: 1px dashed var(--line-strong);
-    border-radius: var(--radius-sm);
-    background: var(--cream-50);
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-  }
-
-  .hero__ticket div {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-  }
-
-  .hero__ticket dt {
-    color: var(--ink-muted);
-  }
-
-  .hero__ticket dd {
-    font-weight: 600;
-  }
 
   .hero__hint {
     grid-column: 2;
@@ -654,9 +653,21 @@
   }
 }
 
-@media (min-width: 960px) and (max-height: 720px) {
-  .hero__ticket {
-    display: none;
+/* Light mobile version: shorter scroll track, cheaper hard-edged portal instead of the soft mask. */
+@media (max-width: 640px) {
+  .hero {
+    height: 200vh;
+    height: 200svh;
+  }
+
+  .dive {
+    -webkit-mask-image: none;
+    mask-image: none;
+    clip-path: circle(max(0px, var(--radius)) at var(--cx, 50%) var(--cy, 55%));
+  }
+
+  .hero--static .dive {
+    clip-path: none;
   }
 }
 

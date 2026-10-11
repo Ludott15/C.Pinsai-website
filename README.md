@@ -16,35 +16,37 @@ Requisiti: Node.js 20+.
 
 ## Struttura
 
+Sito multi-pagina statico (Vite, nessun router): ogni pagina è un file HTML con il suo ingresso React.
+
 ```
-index.html                  SEO: title, description, Open Graph, JSON-LD Organization
+index.html                  Landing: Hero → Dive → Self-Assessment → Numeri → CTA → Contatti
+soluzioni/index.html        Soluzioni: Tailored Service, Facilit-AI, "Le nostre proposte"
+proposte/index.html         Proposte: infrastrutture per settore (pill di navigazione + card premium)
 public/favicon.svg
 src/
-  main.jsx                  entry point (font self-hosted + CSS)
-  App.jsx                   composizione delle sezioni
+  pages/                    ingressi delle pagine (home, soluzioni, proposte), PageShell, PageContext
+                            (i link sono relativi, risolti da useHref: funzionano da qualsiasi cartella)
   data/                     tutti i contenuti, modificabili senza toccare React
-    site.json               brand, navigazione, hero, transizione, CTA, contatti, footer, note legali
-    assessment.json         Coffee Check: 4 domande, punteggi, profili risultato
-    services.json           soluzioni (Tailored Service, Facilit-AI) e infrastrutture verticali
-    metrics.json            i quattro numeri
-  hooks/
-    useScrollProgress.js    progresso di scroll di una "track", throttling con requestAnimationFrame
-    useInView.js            reveal con IntersectionObserver (una sola volta)
-    useReducedMotion.js     legge prefers-reduced-motion e reagisce ai cambi
-  utils/
-    dive.js                 timeline della hero: scroll → variabili CSS
-    assessment.js           calcolo del punteggio e del profilo
-    text.js                 template, binario, random deterministico, link WhatsApp
-  components/
-    Header, Logo, Hero, CoffeeVisual, CoffeeSteam, ScrollDive,
-    SelfAssessment (+ assessment/QuestionCard, QuestionVisual, AssessmentProgress, AssessmentResult),
-    Services, Verticals, SectionHeader,
-    services/ServiceCard, TailoredService, FacilitAI, RestaurantInfrastructure, RestaurantEvents, GymInfrastructure,
-    Metrics, FinalCTA, ContactSection, ContactForm, Footer, LegalDialog
-  styles/                   base (token), header, hero, assessment, services, sections
+    site.json               brand, navigazione, hero, dive, intro delle sezioni, contatti, footer, note legali
+    assessment.json         Coffee Check: 4 domande con punteggio, domanda bonus, profili e frasi
+    services.json           soluzioni (Tailored Service, Facilit-AI)
+    proposals.json          proposte per categoria (Segretaria, Ristorazione, Palestre): aggiungere una
+                            categoria qui aggiunge anche la sua pill
+    metrics.json            i quattro numeri e i rispettivi "perché"
+  three/CupScene.js         la tazzina 3D (three.js), caricata in differita
+  hooks/                    scroll (con smoothing), reveal, reduced motion
+  utils/                    timeline del dive, manico SVG, punteggio, testo
+  components/               componenti della UI
+  styles/                   base (token), header, hero, assessment, services, sections, proposals
 ```
 
 ## Come funziona
+
+**Tazzina 3D.** `src/three/CupScene.js` costruisce la tazza in codice (corpo e piattino al tornio,
+manico come tubo, logo come decalcomania, contorno marrone) con le stesse unità del disegno SVG, così
+vapore e cerchio del dive restano allineati. three.js viene scaricato solo dopo il primo rendering;
+la tazzina SVG resta come fallback (niente WebGL, prefers-reduced-motion, risparmio dati) e su mobile
+la risoluzione è limitata. Il rendering si ferma quando la hero non è visibile.
 
 **Hero e "Dive into coffee".** La sezione hero è una track alta 250svh con uno stage sticky.
 `useScrollProgress` misura il progresso (un solo `getBoundingClientRect` per frame, via rAF) e
@@ -84,7 +86,7 @@ viene mostrato un link manuale.
 
 ## Dipendenze
 
-Solo `react`, `react-dom` e i font variabili `@fontsource-variable/bricolage-grotesque` e
+Solo `react`, `react-dom`, `three` (caricato in differita per la tazzina 3D) e i font variabili `@fontsource-variable/bricolage-grotesque` e
 `@fontsource-variable/jetbrains-mono`, serviti dal sito stesso (nessuna richiesta a Google Fonts).
 In sviluppo: `vite` e `@vitejs/plugin-react`.
 

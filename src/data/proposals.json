@@ -1,0 +1,150 @@
+{
+  "categories": [
+    {
+      "id": "segretaria",
+      "label": "Segretaria",
+      "cards": [
+        {
+          "id": "segretaria",
+          "index": "P/01",
+          "kicker": "[DA INSERIRE]",
+          "placeholder": true,
+          "title": "Segretaria",
+          "paragraphs": [
+            "[DA INSERIRE] Descrizione della proposta Segretaria: a quale problema risponde e come lavora.",
+            "[DA INSERIRE] Secondo paragrafo: cosa cambia per il cliente e per l'organizzazione interna."
+          ],
+          "cta": {
+            "label": "Parliamone",
+            "href": "#contatti"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ristorazione",
+      "label": "Ristorazione",
+      "cards": [
+        {
+          "id": "ristorazione-infrastruttura",
+          "index": "P/02",
+          "kicker": "Eventi",
+          "title": "Ristorazione — ",
+          "titleAccent": "Infrastruttura",
+          "paragraphs": [
+            "Una soluzione per la tua location eventi, la quale permetterà al tuo cliente di creare la sua prossima esperienza personalizzata, in completa autonomia.",
+            "Questo processo permetterà di tagliare numerosi messaggi e tempi di attesa inutili, garantendo una maggiore organizzazione per il locale, ed una tracciabilità interna delle proprie statistiche molto accurata."
+          ],
+          "steps": [
+            {
+              "label": "Da casa",
+              "detail": "il cliente apre l'evento"
+            },
+            {
+              "label": "Personalizza",
+              "detail": "sceglie e modifica i dettagli"
+            },
+            {
+              "label": "In struttura",
+              "detail": "arriva tutto già organizzato"
+            }
+          ],
+          "example": {
+            "label": "Un esempio",
+            "text": "E chi lo sa, magari il prossimo matrimonio sarà di una coppia di Uzbeki."
+          },
+          "cta": {
+            "label": "Parliamone",
+            "href": "#contatti"
+          }
+        },
+        {
+          "id": "ristorazione-classic",
+          "index": "P/03",
+          "kicker": "Classic",
+          "title": "Infrastruttura per la Ristorazione",
+          "lead": "Tutto quello che ti serve in un solo posto.",
+          "paragraphs": [
+            "Un'infrastruttura operativa completa, non un semplice gestionale: ogni reparto parla con gli altri."
+          ],
+          "modules": {
+            "title": "In un solo posto",
+            "items": [
+              "Prenotazioni",
+              "Richieste clienti",
+              "Gestione dipendenti",
+              "Gestione rimanenze",
+              "Gestione scadenze",
+              "Appuntamenti",
+              "Automazioni per acquisizione nuovi clienti",
+              "Automazioni per fidelizzazione clienti"
+            ]
+          },
+          "cta": {
+            "label": "Prenota una consulenza",
+            "href": "#contatti"
+          }
+        }
+      ]
+    },
+    {
+      "id": "palestre",
+      "label": "Palestre",
+      "cards": [
+        {
+          "id": "palestre",
+          "index": "P/04",
+          "kicker": "In arrivo",
+          "status": "COMING SOON",
+          "title": "Infrastruttura Totale per le Palestre",
+          "lead": "Un intero ecosistema per gestire la palestra da un unico ambiente.",
+          "paragraphs": [],
+          "layers": [
+            {
+              "id": "admin",
+              "level": "01",
+              "name": "ADMIN HUB",
+              "lead": "Per la gestione di",
+              "items": [
+                "Clienti",
+                "Scadenze",
+                "Dipendenti",
+                "Coach",
+                "Statistiche di gestione",
+                "Rendita"
+              ]
+            },
+            {
+              "id": "coach",
+              "level": "02",
+              "name": "COACH HUB",
+              "lead": "L'ambiente dedicato ai coach per",
+              "items": [
+                "Gestire i propri clienti",
+                "Monitorare i clienti seguiti",
+                "Organizzare il proprio lavoro",
+                "Seguire i processi di allenamento"
+              ]
+            },
+            {
+              "id": "user",
+              "level": "03",
+              "name": "USER INTERFACE",
+              "lead": "La nostra interfaccia proprietaria dedicata interamente all'utente, per",
+              "items": [
+                "Monitorare i propri processi",
+                "Vedere le proprie statistiche",
+                "Confrontare le statistiche con altri utenti collegati"
+              ],
+              "gem": "la nostra piccola gemma"
+            }
+          ],
+          "cta": {
+            "label": "Chiedi informazioni",
+            "href": "#contatti"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -13,7 +13,7 @@ const BLOCKS = [
   { col: '4 / 7', row: '2 / 3', out: true },
   { col: '1 / 2', row: '2 / 4', out: true },
   { col: '2 / 4', row: '3 / 4', out: false },
-  { col: '5 / 6', row: '3 / 5', out: true },
+  { col: '5 / 6', row: '3 / 5', out: false },
   { col: '2 / 3', row: '4 / 5', out: false },
 ];
 
