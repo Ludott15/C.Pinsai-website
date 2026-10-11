@@ -37,8 +37,112 @@
   transform: none;
 }
 
-.metric:hover {
+.metric:hover,
+.metric.is-open {
   background: var(--brown-800);
+}
+
+.metrics__hint {
+  margin: -24px 0 20px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.08em;
+  color: var(--on-dark-muted);
+}
+
+.metrics__hint-pointer {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .metrics__hint-touch {
+    display: none;
+  }
+
+  .metrics__hint-pointer {
+    display: inline;
+  }
+}
+
+/* The whole card opens: the toggle stretches over it, its label sits at the bottom. */
+.metric__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  justify-self: start;
+  min-height: 44px;
+  margin-top: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--pink-light);
+}
+
+.metric__toggle::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+.metric__toggle:focus-visible {
+  outline: none;
+}
+
+.metric__toggle:focus-visible::after {
+  outline: 3px solid var(--pink);
+  outline-offset: -3px;
+}
+
+.metric__toggle-icon {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+}
+
+.metric__toggle-icon::before,
+.metric__toggle-icon::after {
+  content: '';
+  position: absolute;
+  inset: 50% 4px auto;
+  height: 1.5px;
+  margin-top: -0.75px;
+  background: currentColor;
+  transition: transform 0.35s var(--ease-out);
+}
+
+.metric__toggle-icon::after {
+  transform: rotate(90deg);
+}
+
+.metric.is-open .metric__toggle-icon::after {
+  transform: rotate(0deg);
+}
+
+.metric__why {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 0.45s var(--ease-out),
+    opacity 0.35s ease;
+}
+
+.metric__why p {
+  overflow: hidden;
+  font-size: var(--fs-small);
+  line-height: 1.6;
+  color: var(--cream);
+}
+
+.metric.is-open .metric__why {
+  grid-template-rows: 1fr;
+  opacity: 1;
 }
 
 .metric__code {
@@ -109,6 +213,12 @@
 
 .metrics__grid.is-visible .metric__ruler::after {
   transform: scaleX(1);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
 }
 
 @media (min-width: 640px) {

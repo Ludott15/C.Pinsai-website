@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef, useState } from 'react';
 import CoffeeSteam from './CoffeeSteam.jsx';
 import { HANDLE_LAYERS, getHandlePaths } from '../utils/handle.js';
 
@@ -18,8 +19,34 @@ const BODY_PATH = 'M84 72 C 86 150, 118 226, 172 236 L 228 236 C 282 226, 314 15
  * Shading is built only from the brand palette: white and cream for the porcelain,
  * translucent brown for shadows and occlusion, darker browns and cream for the espresso and its crema.
  */
+/** Places the glowing pink dot exactly where the "." of the printed logo falls, whatever the font. */
+function useLogoDot(textRef) {
+  const [dot, setDot] = useState(null);
+
+  useLayoutEffect(() => {
+    const text = textRef.current;
+    if (!text) return undefined;
+    let cancelled = false;
+    const measure = () => {
+      if (cancelled) return;
+      const box = text.getExtentOfChar(1);
+      const r = Math.min(box.width, box.height) * 0.16;
+      setDot({ cx: box.x + box.width / 2, cy: box.y + box.height * 0.74 - r * 0.2, r });
+    };
+    measure();
+    document.fonts?.ready.then(measure);
+    return () => {
+      cancelled = true;
+    };
+  }, [textRef]);
+
+  return dot;
+}
+
 export default function CoffeeVisual({ brandName, handleRef }) {
   const [initial, rest] = brandName.split('.');
+  const logoRef = useRef(null);
+  const dot = useLogoDot(logoRef);
 
   return (
     <div
@@ -149,6 +176,9 @@ export default function CoffeeVisual({ brandName, handleRef }) {
               <filter id="cup-glow" x="-30%" y="-30%" width="160%" height="160%">
                 <feGaussianBlur stdDeviation="4" />
               </filter>
+              <filter id="cup-dot-glow" x="-100%" y="-100%" width="300%" height="300%">
+                <feGaussianBlur stdDeviation="2.4" />
+              </filter>
               <clipPath id="cup-body-clip">
                 <path d={BODY_PATH} />
               </clipPath>
@@ -181,11 +211,17 @@ export default function CoffeeVisual({ brandName, handleRef }) {
                 <path d="M306 104 C 300 158, 276 204, 240 226" fill="none" stroke="#FBF8F1" strokeWidth="3" strokeLinecap="round" opacity=".9" />
 
                 <g className="coffee__logo">
-                  <text x="200" y="160" textAnchor="middle">
+                  <text ref={logoRef} x="200" y="160" textAnchor="middle">
                     {initial}
-                    <tspan fill="#E04A95">.</tspan>
+                    <tspan fill="transparent">.</tspan>
                     {rest}
                   </text>
+                  {dot && (
+                    <g className="coffee__logo-dot">
+                      <circle className="coffee__logo-glow" cx={dot.cx} cy={dot.cy} r={dot.r * 2.6} filter="url(#cup-dot-glow)" />
+                      <circle cx={dot.cx} cy={dot.cy} r={dot.r} fill="#E04A95" />
+                    </g>
+                  )}
                 </g>
               </g>
               <path d={BODY_PATH} fill="none" stroke="#4B2D20" strokeWidth="3.5" strokeLinejoin="round" />

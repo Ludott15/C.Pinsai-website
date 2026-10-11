@@ -7,10 +7,10 @@ import { computeScore, findProfile } from '../utils/assessment.js';
 import { fillTemplate } from '../utils/text.js';
 
 /** Time the selected answer stays on screen (check mark + pulse) before moving on. */
-const PICK_DELAY = 420;
+const PICK_DELAY = 650;
 /** Must match the duration of the `.check__stage.is-leaving` animation in assessment.css. */
-const LEAVE_DURATION = 360;
-const LEAVE_DURATION_MOBILE = 240;
+const LEAVE_DURATION = 600;
+const LEAVE_DURATION_MOBILE = 420;
 
 const leaveDuration = (reducedMotion) => {
   if (reducedMotion) return 0;
@@ -18,12 +18,14 @@ const leaveDuration = (reducedMotion) => {
 };
 
 export default function SelfAssessment({ data }) {
-  const { intro, ui, questions, result } = data;
+  const { intro, ui, questions, bonus, result } = data;
+  /* The announced questions ("Domanda X di 4") and, after them, the unannounced bonus one. */
   const total = questions.length;
+  const steps = bonus ? [...questions, bonus] : questions;
 
   const [stage, setStage] = useState('intro');
   const [current, setCurrent] = useState(0);
-  const [selections, setSelections] = useState(() => Array(total).fill(null));
+  const [selections, setSelections] = useState(() => Array(steps.length).fill(null));
   const [leaving, setLeaving] = useState(false);
   const [picking, setPicking] = useState(false);
   const [announcement, setAnnouncement] = useState('');
@@ -69,13 +71,13 @@ export default function SelfAssessment({ data }) {
     }, leaveDuration(reducedMotion));
   };
 
+  const stepLabel = (index) =>
+    index < total ? fillTemplate(ui.progressLabel, { current: index + 1, total }) : ui.bonusLabel;
+
   const showQuestion = (index) => {
     setStage('quiz');
     setCurrent(index);
-    const question = questions[index];
-    setAnnouncement(
-      `${fillTemplate(ui.progressLabel, { current: index + 1, total })}. ${question.microcopy}`,
-    );
+    setAnnouncement(`${stepLabel(index)}. ${steps[index].microcopy}`);
   };
 
   const showResult = (finalSelections) => {
@@ -91,7 +93,7 @@ export default function SelfAssessment({ data }) {
 
   const goForward = (finalSelections) => {
     transition(() => {
-      if (current + 1 < total) showQuestion(current + 1);
+      if (current + 1 < steps.length) showQuestion(current + 1);
       else showResult(finalSelections);
     });
   };
@@ -125,7 +127,7 @@ export default function SelfAssessment({ data }) {
   const restart = () => {
     if (busy.current) return;
     transition(() => {
-      setSelections(Array(total).fill(null));
+      setSelections(Array(steps.length).fill(null));
       showQuestion(0);
     });
   };
@@ -182,13 +184,14 @@ export default function SelfAssessment({ data }) {
               <>
                 <AssessmentProgress
                   current={current}
-                  total={total}
+                  segments={current < total ? total : steps.length}
                   selections={selections}
-                  label={fillTemplate(ui.progressLabel, { current: current + 1, total })}
-                  microcopy={questions[current].microcopy}
+                  label={stepLabel(current)}
+                  microcopy={steps[current].microcopy}
+                  bonus={current >= total}
                 />
                 <QuestionCard
-                  question={questions[current]}
+                  question={steps[current]}
                   selected={selections[current]}
                   picking={picking}
                   onSelect={select}
@@ -203,7 +206,7 @@ export default function SelfAssessment({ data }) {
               <AssessmentResult
                 result={result}
                 profile={profile}
-                questions={questions}
+                questions={steps}
                 selections={selections}
                 onRestart={restart}
                 restartLabel={ui.restartLabel}
@@ -211,6 +214,12 @@ export default function SelfAssessment({ data }) {
             )}
           </div>
         </div>
+      </div>
+
+      <div className="check__waves" aria-hidden="true">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+          <path d="M0 120 L0 64 C 160 20, 320 96, 520 60 C 720 24, 860 92, 1060 58 C 1220 30, 1340 70, 1440 44 L1440 120 Z" />
+        </svg>
       </div>
     </section>
   );

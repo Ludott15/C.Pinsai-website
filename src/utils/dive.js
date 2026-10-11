@@ -1,8 +1,8 @@
 const clamp01 = (value) => Math.min(1, Math.max(0, value));
 const segment = (progress, start, end) => clamp01((progress - start) / (end - start));
-const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
-const easeIn = (t) => t * t * t;
-const easeOut = (t) => 1 - (1 - t) ** 3;
+/* Soft curves with zero speed at both ends: every phase fades in and out of the next one. */
+const easeInOutSine = (t) => -(Math.cos(Math.PI * t) - 1) / 2;
+const smootherstep = (t) => t * t * t * (t * (6 * t - 15) + 10);
 
 /** Maximum Y rotation of the cup, in degrees: the handle swings in front of the body and around. */
 const MAX_TURN = -160;
@@ -12,23 +12,25 @@ const MAX_ZOOM = 7;
 /**
  * Maps the scroll progress through the hero track (0 → 1) to the timeline of the dive:
  * text leaves, the cup turns and tilts, the camera approaches the coffee and finally falls into it.
+ * Phases overlap so the movement never stops and restarts between them.
  */
 export function getDiveState(progress) {
-  const turn = easeInOut(segment(progress, 0, 0.5)) * MAX_TURN;
+  const turn = easeInOutSine(segment(progress, 0, 0.56)) * MAX_TURN;
   const radians = (turn * Math.PI) / 180;
 
   return {
     '--p': progress,
-    '--text': easeOut(segment(progress, 0.02, 0.24)),
+    '--text': easeInOutSine(segment(progress, 0, 0.26)),
     '--turn': turn,
     '--sin': Math.sin(radians),
     '--cos': Math.cos(radians),
-    '--tilt': easeInOut(segment(progress, 0.18, 0.55)),
-    '--zoom': 1 + easeIn(segment(progress, 0.32, 0.82)) * (MAX_ZOOM - 1),
-    '--steam': 1 - segment(progress, 0.2, 0.42),
-    '--fill': easeInOut(segment(progress, 0.58, 0.86)),
-    '--dive': segment(progress, 0.74, 0.88),
-    '--steps': segment(progress, 0.8, 0.98),
+    '--tilt': smootherstep(segment(progress, 0.14, 0.6)),
+    /* Exponential dolly: the approach feels like a constant-speed camera move. */
+    '--zoom': MAX_ZOOM ** smootherstep(segment(progress, 0.28, 0.86)),
+    '--steam': 1 - smootherstep(segment(progress, 0.18, 0.46)),
+    '--fill': smootherstep(segment(progress, 0.54, 0.88)),
+    '--dive': smootherstep(segment(progress, 0.66, 0.86)),
+    '--steps': segment(progress, 0.78, 0.98),
   };
 }
 
@@ -40,7 +42,7 @@ export function applyDiveState(node, progress) {
   /* The cup is composited flat (crisper while zooming), so depth is resolved by stacking:
      the handle is drawn over the body only while it swings towards the viewer. */
   node.style.setProperty('--handle-layer', state['--sin'] < -0.05 ? '2' : '0');
-  node.dataset.phase = progress < 0.2 ? 'surface' : progress < 0.88 ? 'dive' : 'deep';
+  node.dataset.phase = progress < 0.2 ? 'surface' : progress < 0.9 ? 'dive' : 'deep';
   return state;
 }
 

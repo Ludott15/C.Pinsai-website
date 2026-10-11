@@ -84,11 +84,11 @@
   background: var(--cream);
 }
 
-.nav__link[aria-current='true'] {
+.nav__link[aria-current] {
   color: var(--brown);
 }
 
-.nav__link[aria-current='true']::after {
+.nav__link[aria-current]::after {
   content: '';
   position: absolute;
   left: 50%;
@@ -201,7 +201,7 @@
   color: var(--brown);
 }
 
-.nav--mobile .nav__link[aria-current='true']::after {
+.nav--mobile .nav__link[aria-current]::after {
   left: auto;
   right: 20px;
   bottom: 50%;

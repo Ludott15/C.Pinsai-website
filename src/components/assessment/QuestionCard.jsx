@@ -14,6 +14,7 @@ export default function QuestionCard({ question, selected, picking, onSelect, ui
         </p>
         <QuestionVisual
           type={question.visual}
+          question={question}
           level={selected}
           answers={question.answers}
           selectionMicrocopy={question.selectionMicrocopy}

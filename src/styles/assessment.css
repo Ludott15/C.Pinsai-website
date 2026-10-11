@@ -4,9 +4,23 @@
    ========================================================================== */
 .check {
   position: relative;
-  padding-block: clamp(48px, 7vw, 96px) var(--section-pad);
+  padding-block: clamp(48px, 7vw, 96px) calc(var(--section-pad) + clamp(40px, 7vw, 110px));
   background: var(--brown-800);
   color: var(--cream);
+}
+
+/* Waves at the bottom of the section, in the colour of the section that follows (Numeri). */
+.check__waves {
+  position: absolute;
+  inset: auto 0 -1px;
+  height: clamp(40px, 7vw, 110px);
+  pointer-events: none;
+}
+
+.check__waves svg {
+  width: 100%;
+  height: 100%;
+  fill: var(--brown-900);
 }
 
 .check__inner {
@@ -46,11 +60,12 @@
 }
 
 .check__stage {
-  animation: q-in 0.42s var(--ease-out) both;
+  animation: q-in 0.7s var(--ease-out) both;
 }
 
+/* Must match LEAVE_DURATION in SelfAssessment.jsx. */
 .check__stage.is-leaving {
-  animation: q-out 0.36s var(--ease-in-out) both;
+  animation: q-out 0.6s var(--ease-in-out) both;
 }
 
 @keyframes q-in {
@@ -127,7 +142,7 @@
 
 .progress__segments {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(var(--segments, 4), 1fr);
   gap: 6px;
 }
 
@@ -141,6 +156,22 @@
 
 .progress__segment.is-done {
   background: var(--pink-light);
+}
+
+.progress__segment.is-bonus {
+  animation: bonus-segment 0.8s var(--ease-out) both;
+  transform-origin: left;
+}
+
+@keyframes bonus-segment {
+  from {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+}
+
+.progress__label.is-bonus {
+  color: var(--white);
 }
 
 .progress__segment.is-current::after {
@@ -662,8 +693,9 @@
 .clock__value {
   position: absolute;
   inset: 0;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: var(--font-sans);
   font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.2rem);
   font-weight: 750;
@@ -676,30 +708,77 @@
   font-size: 0.5em;
 }
 
-.timeline {
+/* Q4 — one working week, 8 blocks: the last two are the 25% given back. */
+.week {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 10px;
+}
+
+.week__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.week__label {
+  color: var(--cream);
+  font-weight: 600;
+}
+
+.week__recovered {
+  color: var(--pink-light);
+}
+
+.week__blocks {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
-  gap: 4px;
+  gap: 6px;
 }
 
-.timeline__slot {
-  height: 28px;
-  border-radius: 6px;
-  background: rgb(245 239 226 / 0.18);
+.week__block {
+  display: grid;
+  place-items: end start;
+  height: clamp(48px, 9vw, 64px);
+  padding: 6px 7px;
+  border-radius: 10px;
+  background: rgb(245 239 226 / 0.2);
+  color: var(--on-dark-muted);
+  font-size: 0.6875rem;
 }
 
-.timeline__slot.is-free {
-  border: 1.5px dashed var(--pink-light);
-  background: transparent;
-  animation: free-slot 0.6s var(--ease-out) both;
-  animation-delay: calc(0.5s + (var(--i) - 6) * 0.15s);
+.week__block.is-free {
+  border: 2px dashed var(--pink-light);
+  background: rgb(224 74 149 / 0.16);
+  color: var(--pink-light);
+  font-weight: 700;
+  animation: free-block 0.8s var(--ease-out) both;
+  animation-delay: calc(0.7s + (var(--i) - 6) * 0.2s);
 }
 
-@keyframes free-slot {
+@keyframes free-block {
   from {
     border-color: transparent;
-    background: rgb(245 239 226 / 0.18);
+    background: rgb(245 239 226 / 0.2);
+    color: var(--on-dark-muted);
   }
+}
+
+/* Bonus */
+.viz--bonus {
+  justify-items: start;
+}
+
+.bonus__mark {
+  font-family: var(--font-sans);
+  font-size: clamp(3rem, 2rem + 4vw, 5rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: var(--pink-light);
 }
 
 /* ==========================================================================
@@ -809,17 +888,20 @@
 .result__profile-label {
   font-family: var(--font-mono);
   font-size: var(--fs-micro);
+  font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--on-dark-muted);
+  color: #da528a;
 }
 
+/* Same type as "Il tuo Coffee Check è pronto." */
 .result__profile-title {
-  font-size: clamp(1.75rem, 1.2rem + 2.4vw, 3rem);
-  font-weight: 750;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  color: var(--pink-light);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+  color: var(--cream);
 }
 
 .result__copy {
@@ -828,32 +910,16 @@
   color: var(--cream);
 }
 
-.result__scale {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
-  margin-top: 8px;
-}
-
-.result__scale li {
-  display: flex;
-  align-items: center;
-  min-height: 54px;
-  padding: 8px 10px;
-  border: 1px solid var(--line-dark);
-  border-radius: 10px;
-  font-family: var(--font-mono);
-  font-size: 0.625rem;
-  line-height: 1.3;
-  letter-spacing: 0.06em;
-  color: var(--on-dark-muted);
-}
-
-.result__scale li.is-current {
-  border-color: var(--pink);
-  background: var(--pink);
-  color: var(--white);
-  font-weight: 600;
+.result__quote {
+  max-width: 46ch;
+  margin-top: 6px;
+  padding-left: 16px;
+  border-left: 3px solid var(--pink);
+  font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  font-style: italic;
+  font-weight: 350;
+  line-height: 1.45;
+  color: var(--cream);
 }
 
 .result__next {
@@ -887,11 +953,11 @@
   }
 
   .check__stage {
-    animation-duration: 0.28s;
+    animation-duration: 0.5s;
   }
 
   .check__stage.is-leaving {
-    animation-duration: 0.24s;
+    animation-duration: 0.42s;
   }
 
   .check__start .button,

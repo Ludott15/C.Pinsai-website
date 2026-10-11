@@ -14,7 +14,8 @@
     },
     {
       "label": "Soluzioni",
-      "href": "#soluzioni"
+      "href": "soluzioni/",
+      "page": "soluzioni"
     },
     {
       "label": "Numeri",
@@ -30,7 +31,7 @@
     "href": "#contatti"
   },
   "hero": {
-    "kicker": "Caffè · Codice · AI · Persone",
+    "kicker": "Il ponte tra il codice e le persone",
     "headline": [
       "Come bere un caffè,",
       "ma te lo prepariamo noi."
@@ -40,20 +41,6 @@
       "label": "Inizia il Self-Assessment",
       "href": "#coffee-check"
     },
-    "ticket": [
-      {
-        "key": "ordine",
-        "value": "espresso.ai"
-      },
-      {
-        "key": "zucchero",
-        "value": "0 byte"
-      },
-      {
-        "key": "preparato da",
-        "value": "persone"
-      }
-    ],
     "scrollHint": "Scorri per entrare nel caffè"
   },
   "dive": {
@@ -61,31 +48,27 @@
     "title": "Sotto la crema, c'è il codice.",
     "steps": [
       "Caffè",
-      "Profondità",
-      "Codice",
-      "AI"
+      "Analisi",
+      "Test",
+      "Soluzione"
     ]
   },
   "solutionsIntro": {
-    "index": "04",
+    "index": "01",
     "kicker": "Soluzioni",
     "title": "La tua Soluzione AI",
     "subtitle": "Scegli tra i pacchetti base e prenota una consulenza per poter personalizzare il servizio giusto per te"
   },
-  "verticalsIntro": {
-    "index": "05",
-    "kicker": "Infrastrutture verticali",
-    "title": "Infrastrutture Verticali",
-    "subtitle": "Non un gestionale in più: un'infrastruttura operativa costruita attorno al tuo settore."
-  },
   "metricsIntro": {
-    "index": "06",
+    "index": "02",
     "kicker": "Numeri",
     "title": "I Numeri Parlano Chiaro",
-    "subtitle": "Risultati concreti che le nostre aziende partner hanno ottenuto"
+    "subtitle": "Risultati concreti che le nostre aziende partner hanno ottenuto",
+    "hint": "Tocca un numero per scoprire perché conta.",
+    "hintDesktop": "Passa sopra un numero o cliccalo per scoprire perché conta."
   },
   "finalCta": {
-    "index": "07",
+    "index": "03",
     "kicker": "ready.state = true",
     "headline": "Pronto a Trasformare il Tuo Business?",
     "subheadline": "Unisciti alle aziende che hanno già fatto il salto verso l'efficienza AI-powered",
@@ -95,7 +78,7 @@
     }
   },
   "contact": {
-    "index": "08",
+    "index": "04",
     "kicker": "Contatti",
     "title": "Parliamone Davanti a un Caffè",
     "subtitle": "Virtuale o reale, siamo qui per ascoltarti e costruire la soluzione perfetta per te",
@@ -167,5 +150,24 @@
         "I caratteri tipografici sono serviti direttamente dal sito, senza richieste a servizi esterni."
       ]
     }
-  ]
+  ],
+  "proposalsTeaser": {
+    "title": "Le nostre proposte",
+    "text": "Non un gestionale in più: un'infrastruttura operativa costruita attorno al tuo settore.",
+    "cta": {
+      "label": "Esplora le nostre proposte",
+      "href": "proposte/"
+    }
+  },
+  "proposalsIntro": {
+    "index": "02",
+    "kicker": "Proposte",
+    "title": "Le nostre proposte",
+    "subtitle": "Non un gestionale in più: un'infrastruttura operativa costruita attorno al tuo settore.",
+    "navLabel": "Servizi",
+    "back": {
+      "label": "Torna ai Numeri",
+      "href": "#numeri"
+    }
+  }
 }

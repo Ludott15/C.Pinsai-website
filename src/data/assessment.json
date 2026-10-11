@@ -1,6 +1,6 @@
 {
   "intro": {
-    "index": "02",
+    "index": "01",
     "kicker": "THE COFFEE CHECK",
     "title": "Possiamo Aiutarti? Facciamo un Check.",
     "subtitle": "Rispondi a 4 semplici domande. Bastano pochi secondi per capire dove il tuo lavoro può diventare più semplice, veloce e automatizzato.",
@@ -16,7 +16,8 @@
     "progressLabel": "Domanda {current} di {total}",
     "backLabel": "Indietro",
     "nextLabel": "Avanti",
-    "restartLabel": "Rifai il Coffee Check"
+    "restartLabel": "Rifai il Coffee Check",
+    "bonusLabel": "Domanda bonus"
   },
   "questions": [
     {
@@ -114,7 +115,11 @@
           "label": "Ridurre lo stress",
           "score": 3
         }
-      ]
+      ],
+      "week": {
+        "label": "1 week",
+        "recovered": "25% recuperato"
+      }
     }
   ],
   "result": {
@@ -122,7 +127,6 @@
     "subtitle": "Abbiamo individuato dove il tuo business potrebbe recuperare tempo, continuità e spazio operativo.",
     "receiptTitle": "Scontrino del Coffee Check",
     "profileLabel": "Profilo",
-    "scaleLabel": "Dove ti trovi",
     "nextQuestion": "Vuoi capire da dove cominciare?",
     "primaryCta": {
       "label": "Parliamone davanti a un caffè",
@@ -130,7 +134,7 @@
     },
     "secondaryCta": {
       "label": "Scopri le soluzioni",
-      "href": "#soluzioni"
+      "href": "soluzioni/"
     },
     "profiles": [
       {
@@ -138,21 +142,44 @@
         "min": 4,
         "max": 6,
         "title": "OPERATIVITÀ GIÀ SOLIDA",
-        "copy": "Il tuo assetto operativo sembra già avere una buona struttura. Il prossimo passo potrebbe essere capire dove l'automazione può trasformare il tempo recuperato in crescita."
+        "copy": "Il tuo assetto operativo sembra già avere una buona struttura. Il prossimo passo potrebbe essere capire dove l'automazione può trasformare il tempo recuperato in crescita.",
+        "quote": "Quando tutto funziona, la domanda giusta non è cosa sistemare, ma cosa far crescere."
       },
       {
         "id": "recover",
         "min": 7,
         "max": 10,
         "title": "SPAZIO DA RECUPERARE",
-        "copy": "Ci sono attività ripetitive e passaggi operativi che potrebbero liberare tempo prezioso. È proprio qui che una buona infrastruttura può iniziare a fare la differenza."
+        "copy": "Ci sono attività ripetitive e passaggi operativi che potrebbero liberare tempo prezioso. È proprio qui che una buona infrastruttura può iniziare a fare la differenza.",
+        "quote": "Le ore che si perdono non fanno rumore: si notano solo quando si prova a contarle."
       },
       {
         "id": "potential",
         "min": 11,
         "max": 15,
         "title": "POTENZIALE DI AUTOMAZIONE",
-        "copy": "Una parte significativa del lavoro sembra dipendere ancora da attività manuali, tempi di risposta o persone chiave. Qui l'automazione potrebbe avere un impatto importante sulla continuità operativa."
+        "copy": "Una parte significativa del lavoro sembra dipendere ancora da attività manuali, tempi di risposta o persone chiave. Qui l'automazione potrebbe avere un impatto importante sulla continuità operativa.",
+        "quote": "Se domani ti fermassi tu, cosa si fermerebbe con te? La risposta è già una mappa delle priorità."
+      }
+    ]
+  },
+  "bonus": {
+    "id": 5,
+    "category": "BONUS",
+    "label": "Offerta dalla casa",
+    "visual": "bonus",
+    "microcopy": "Una domanda ancora.",
+    "note": "Un caffè in più, offerto dalla casa.",
+    "question": "[DA INSERIRE] Testo della domanda bonus",
+    "answers": [
+      {
+        "label": "[DA INSERIRE] Risposta A"
+      },
+      {
+        "label": "[DA INSERIRE] Risposta B"
+      },
+      {
+        "label": "[DA INSERIRE] Risposta C"
       }
     ]
   }

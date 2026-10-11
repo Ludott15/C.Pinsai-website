@@ -35,7 +35,7 @@ export default function ScrollDive({ label, title, steps }) {
 
       <div className="dive__copy shell">
         <p className="dive__label">
-          <span className="mono">03</span> {label}
+          {label}
         </p>
         <p className="dive__title">{title}</p>
         <ol className="dive__steps">

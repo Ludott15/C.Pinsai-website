@@ -23,8 +23,8 @@ const JOINT_RADIUS = 96;
 const TILT_PULL_IN = 0.42;
 
 /* Centre line: one cubic Bézier per half of the loop, centred at mid-height of the body,
-   from the upper joint to the lower one. */
-const CENTER_LINE = [
+   from the upper joint to the lower one. Shared with the WebGL cup (three/CupScene.js). */
+export const HANDLE_CENTER_LINE = [
   [304, 134],
   [332, 122],
   [360, 134],
@@ -58,7 +58,7 @@ function projectCenterLine(turn, tilt) {
 
   const reach = 1 - tilt * TILT_PULL_IN;
 
-  return CENTER_LINE.map(([x, y]) => {
+  return HANDLE_CENTER_LINE.map(([x, y]) => {
     const radius = JOINT_RADIUS + (x - AXIS_X - JOINT_RADIUS) * reach;
     const depth = -radius * sin;
     const scale = CAMERA_DISTANCE / (CAMERA_DISTANCE - depth);
