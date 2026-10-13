@@ -58,9 +58,9 @@ export default function Header({ brand, navigation, cta }) {
   const toHref = useHref();
   const [hrefs] = useState(() => navigation.map((item) => item.href));
   const activeSection = useActiveSection(hrefs, page.id === 'home');
-  /* Inner pages highlight the menu entry they belong to (Proposte lives under Soluzioni). */
-  const isActive = (item) =>
-    page.id === 'home' ? activeSection === item.href : item.page === (page.id === 'proposte' ? 'soluzioni' : page.id);
+  const [submenu, setSubmenu] = useState(false);
+  const isCurrent = (item) => (page.id === 'home' ? activeSection === item.href : item.page === page.id);
+  const hasCurrentChild = (item) => (item.children ?? []).some(isCurrent);
   const scrolled = useScrolled();
   const toggleRef = useRef(null);
   const panelRef = useRef(null);
@@ -87,18 +87,59 @@ export default function Header({ brand, navigation, cta }) {
     };
   }, [open]);
 
-  const links = navigation.map((item) => (
-    <li key={item.href}>
-      <a
-        href={toHref(item.href)}
-        className="nav__link"
-        aria-current={isActive(item) ? (page.id === 'soluzioni' ? 'page' : 'true') : undefined}
-        onClick={() => setOpen(false)}
-      >
-        {item.label}
-      </a>
-    </li>
-  ));
+  /* Desktop dropdown: closes on Escape and on a click outside it. */
+  useEffect(() => {
+    if (!submenu) return undefined;
+    const onKey = (event) => event.key === 'Escape' && setSubmenu(false);
+    const onClick = (event) => !event.target.closest('.nav__group') && setSubmenu(false);
+    document.addEventListener('keydown', onKey);
+    document.addEventListener('click', onClick);
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.removeEventListener('click', onClick);
+    };
+  }, [submenu]);
+
+  const link = (item, className = 'nav__link') => (
+    <a
+      href={toHref(item.href)}
+      className={`${className}${hasCurrentChild(item) ? ' has-current' : ''}`}
+      aria-current={isCurrent(item) ? (item.page ? 'page' : 'true') : undefined}
+      onClick={() => {
+        setOpen(false);
+        setSubmenu(false);
+      }}
+    >
+      {item.label}
+    </a>
+  );
+
+  const links = (variant) =>
+    navigation.map((item) => {
+      if (!item.children) return <li key={item.href}>{link(item)}</li>;
+      const submenuId = `submenu-${variant}-${item.page}`;
+      return (
+        <li key={item.href} className="nav__group" data-open={variant === 'desktop' && submenu ? '' : undefined}>
+          {link(item)}
+          {variant === 'desktop' && (
+            <button
+              type="button"
+              className="nav__caret"
+              aria-expanded={submenu}
+              aria-controls={submenuId}
+              onClick={() => setSubmenu((value) => !value)}
+            >
+              <span className="visually-hidden">{item.submenuLabel}</span>
+            </button>
+          )}
+          <ul id={submenuId} className="nav__submenu">
+            {item.children.map((child) => (
+              <li key={child.href}>{link(child, 'nav__sublink')}</li>
+            ))}
+          </ul>
+        </li>
+      );
+    });
 
   return (
     <header className={`header${scrolled ? ' is-scrolled' : ''}${open ? ' is-open' : ''}`}>
@@ -108,7 +149,7 @@ export default function Header({ brand, navigation, cta }) {
         </a>
 
         <nav className="nav nav--desktop" aria-label="Principale">
-          <ul>{links}</ul>
+          <ul>{links('desktop')}</ul>
         </nav>
 
         <a href={toHref(cta.href)} className="header__cta">
@@ -135,7 +176,7 @@ export default function Header({ brand, navigation, cta }) {
         aria-label="Principale (mobile)"
         hidden={!open}
       >
-        <ul>{links}</ul>
+        <ul>{links('mobile')}</ul>
       </nav>
     </header>
   );

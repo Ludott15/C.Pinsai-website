@@ -129,6 +129,9 @@ function NetworkVisual({ level }) {
 }
 
 /* Q4 — opportunity: 25% of the repetitive timeline frees itself and becomes yours. */
+/** Share of the week given back in question 4 (25%). */
+const RECOVERED = 0.25;
+
 function ClockVisual({ level, answers, question }) {
   const reducedMotion = useReducedMotion();
   const [percent, setPercent] = useState(reducedMotion ? 25 : 0);
@@ -164,18 +167,22 @@ function ClockVisual({ level, answers, question }) {
           <small>%</small>
         </span>
       </div>
-      {/* One working week in 8 blocks: the last 2 (25%) are the time given back. */}
+      {/* One week, 7 days: the last 25% of it (1.75 days) is the time given back. */}
       <div className="week">
         <div className="week__head">
           <span className="week__label">{question.week.label}</span>
           <span className="week__recovered">{question.week.recovered}</span>
         </div>
         <div className="week__blocks">
-          {Array.from({ length: 8 }, (_, index) => (
-            <span key={index} className={`week__block${index >= 6 ? ' is-free' : ''}`} style={{ '--i': index }}>
-              {String(index + 1).padStart(2, '0')}
-            </span>
-          ))}
+          {question.week.days.map((day, index, days) => {
+            const free = Math.min(1, Math.max(0, index + 1 - days.length * (1 - RECOVERED)));
+            return (
+              <span key={index} className="week__block" style={{ '--i': index, '--free': free }}>
+                {free > 0 && <span className="week__free" />}
+                <span className="week__day">{day}</span>
+              </span>
+            );
+          })}
         </div>
       </div>
       <p className="viz__caption">

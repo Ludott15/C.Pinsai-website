@@ -3,6 +3,7 @@ import QuestionCard from './assessment/QuestionCard.jsx';
 import AssessmentProgress from './assessment/AssessmentProgress.jsx';
 import AssessmentResult from './assessment/AssessmentResult.jsx';
 import { useReducedMotion } from '../hooks/useReducedMotion.js';
+import { useInView } from '../hooks/useInView.js';
 import { computeScore, findProfile } from '../utils/assessment.js';
 import { fillTemplate } from '../utils/text.js';
 
@@ -31,6 +32,7 @@ export default function SelfAssessment({ data }) {
   const [announcement, setAnnouncement] = useState('');
 
   const reducedMotion = useReducedMotion();
+  const [introRef, introInView] = useInView({ threshold: 0.2 });
   const timers = useRef([]);
   const busy = useRef(false);
   const panelRef = useRef(null);
@@ -138,7 +140,7 @@ export default function SelfAssessment({ data }) {
   return (
     <section id="coffee-check" className="check" aria-labelledby="check-title">
       <div className="check__inner shell">
-        <header className="check__intro">
+        <header ref={introRef} className={`check__intro${introInView ? ' is-visible' : ''}`}>
           <p className="kicker kicker--dark">
             <span className="kicker__index">{intro.index}</span>
             {intro.kicker}

@@ -1,36 +1,82 @@
 {
-  "categories": [
+  "request": {
+    "selectLabel": "Seleziona il modulo",
+    "selectedLabel": "Modulo selezionato",
+    "barEmpty": "Seleziona uno o più moduli per richiederli su WhatsApp.",
+    "barSelected": "Moduli selezionati: {count}",
+    "sendLabel": "Richiedi su WhatsApp",
+    "message": "Ciao C.PINSAI, vorrei ricevere informazioni su: {modules} ({section})."
+  },
+  "demo": {
+    "label": "Demo",
+    "pending": "La demo di questo modulo è in preparazione.",
+    "frameTitle": "Demo: {module}"
+  },
+  "sections": [
     {
       "id": "segretaria",
-      "label": "Segretaria",
-      "cards": [
+      "label": "SegretarIA",
+      "type": "product",
+      "code": "/segretaria",
+      "name": "Segretar",
+      "nameAccent": "IA",
+      "lead": "La tua nuova spalla per messaggi, promemoria, contabilità e clienti: lavora in silenzio, ti chiede conferma quando serve.",
+      "disclaimer": {
+        "title": "Human-in-the-loop",
+        "text": "Significa che l'ultima parola è sempre tua. L'AI prepara, suggerisce, organizza; una persona controlla e decide. Ogni messaggio proposto da SegretarIA passa da te: puoi approvarlo così com'è o personalizzarlo prima che parta."
+      },
+      "features": [
         {
-          "id": "segretaria",
-          "index": "P/01",
-          "kicker": "[DA INSERIRE]",
-          "placeholder": true,
-          "title": "Segretaria",
-          "paragraphs": [
-            "[DA INSERIRE] Descrizione della proposta Segretaria: a quale problema risponde e come lavora.",
-            "[DA INSERIRE] Secondo paragrafo: cosa cambia per il cliente e per l'organizzazione interna."
-          ],
-          "cta": {
-            "label": "Parliamone",
-            "href": "#contatti"
-          }
+          "id": "messages",
+          "visual": "messages",
+          "title": "Messaggi in entrata e in uscita",
+          "text": "SegretarIA legge le richieste dei clienti e ti propone la risposta. Tu la approvi con un tocco, oppure la personalizzi a mano prima di inviarla."
+        },
+        {
+          "id": "reminders",
+          "visual": "reminders",
+          "title": "Promemoria clienti, in automatico",
+          "text": "Li imposti tu, in base a ciò che ti serve: un promemoria il giorno prima dell'appuntamento per chiedere conferma, oppure ogni quanto decidi per ricordarti una scadenza o un richiamo. Utile per fidelizzare."
+        },
+        {
+          "id": "accounting",
+          "visual": "accounting",
+          "title": "La contabilità in una dashboard",
+          "text": "Entrate, uscite e scadenze in un unico posto, con promemoria per le insolvenze dei clienti."
+        },
+        {
+          "id": "crm",
+          "visual": "crm",
+          "title": "Un CRM su misura",
+          "text": "Tiene traccia di tutti i tuoi clienti: chi sono, cosa hanno chiesto, quando li hai sentiti l'ultima volta."
+        },
+        {
+          "id": "reports",
+          "visual": "reports",
+          "title": "Statistiche e report settimanali",
+          "text": "Ogni settimana un report per vedere i risultati ottenuti. In più, SegretarIA aggiunge un breve commento con la sua analisi."
         }
-      ]
+      ],
+      "example": "Hai già qualcuno che risponde ai clienti? Beh, da oggi potrai chiamarlo anche ‘Customer Success Specialist’, mentre SegretarIA si occuperà delle scartoffie ripetitive.",
+      "closing": {
+        "title": "Lo sapevi?",
+        "text": "Il bot di Meta (Whatsapp, facebook, instagram) non permette di avere un processo con Human in-the loop integrato (spiegato prima), noi abbiamo trovato il modo di sistemare questo problema, dando luce alla tua nuova, insostituibile spalla, SegretarIA."
+      },
+      "cta": {
+        "label": "Provala Gratis per un Mese!",
+        "message": "Ciao C.PINSAI, vorrei provare SegretarIA gratis per un mese."
+      }
     },
     {
       "id": "ristorazione",
       "label": "Ristorazione",
-      "cards": [
+      "type": "modules",
+      "title": "Ristorazione",
+      "modules": [
         {
-          "id": "ristorazione-infrastruttura",
-          "index": "P/02",
-          "kicker": "Eventi",
-          "title": "Ristorazione — ",
-          "titleAccent": "Infrastruttura",
+          "id": "eventi",
+          "code": "ristorazione/eventi",
+          "title": "Modulo Eventi",
           "paragraphs": [
             "Una soluzione per la tua location eventi, la quale permetterà al tuo cliente di creare la sua prossima esperienza personalizzata, in completa autonomia.",
             "Questo processo permetterà di tagliare numerosi messaggi e tempi di attesa inutili, garantendo una maggiore organizzazione per il locale, ed una tracciabilità interna delle proprie statistiche molto accurata."
@@ -49,102 +95,100 @@
               "detail": "arriva tutto già organizzato"
             }
           ],
-          "example": {
-            "label": "Un esempio",
-            "text": "E chi lo sa, magari il prossimo matrimonio sarà di una coppia di Uzbeki."
-          },
-          "cta": {
-            "label": "Parliamone",
-            "href": "#contatti"
-          }
+          "example": "E chi lo sa, magari il prossimo matrimonio sarà di una coppia di Uzbeki.",
+          "demo": null
         },
         {
-          "id": "ristorazione-classic",
-          "index": "P/03",
-          "kicker": "Classic",
-          "title": "Infrastruttura per la Ristorazione",
+          "id": "classic",
+          "code": "ristorazione/classic",
+          "title": "Modulo Classic",
           "lead": "Tutto quello che ti serve in un solo posto.",
           "paragraphs": [
             "Un'infrastruttura operativa completa, non un semplice gestionale: ogni reparto parla con gli altri."
           ],
-          "modules": {
-            "title": "In un solo posto",
-            "items": [
-              "Prenotazioni",
-              "Richieste clienti",
-              "Gestione dipendenti",
-              "Gestione rimanenze",
-              "Gestione scadenze",
-              "Appuntamenti",
-              "Automazioni per acquisizione nuovi clienti",
-              "Automazioni per fidelizzazione clienti"
-            ]
-          },
-          "cta": {
-            "label": "Prenota una consulenza",
-            "href": "#contatti"
-          }
+          "features": [
+            "Prenotazioni",
+            "Richieste clienti",
+            "Gestione dipendenti",
+            "Gestione rimanenze",
+            "Gestione scadenze",
+            "Appuntamenti",
+            "Automazioni per acquisizione nuovi clienti",
+            "Automazioni per fidelizzazione clienti"
+          ],
+          "featuresLabel": "In un solo posto",
+          "demo": null
         }
       ]
     },
     {
       "id": "palestre",
       "label": "Palestre",
-      "cards": [
+      "type": "product",
+      "code": "/palestre",
+      "status": "In arrivo",
+      "name": "Infrastruttura per Palestre",
+      "lead": "Il tuo migliore strumento, se possiedi una palestra, cambia il modo in cui fidelizzi la tua clientela, rivoluziona la loro esperienza di Allenamento",
+      "intro": "Tre dashboard collegate tra loro, ognuna pensata per chi la usa: chi gestisce, chi allena, chi si allena.",
+      "features": [
         {
-          "id": "palestre",
-          "index": "P/04",
-          "kicker": "In arrivo",
-          "status": "COMING SOON",
-          "title": "Infrastruttura Totale per le Palestre",
-          "lead": "Un intero ecosistema per gestire la palestra da un unico ambiente.",
-          "paragraphs": [],
-          "layers": [
-            {
-              "id": "admin",
-              "level": "01",
-              "name": "ADMIN HUB",
-              "lead": "Per la gestione di",
-              "items": [
-                "Clienti",
-                "Scadenze",
-                "Dipendenti",
-                "Coach",
-                "Statistiche di gestione",
-                "Rendita"
-              ]
-            },
-            {
-              "id": "coach",
-              "level": "02",
-              "name": "COACH HUB",
-              "lead": "L'ambiente dedicato ai coach per",
-              "items": [
-                "Gestire i propri clienti",
-                "Monitorare i clienti seguiti",
-                "Organizzare il proprio lavoro",
-                "Seguire i processi di allenamento"
-              ]
-            },
-            {
-              "id": "user",
-              "level": "03",
-              "name": "USER INTERFACE",
-              "lead": "La nostra interfaccia proprietaria dedicata interamente all'utente, per",
-              "items": [
-                "Monitorare i propri processi",
-                "Vedere le proprie statistiche",
-                "Confrontare le statistiche con altri utenti collegati"
-              ],
-              "gem": "la nostra piccola gemma"
-            }
+          "id": "admin",
+          "visual": "dashboard",
+          "title": "Admin Hub",
+          "level": "01",
+          "text": "Per la gestione di:",
+          "items": [
+            "Clienti",
+            "Scadenze",
+            "Dipendenti",
+            "Coach",
+            "Statistiche di gestione",
+            "Rendita"
+          ]
+        },
+        {
+          "id": "coach",
+          "visual": "dashboard",
+          "title": "Coach Hub",
+          "level": "02",
+          "text": "L'ambiente dedicato ai coach per:",
+          "items": [
+            "Gestire i propri clienti",
+            "Monitorare i clienti seguiti",
+            "Organizzare il proprio lavoro",
+            "Seguire i processi di allenamento"
+          ]
+        },
+        {
+          "id": "user",
+          "visual": "dashboard",
+          "title": "User Interface",
+          "level": "03",
+          "text": "La nostra interfaccia proprietaria dedicata interamente all'utente, per:",
+          "items": [
+            "Monitorare i propri processi",
+            "Vedere le proprie statistiche",
+            "Confrontare le statistiche con altri utenti collegati"
           ],
-          "cta": {
-            "label": "Chiedi informazioni",
-            "href": "#contatti"
-          }
+          "gem": "la nostra piccola gemma"
         }
-      ]
+      ],
+      "cta": {
+        "label": "Parliamone",
+        "message": "Ciao C.PINSAI, vorrei informazioni sull'Infrastruttura per Palestre."
+      }
+    },
+    {
+      "id": "cliniche",
+      "label": "Cliniche",
+      "type": "wip",
+      "title": "Cliniche",
+      "badge": "Lavori in corso",
+      "text": "Stiamo preparando questa sezione. Se gestisci una clinica e vuoi sapere a che punto siamo, scrivici.",
+      "cta": {
+        "label": "Scrivici su WhatsApp",
+        "message": "Ciao C.PINSAI, vorrei sapere di più sulla vostra proposta per le cliniche."
+      }
     }
   ]
 }

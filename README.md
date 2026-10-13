@@ -21,7 +21,7 @@ Sito multi-pagina statico (Vite, nessun router): ogni pagina è un file HTML con
 ```
 index.html                  Landing: Hero → Dive → Self-Assessment → Numeri → CTA → Contatti
 soluzioni/index.html        Soluzioni: Tailored Service, Facilit-AI, "Le nostre proposte"
-proposte/index.html         Proposte: infrastrutture per settore (pill di navigazione + card premium)
+proposte/index.html         Le nostre demo: un settore alla volta (SegretarIA, Ristorazione, Palestre, Cliniche)
 public/favicon.svg
 src/
   pages/                    ingressi delle pagine (home, soluzioni, proposte), PageShell, PageContext
@@ -30,8 +30,10 @@ src/
     site.json               brand, navigazione, hero, dive, intro delle sezioni, contatti, footer, note legali
     assessment.json         Coffee Check: 4 domande con punteggio, domanda bonus, profili e frasi
     services.json           soluzioni (Tailored Service, Facilit-AI)
-    proposals.json          proposte per categoria (Segretaria, Ristorazione, Palestre): aggiungere una
-                            categoria qui aggiunge anche la sua pill
+    proposals.json          settori della pagina demo: "product" (presentazione a scorrimento, es.
+                            SegretarIA), "modules" (moduli selezionabili e richiedibili su WhatsApp,
+                            con demo incorporabile: campo `demo` = { type: "iframe" | "video", src })
+                            o "wip" (lavori in corso). Aggiungere un settore qui aggiunge la sua pill
     metrics.json            i quattro numeri e i rispettivi "perché"
   three/CupScene.js         la tazzina 3D (three.js), caricata in differita
   hooks/                    scroll (con smoothing), reveal, reduced motion
