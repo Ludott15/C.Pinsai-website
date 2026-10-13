@@ -5,7 +5,7 @@
 .check {
   position: relative;
   z-index: 4;
-  padding-block: clamp(32px, 4vw, 56px) calc(var(--section-pad) + clamp(40px, 7vw, 110px));
+  padding-block: clamp(32px, 4vw, 56px) calc(var(--section-gap) + var(--wave-h));
   background: var(--cream-50);
   color: var(--ink);
 }

@@ -22,6 +22,7 @@ import {
   WebGLRenderer,
 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { createSteam } from './Steam.js';
 
 /*
  * The hero cup: the C.PINSAI ceramic cup (src/assets/cpinsai-cup.glb).
@@ -35,6 +36,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
  * not from paint. A soft key from the top left casts real shadows (cup on saucer, saucer
  * on the table), and two back lights plus a studio environment draw bright rims along the
  * glossy edges, product-shot style. Base colours stay those of the model.
+ * Above the coffee, the brand's pink pixel steam with its floating bits (see Steam.js).
  */
 
 /* Model space (metres) → hero units. */
@@ -53,6 +55,11 @@ const COFFEE_EXPOSURE = 0.62;
 const COFFEE_GLOSS = { clearcoat: 0.5, specularIntensity: 0.5, envMapIntensity: 0.25 };
 const DARKEN_FROM = 0.36;
 const DARKEN_TO = 0.56;
+/** The pink steam fades out early in the dive, before the camera gets close. */
+const STEAM_FROM = 0.16;
+const STEAM_UNTIL = 0.44;
+/** Moment of the steam animation used for still renders. */
+const STILL_TIME = 1800;
 
 /*
  * Proportions, adjusted on the loaded geometry (model space, metres):
@@ -153,8 +160,12 @@ function ceramic(source, options) {
  * Creates the scene on `canvas`. Returns controls to feed it the scroll state and the layout
  * of the hero (where the cup box sits on the sticky stage).
  */
-export async function createCupScene({ canvas, modelUrl, maxPixelRatio = 2 }) {
-  const gltf = await new GLTFLoader().loadAsync(modelUrl);
+export async function createCupScene({ canvas, modelUrl, maxPixelRatio = 2, animate = true }) {
+  const [gltf] = await Promise.all([
+    new GLTFLoader().loadAsync(modelUrl),
+    /* The bits of the steam are drawn with the site's mono font. */
+    document.fonts?.load('700 52px "JetBrains Mono Variable"').catch(() => null),
+  ]);
 
   const renderer = new WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'high-performance' });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxPixelRatio));
@@ -239,6 +250,10 @@ export async function createCupScene({ canvas, modelUrl, maxPixelRatio = 2 }) {
   cup.position.y = -MODEL_COFFEE_Y * MODEL_SCALE;
   scene.add(cup);
 
+  /* Steam stays upright while the cup turns under it. */
+  const steam = createSteam();
+  scene.add(steam.group);
+
   /* The table: real shadow from the key light, plus a tight contact shade under the saucer. */
   const tableY = cup.position.y - 0.4;
   const groundGeometry = new PlaneGeometry(900, 900);
@@ -260,10 +275,11 @@ export async function createCupScene({ canvas, modelUrl, maxPixelRatio = 2 }) {
 
   const camera = new PerspectiveCamera(FOV, 1, 1, 20000);
   const layout = { width: 1, height: 1, x: 0.5, y: 0.5, unit: 1 };
-  const state = { turn: 0, tilt: 0, zoom: 1, darken: 0 };
+  const state = { turn: 0, tilt: 0, zoom: 1, darken: 0, steam: 1 };
   let active = true;
   let dirty = true;
   let frame = 0;
+  let last = 0;
 
   function placeCamera() {
     const distance = layout.height / (2 * Math.tan(MathUtils.degToRad(FOV / 2))) / layout.unit / state.zoom;
@@ -284,7 +300,8 @@ export async function createCupScene({ canvas, modelUrl, maxPixelRatio = 2 }) {
     camera.updateProjectionMatrix();
   }
 
-  function render() {
+  function render(time) {
+    steam.update(animate ? time : STILL_TIME, state.steam);
     cup.rotation.y = MathUtils.degToRad(state.turn);
     coffeeMaterials.forEach(({ material, base }) => {
       /* Lit colour out, flat (emissive) brown in: at the end the light no longer changes it. */
@@ -298,12 +315,14 @@ export async function createCupScene({ canvas, modelUrl, maxPixelRatio = 2 }) {
     renderer.render(scene, camera);
   }
 
-  /* Renders only when the scroll state or the layout change. */
-  function loop() {
+  /* Renders on scroll and layout changes, plus a 30 fps steam animation while it is visible. */
+  function loop(time) {
     frame = requestAnimationFrame(loop);
-    if (!dirty) return;
+    const steaming = animate && state.steam > 0;
+    if (!dirty && !(steaming && time - last > 33)) return;
     dirty = false;
-    render();
+    last = time;
+    render(time);
   }
 
   function start() {
@@ -323,6 +342,7 @@ export async function createCupScene({ canvas, modelUrl, maxPixelRatio = 2 }) {
       state.tilt = next['--tilt'];
       state.zoom = next['--zoom'];
       state.darken = MathUtils.smootherstep(next['--p'], DARKEN_FROM, DARKEN_TO);
+      state.steam = 1 - MathUtils.smoothstep(next['--p'], STEAM_FROM, STEAM_UNTIL);
       dirty = true;
     },
     setLayout({ width, height, x, y, unit }) {
@@ -349,6 +369,7 @@ export async function createCupScene({ canvas, modelUrl, maxPixelRatio = 2 }) {
         }
       });
       [groundGeometry, groundMaterial, contactGeometry, contactMaterial, contactMap].forEach((item) => item.dispose());
+      steam.dispose();
       environment.dispose();
       pmrem.dispose();
       renderer.dispose();

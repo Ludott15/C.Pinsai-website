@@ -3,7 +3,7 @@
    ========================================================================== */
 .teaser {
   position: relative;
-  padding-block: 0 calc(var(--section-pad) + clamp(40px, 7vw, 110px));
+  padding-block: 0 calc(var(--section-gap) + var(--wave-h));
   background: var(--cream);
 }
 
