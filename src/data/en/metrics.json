@@ -4,37 +4,37 @@
       "id": "efficiency",
       "value": 200,
       "suffix": "%",
-      "title": "Efficiency Increase",
-      "caption": "Average team productivity boost",
+      "title": "Efficiency Boost",
+      "caption": "Average team productivity gain",
       "code": "team.productivity",
-      "why": "Think of the last morning your team spent chasing files, emails and confirmations instead of working with customers. When a system takes care of those steps, the same people, in the same hours, get more work done. You notice it straight away in your deadlines: they stop piling up."
+      "why": "Think about the last morning your team spent chasing files, emails and confirmations instead of looking after customers. Once a system handles those steps, the same people get more done in the same hours, and you see it right away: deadlines stop piling up."
     },
     {
       "id": "time",
       "value": 60,
       "suffix": "%+",
       "title": "Time Saved",
-      "caption": "On manual operations",
+      "caption": "On manual work",
       "code": "manual.ops",
-      "why": "Copying data, sorting invoices, updating spreadsheets: work you know well and that doesn't grow the business. It always follows the same rules, which is exactly why it's the first thing that can be automated. The time freed up comes back to you, for the decisions only you can make."
+      "why": "Retyping data, sorting invoices, updating spreadsheets: you know these jobs well, and none of them grow your business. They always follow the same rules, which is exactly why they're the first to automate. The time you get back is yours again, for the decisions only you can make."
     },
     {
       "id": "precision",
       "value": 99,
       "suffix": "%",
-      "title": "Decision Accuracy",
+      "title": "Sharper Decisions",
       "caption": "Data-driven insights",
       "code": "decisions.data",
-      "why": "How many decisions do you make every week on incomplete or hand-updated numbers? When data comes from connected systems, the risk of a wrong copy-paste disappears. You decide on the same numbers everyone sees, and you do it with more peace of mind."
+      "why": "How many decisions do you make each week based on incomplete or hand-updated numbers? When your data comes from connected systems, copy-paste mistakes disappear. Everyone works from the same numbers, and you decide with more confidence."
     },
     {
       "id": "uptime",
       "value": 24,
       "suffix": "/7",
-      "title": "Always-on Operations",
-      "caption": "AI always active",
+      "title": "Always On",
+      "caption": "AI that never clocks out",
       "code": "ai.status",
-      "why": "Customers write in the evening, at weekends, while you're busy with someone else. An always-on system replies, logs the request and prepares it for you. The next morning you don't start from scratch: the work is already set up."
+      "why": "Customers write in the evening, at weekends, while you're with someone else. An always-on system replies, logs the request and gets it ready for you. Next morning you're not starting from scratch: the work is already lined up."
     }
   ],
   "whyLabel": "Why it matters"

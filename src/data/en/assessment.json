@@ -2,10 +2,10 @@
   "intro": {
     "index": "01",
     "kicker": "THE COFFEE CHECK",
-    "title": "Can We Help? Let's Run a Check.",
-    "subtitle": "Answer 4 simple questions. A few seconds are enough to see where your work can become simpler, faster and more automated.",
-    "concept": "Before we brew your coffee, let's see how much time you're losing.",
-    "startLabel": "Let's start",
+    "title": "Can We Help? Let's Find Out.",
+    "subtitle": "Four quick questions. In a few seconds you'll see where your work could get simpler, faster and more automated.",
+    "concept": "Before we brew your coffee, let's see how much time is slipping away.",
+    "startLabel": "Let's go",
     "meta": [
       "4 questions",
       "a few seconds",
@@ -23,10 +23,10 @@
     {
       "id": 1,
       "category": "TIME",
-      "label": "Where does the time go?",
+      "label": "Where does your time go?",
       "visual": "transfer",
-      "microcopy": "Let's see where we can lighten the load.",
-      "question": "In a typical week, how many hours do you estimate your team (or you yourself) spend copying data, filing invoices/receipts or manually entering orders/records from one system to another?",
+      "microcopy": "Let's find what's weighing you down.",
+      "question": "In a typical week, how many hours do you (or your team) spend retyping data, filing invoices and receipts, or manually moving orders and records from one system to another?",
       "answers": [
         {
           "label": "Less than 2 hours",
@@ -49,11 +49,11 @@
     {
       "id": 2,
       "category": "RESPONSE TIME",
-      "label": "HOW FAST DO YOU REPLY?",
+      "label": "HOW FAST DO YOU GET BACK TO PEOPLE?",
       "visual": "inbox",
-      "microcopy": "Your time is worth more than a series of clicks.",
-      "selectionMicrocopy": "A customer shouldn't have to wait while you work.",
-      "question": "When a customer asks for information, a quote or a service by email/WhatsApp outside business hours or while you're busy, what is the average time before they get a structured reply?",
+      "microcopy": "Your time is worth more than endless clicking.",
+      "selectionMicrocopy": "Customers shouldn't be kept waiting while you're busy.",
+      "question": "When a customer asks for information, a quote or a job by email or WhatsApp, out of hours or while you're busy, how long does it usually take before they get a proper reply?",
       "answers": [
         {
           "label": "Less than 15 min",
@@ -68,7 +68,7 @@
           "score": 3
         },
         {
-          "label": "Sometimes it gets forgotten",
+          "label": "Sometimes it slips through the cracks",
           "score": 4
         }
       ]
@@ -76,17 +76,17 @@
     {
       "id": 3,
       "category": "PROCESS DEPENDENCY",
-      "label": "What if someone were missing?",
+      "label": "What if someone's away?",
       "visual": "network",
-      "microcopy": "Almost there.",
-      "question": "If the key person who handles your front office, quotes or reception were suddenly away for 10 days, how much would your daily operations suffer?",
+      "microcopy": "Nearly there.",
+      "question": "If the person who runs your front desk, quotes or reception were suddenly off for 10 days, how hard would day-to-day operations be hit?",
       "answers": [
         {
-          "label": "No problem, all processes are automated and documented",
+          "label": "Not at all: every process is automated and documented",
           "score": 1
         },
         {
-          "label": "Some manageable slowdowns",
+          "label": "A few slowdowns, nothing we can't handle",
           "score": 2
         },
         {
@@ -98,25 +98,25 @@
     {
       "id": 4,
       "category": "CHANNELS",
-      "label": "Where do requests come from?",
+      "label": "Where do requests come in?",
       "visual": "channels",
-      "microcopy": "Last question.",
-      "question": "Through how many different channels do customer requests and operational documents reach you today?",
+      "microcopy": "Last one.",
+      "question": "How many different channels do customer requests and operational paperwork come through today?",
       "answers": [
         {
-          "label": "Single channel: we centralise everything in a dedicated management tool/CRM",
+          "label": "Just one: everything goes into a dedicated management system or CRM",
           "score": 1
         },
         {
-          "label": "2-3 channels: mostly mobile phone calls and office email",
+          "label": "2-3 channels: mostly calls to a mobile and the office email",
           "score": 2
         },
         {
-          "label": "Multichannel chaos (4+): owner's WhatsApp, email, social media, calls and scattered notes",
+          "label": "Multichannel chaos (4+): the owner's WhatsApp, email, social media, calls and sticky notes",
           "score": 3
         },
         {
-          "label": "Out of control: customers message us privately in the evening or at weekends on personal chats",
+          "label": "Out of control: customers message us privately in the evenings or at weekends",
           "score": 4
         }
       ]
@@ -124,16 +124,16 @@
   ],
   "result": {
     "title": "Your Coffee Check is ready.",
-    "subtitle": "We've found where your business could win back time, continuity and operating room.",
+    "subtitle": "We've spotted where your business could win back time, continuity and breathing room.",
     "receiptTitle": "Coffee Check receipt",
     "profileLabel": "Profile",
-    "nextQuestion": "Want to know where to start?",
+    "nextQuestion": "Not sure where to start?",
     "primaryCta": {
-      "label": "Let's talk over a coffee",
+      "label": "Let's talk over coffee",
       "href": "#contatti"
     },
     "secondaryCta": {
-      "label": "Discover the solutions",
+      "label": "Explore the solutions",
       "href": "#soluzioni"
     },
     "profiles": [
@@ -141,25 +141,25 @@
         "id": "solid",
         "min": 4,
         "max": 6,
-        "title": "OPERATIONS ALREADY SOLID",
-        "copy": "Your operations already seem to have a good structure. The next step could be finding where automation can turn the time you win back into growth.",
-        "quote": "When everything works, the right question isn't what to fix, but what to grow."
+        "title": "ALREADY RUNNING SMOOTHLY",
+        "copy": "Your operations already look well organised. The next step could be finding where automation can turn the time you save into growth.",
+        "quote": "When everything works, the question isn't what to fix: it's what to grow."
       },
       {
         "id": "recover",
         "min": 7,
         "max": 10,
-        "title": "ROOM TO WIN BACK",
-        "copy": "There are repetitive tasks and operational steps that could free up valuable time. This is exactly where a good infrastructure can start to make a difference.",
-        "quote": "Lost hours make no noise: you only notice them when you try to count them."
+        "title": "TIME TO WIN BACK",
+        "copy": "Some repetitive tasks and manual steps are eating up valuable time. That's exactly where the right infrastructure starts to make a difference.",
+        "quote": "Lost hours don't make a sound: you only notice them when you start counting."
       },
       {
         "id": "potential",
         "min": 11,
         "max": 16,
-        "title": "AUTOMATION POTENTIAL",
-        "copy": "A significant part of the work still seems to depend on manual tasks, response times or key people. Here automation could have a major impact on business continuity.",
-        "quote": "If you stopped tomorrow, what would stop with you? The answer is already a map of your priorities."
+        "title": "READY FOR AUTOMATION",
+        "copy": "A big part of your work still relies on manual tasks, slow replies or a few key people. This is where automation can make a real difference to keeping the business running.",
+        "quote": "If you stopped tomorrow, what would stop with you? The answer is already your list of priorities."
       }
     ]
   },
@@ -168,22 +168,22 @@
     "category": "BONUS",
     "label": "On the house",
     "visual": "clock",
-    "microcopy": "One more question.",
-    "question": "If from next Monday you could magically win back 25% of the time spent on repetitive tasks, what would you invest it in first?",
+    "microcopy": "Just one more.",
+    "question": "If next Monday you could magically get back 25% of the time you spend on repetitive tasks, what would you do with it first?",
     "answers": [
       {
-        "label": "Closing more deals / serving more customers"
+        "label": "Win more clients / take on more work"
       },
       {
-        "label": "Improving the quality of service"
+        "label": "Raise the quality of our service"
       },
       {
-        "label": "Reducing stress"
+        "label": "Take some stress off"
       }
     ],
     "week": {
       "label": "1 week",
-      "recovered": "25% won back",
+      "recovered": "25% back",
       "days": [
         "M",
         "T",

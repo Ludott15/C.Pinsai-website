@@ -5,14 +5,14 @@
     "toggleLabel": "WhatsApp request",
     "barSelected": "Modules selected: {count}",
     "panelTitle": "Your request",
-    "emptyText": "Select one or more modules and talk to us about them on WhatsApp.",
+    "emptyText": "Pick one or more modules and chat with us about them on WhatsApp.",
     "goTo": "Go to module",
     "sendLabel": "Request on WhatsApp",
-    "message": "Hi C.PINSAI, I'd like to receive information about: {modules} ({section})."
+    "message": "Hi C.PINSAI, I'd like to know more about: {modules} ({section})."
   },
   "demo": {
     "label": "Demo",
-    "pending": "The demo of this module is being prepared.",
+    "pending": "The demo for this module is on its way.",
     "frameTitle": "Demo: {module}"
   },
   "sections": [
@@ -22,47 +22,47 @@
       "type": "product",
       "name": "Segretar",
       "nameAccent": "IA",
-      "lead": "Your new right hand for messages, reminders, accounting and customers: she works quietly and asks for your confirmation when needed.",
+      "lead": "Your new right hand for messages, reminders, accounting and clients: she works quietly in the background and checks with you when it matters.",
       "disclaimer": {
         "title": "Human-in-the-loop",
-        "text": "It means you always have the final say. The AI prepares, suggests and organises; a person checks and decides. Every message proposed by SegretarIA goes through you: you can approve it as it is or personalise it before it's sent."
+        "text": "It means you always have the last word. The AI drafts, suggests and organises; a person reviews and decides. Every message SegretarIA prepares goes through you: approve it as it is, or tweak it before it's sent."
       },
       "features": [
         {
           "id": "messages",
           "visual": "messages",
           "title": "Incoming and outgoing messages",
-          "text": "SegretarIA reads your customers' requests and suggests a reply. You approve it with a tap, or personalise it by hand before sending it."
+          "text": "SegretarIA reads your customers' messages and drafts a reply. Approve it with a tap, or edit it yourself before it goes out."
         },
         {
           "id": "reminders",
           "visual": "reminders",
-          "title": "Customer reminders, automatically",
-          "text": "You set them up as you need: a reminder the day before an appointment to ask for confirmation, or as often as you decide to remember a deadline or a follow-up. Great for customer loyalty."
+          "title": "Automatic customer reminders",
+          "text": "Set them up the way you need: a reminder the day before an appointment asking to confirm, or a recurring nudge for a renewal or a follow-up. Great for keeping customers coming back."
         },
         {
           "id": "accounting",
           "visual": "accounting",
-          "title": "Your accounting in one dashboard",
-          "text": "Income, expenses and deadlines in one place, with reminders for customers' unpaid invoices."
+          "title": "Your finances on one dashboard",
+          "text": "Income, expenses and due dates in one place, with reminders for customers who haven't paid."
         },
         {
           "id": "crm",
           "visual": "crm",
-          "title": "A tailor-made CRM",
-          "text": "It keeps track of all your customers: who they are, what they asked for, when you last heard from them."
+          "title": "A CRM made for you",
+          "text": "Keeps track of every customer: who they are, what they asked for, and when you last spoke."
         },
         {
           "id": "reports",
           "visual": "reports",
-          "title": "Weekly statistics and reports",
-          "text": "Every week a report to see the results achieved. On top of that, SegretarIA adds a short comment with her analysis."
+          "title": "Weekly stats and reports",
+          "text": "A weekly report shows you how things are going, and SegretarIA adds a short note with her own take on the numbers."
         }
       ],
-      "example": "Already have someone answering your customers? Well, from today you can also call them ‘Customer Success Specialist’, while SegretarIA takes care of the repetitive paperwork.",
+      "example": "Already have someone answering customers? Great: from today their title can be ‘Customer Success Specialist’, while SegretarIA handles the repetitive paperwork.",
       "closing": {
         "title": "Did you know?",
-        "text": "Meta's bot (WhatsApp, Facebook, Instagram) doesn't allow a process with built-in Human-in-the-loop (explained above). We found a way to solve this problem, giving life to your new, irreplaceable right hand: SegretarIA."
+        "text": "Meta's bots (WhatsApp, Facebook, Instagram) don't support a built-in human-in-the-loop process like the one described above. We found a way around it, and that's how SegretarIA was born: your new, irreplaceable right hand."
       },
       "cta": {
         "label": "Try It Free for a Month!",
@@ -81,24 +81,24 @@
           "title": "Module",
           "titleAccent": "Events",
           "paragraphs": [
-            "A solution for your event venue that lets your customers design their next tailor-made experience, completely on their own.",
-            "This process cuts out countless messages and pointless waiting times, bringing more organisation to your venue and very accurate internal tracking of your statistics."
+            "A solution for event venues that lets your clients plan their perfect event themselves, from start to finish.",
+            "It cuts out endless back-and-forth messages and waiting, keeps your venue better organised, and gives you precise tracking of your own numbers."
           ],
           "steps": [
             {
               "label": "From home",
-              "detail": "the customer opens the event"
+              "detail": "the client starts planning the event"
             },
             {
-              "label": "Personalise",
-              "detail": "chooses and edits the details"
+              "label": "Customise",
+              "detail": "they choose and tweak every detail"
             },
             {
-              "label": "At the venue",
-              "detail": "everything arrives already organised"
+              "label": "On the day",
+              "detail": "everything is ready and organised"
             }
           ],
-          "example": "And who knows, maybe the next wedding will be an Uzbek couple's.",
+          "example": "Who knows, maybe your next wedding will be for a couple from Uzbekistan.",
           "demo": null,
           "accentFirst": true
         },
@@ -107,19 +107,19 @@
           "code": "restaurants/classic",
           "title": "Module",
           "titleAccent": "Classic",
-          "lead": "Everything you need in one place.",
+          "lead": "Everything you need, all in one place.",
           "paragraphs": [
-            "A complete operational infrastructure, not just a management tool: every department talks to the others."
+            "A complete operational backbone, not just another management app: every part of the business talks to the others."
           ],
           "features": [
             "Bookings",
             "Customer requests",
             "Staff management",
             "Stock management",
-            "Deadline management",
+            "Deadlines",
             "Appointments",
             "Automations to win new customers",
-            "Automations for customer loyalty"
+            "Automations to keep customers loyal"
           ],
           "featuresLabel": "All in one place",
           "demo": null,
@@ -127,8 +127,8 @@
         }
       ],
       "description": [
-        "Imagine changing the price of your event menu or the toppings on your ‘special’ pizza with a single click.",
-        "No more calling the technician at 7 pm and hoping they can help: our proposals are change-proof!"
+        "Imagine updating the price of your event menu, or the toppings on your ‘special’ pizza, in a single click.",
+        "No more calling the IT guy at 7 pm and hoping for the best: our solutions are built to change with you!"
       ]
     },
     {
@@ -137,14 +137,14 @@
       "type": "product",
       "status": "Coming soon",
       "name": "Infrastructure for ",
-      "lead": "Your best tool if you own a gym: it changes the way you build customer loyalty and revolutionises their Training experience",
-      "intro": "Three connected dashboards, each designed for the person using it: whoever manages, whoever coaches, whoever trains.",
+      "lead": "The best tool a gym owner can have: it changes how you keep members loyal and transforms their training experience",
+      "intro": "Three connected dashboards, each built for the person using it: the one who runs the gym, the one who coaches, and the one who trains.",
       "nameAccent": "Gyms",
       "accent": "rose",
       "wip": {
         "title": "The dashboards",
         "badge": "Work in progress",
-        "text": "We're building the three dashboards. If you run a gym and want to know how far along we are, write to us.",
+        "text": "We're building the three dashboards right now. Run a gym and want to know where we're at? Drop us a line.",
         "cta": {
           "label": "Write to us on WhatsApp",
           "message": "Hi C.PINSAI, I'd like information about the Infrastructure for Gyms."
@@ -157,7 +157,7 @@
       "type": "wip",
       "title": "Workshops",
       "badge": "Work in progress",
-      "text": "We're preparing this section. If you run a workshop and want to know how far along we are, write to us.",
+      "text": "We're working on this section. Run a workshop and want to know where we're at? Drop us a line.",
       "cta": {
         "label": "Write to us on WhatsApp",
         "message": "Hi C.PINSAI, I'd like to know more about your proposal for workshops."
