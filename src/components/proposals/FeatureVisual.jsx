@@ -1,38 +1,37 @@
+import { useUi } from '../../pages/PageContext.jsx';
+
 /*
  * Small moving interfaces that show each feature at work. They are illustrations:
  * no real data, decorative for assistive technologies (the text beside them says it all).
  */
 
 function Messages() {
+  const t = useUi().fv;
   return (
     <div className="fv fv--messages">
-      <p className="fv__bubble fv__bubble--in">Buongiorno, posso spostare l'appuntamento a giovedì?</p>
+      <p className="fv__bubble fv__bubble--in">{t.messagesIn}</p>
       <div className="fv__suggest">
-        <span className="fv__label">Suggerimento di SegretarIA</span>
+        <span className="fv__label">{t.messagesSuggestion}</span>
         <span className="fv__slot">
           <span className="fv__typing">
             <i />
             <i />
             <i />
           </span>
-          <span className="fv__suggest-text">Certo! Giovedì alle 10:00 le va bene?</span>
+          <span className="fv__suggest-text">{t.messagesReply}</span>
         </span>
         <span className="fv__actions">
-          <b className="fv__approve">Approva</b>
-          <b>Modifica</b>
+          <b className="fv__approve">{t.approve}</b>
+          <b>{t.edit}</b>
         </span>
       </div>
-      <p className="fv__bubble fv__bubble--out">Certo! Giovedì alle 10:00 le va bene?</p>
+      <p className="fv__bubble fv__bubble--out">{t.messagesReply}</p>
     </div>
   );
 }
 
 function Reminders() {
-  const rows = [
-    ['1 giorno prima', 'Conferma appuntamento'],
-    ['Ogni tot mesi, decidi tu', 'Richiamo cliente'],
-    ['In scadenza', 'Rinnovo da ricordare'],
-  ];
+  const rows = useUi().fv.reminders;
   return (
     <ol className="fv fv--reminders">
       {rows.map(([when, what], index) => (
@@ -47,6 +46,7 @@ function Reminders() {
 }
 
 function Accounting() {
+  const t = useUi().fv;
   return (
     <div className="fv fv--accounting">
       <div className="fv__bars">
@@ -56,19 +56,14 @@ function Accounting() {
       </div>
       <p className="fv__alert">
         <span className="fv__bell" />
-        Promemoria insoluto inviato
+        {t.accountingAlert}
       </p>
     </div>
   );
 }
 
 function Crm() {
-  const rows = [
-    ['MR', 'Cliente dal 2021', 'Fedele'],
-    ['GB', 'Ultimo contatto: ieri', 'Da richiamare'],
-    ['LS', 'Nuovo cliente', 'Primo appuntamento'],
-    ['AP', 'Ultimo contatto: 3 mesi fa', 'Richiamo'],
-  ];
+  const rows = useUi().fv.crm;
   return (
     <ul className="fv fv--crm">
       {rows.map(([initials, note, tag], index) => (
@@ -84,6 +79,7 @@ function Crm() {
 }
 
 function Reports() {
+  const t = useUi().fv;
   return (
     <div className="fv fv--reports">
       <svg viewBox="0 0 240 90" preserveAspectRatio="none">
@@ -91,7 +87,7 @@ function Reports() {
         <path className="fv__trend" d="M0 78 L30 70 L60 74 L90 56 L120 60 L150 40 L180 44 L210 26 L240 18" pathLength="100" />
       </svg>
       <div className="fv__comment">
-        <span className="fv__label">Il commento di SegretarIA</span>
+        <span className="fv__label">{t.reportsComment}</span>
         <span className="fv__skeleton" />
         <span className="fv__skeleton fv__skeleton--short" />
       </div>

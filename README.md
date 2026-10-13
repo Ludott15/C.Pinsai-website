@@ -21,12 +21,14 @@ Sito multi-pagina statico (Vite, nessun router): ogni pagina è un file HTML con
 ```
 index.html                  Landing: Hero → Dive → Self-Assessment → Soluzioni → Numeri → Contatti
 soluzioni/index.html        redirect ai vecchi link: le Soluzioni ora sono nella home (#soluzioni)
+en/…                        versione inglese delle stesse pagine
 proposte/index.html         Le nostre demo: un settore alla volta (SegretarIA, Ristorazione, Palestre, Officine) + Contatti
 public/favicon.svg
 src/
   pages/                    ingressi delle pagine (home, proposte), PageShell, PageContext
                             (i link sono relativi, risolti da useHref: funzionano da qualsiasi cartella)
-  data/                     tutti i contenuti, modificabili senza toccare React
+  data/                     tutti i contenuti, modificabili senza toccare React: una cartella per lingua
+                            (it/, en/, stessi file) + index.js che le registra; ui.json = scritte dei componenti
     site.json               brand, navigazione, hero, dive, intro delle sezioni, contatti, footer, note legali
     assessment.json         Coffee Check: 4 domande con punteggio, domanda bonus, profili e frasi
     services.json           soluzioni (Tailored Service, Facilit-AI)
@@ -68,10 +70,21 @@ copre lo schermo e lascia il posto all'onda del Coffee Check.
 Il risultato è la somma dei punteggi, mappata sui range dei `profiles`. Per aggiungere o modificare domande
 basta il JSON; il campo `visual` sceglie uno dei visual esistenti (`transfer`, `inbox`, `network`, `channels`, `clock`).
 
-**Contatti.** Il sito è statico: il form valida i campi lato client e invia nome, email e messaggio a
-`contact.form.recipient` (cpinsai02@gmail.com) tramite FormSubmit (`https://formsubmit.co/ajax/…`), senza backend.
-Al primo invio FormSubmit manda a quell'indirizzo un'email di attivazione da confermare una volta sola.
-Se l'invio fallisce, il visitatore può spedire lo stesso messaggio dalla propria app email (link `mailto:`).
+**Contatti.** Il form valida i campi lato client e invia nome, email e messaggio a cpinsai02@gmail.com:
+1. tramite la funzione serverless `api/contact.js` (Vercel), che spedisce con l'account Gmail indicato nelle
+   variabili d'ambiente del progetto Vercel: `GMAIL_USER` (es. cpinsai02@gmail.com) e `GMAIL_APP_PASSWORD`
+   (una "password per le app" di Google, richiede la verifica in due passaggi). Facoltativa: `CONTACT_TO`;
+2. se la funzione non è configurata o non risponde (es. `npm run dev`), tramite FormSubmit; al primo invio
+   FormSubmit manda a cpinsai02@gmail.com un'email di attivazione da confermare una volta sola;
+3. se entrambi falliscono, il visitatore può spedire lo stesso messaggio dalla propria app email (`mailto:`).
+Un campo nascosto (honeypot) scarta i bot.
+
+**Lingue.** I testi stanno in `src/data/<lingua>/` (`it` e `en`, stessa struttura: site, assessment, services,
+proposals, metrics e `ui` per le scritte dei componenti). Le pagine italiane sono alla radice, quelle inglesi in
+`/en/` (`en/index.html`, `en/proposte/index.html`): lo stesso script legge `<html lang>` e usa i testi giusti.
+Il selettore IT | EN nella barra porta alla stessa pagina nell'altra lingua, mantenendo la sezione (#hash).
+Per aggiungere una lingua: copiare `src/data/it`, tradurre, registrarla in `src/data/index.js` e creare le sue
+pagine HTML (più gli input in `vite.config.js`).
 
 ## Accessibilità
 

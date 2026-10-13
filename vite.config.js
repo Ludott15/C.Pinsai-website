@@ -14,6 +14,8 @@ export default defineConfig({
         home: resolve(import.meta.dirname, 'index.html'),
         soluzioni: resolve(import.meta.dirname, 'soluzioni/index.html'),
         proposte: resolve(import.meta.dirname, 'proposte/index.html'),
+        homeEn: resolve(import.meta.dirname, 'en/index.html'),
+        proposteEn: resolve(import.meta.dirname, 'en/proposte/index.html'),
       },
     },
   },

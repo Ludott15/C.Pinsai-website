@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import Logo from './Logo.jsx';
-import { useHref, usePage } from '../pages/PageContext.jsx';
+import LanguageSwitch from './LanguageSwitch.jsx';
+import { useHref, usePage, useUi } from '../pages/PageContext.jsx';
+import { fillTemplate } from '../utils/text.js';
 
 const DESKTOP_QUERY = '(min-width: 960px)';
 
@@ -66,6 +68,7 @@ function useScrollState(offset = 24) {
 export default function Header({ brand, navigation, cta }) {
   const [open, setOpen] = useState(false);
   const page = usePage();
+  const ui = useUi();
   const toHref = useHref();
   const [hrefs] = useState(() => navigation.map((item) => item.href));
   const activeSection = useActiveSection(hrefs, page.id === 'home');
@@ -120,13 +123,15 @@ export default function Header({ brand, navigation, cta }) {
       onBlur={(event) => !event.currentTarget.contains(event.relatedTarget) && setFocusInside(false)}
     >
       <div className="header__bar">
-        <a href={toHref('#home')} className="header__brand" aria-label={`${brand.name} — torna all'inizio`}>
+        <a href={toHref('#home')} className="header__brand" aria-label={fillTemplate(ui.brandHome, { brand: brand.name })}>
           <Logo name={brand.name} />
         </a>
 
-        <nav className="nav nav--desktop" aria-label="Principale">
+        <nav className="nav nav--desktop" aria-label={ui.navMain}>
           <ul>{links}</ul>
         </nav>
+
+        <LanguageSwitch className="lang--header" />
 
         <a href={toHref(cta.href)} className="header__cta">
           {cta.label}
@@ -140,7 +145,7 @@ export default function Header({ brand, navigation, cta }) {
           aria-controls="mobile-nav"
           onClick={() => setOpen((value) => !value)}
         >
-          <span className="visually-hidden">{open ? 'Chiudi il menu' : 'Apri il menu'}</span>
+          <span className="visually-hidden">{open ? ui.menuClose : ui.menuOpen}</span>
           <span className="header__toggle-icon" aria-hidden="true" />
         </button>
       </div>
@@ -149,10 +154,11 @@ export default function Header({ brand, navigation, cta }) {
         id="mobile-nav"
         ref={panelRef}
         className="nav nav--mobile"
-        aria-label="Principale (mobile)"
+        aria-label={ui.navMobile}
         hidden={!open}
       >
         <ul>{links}</ul>
+        <LanguageSwitch className="lang--mobile" />
       </nav>
     </header>
   );

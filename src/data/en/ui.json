@@ -1,0 +1,105 @@
+{
+  "skipLink": "Skip to content",
+  "brandHome": "{brand} — back to the top",
+  "navMain": "Main",
+  "navMobile": "Main (mobile)",
+  "menuOpen": "Open the menu",
+  "menuClose": "Close the menu",
+  "language": "Language",
+  "languageNames": {
+    "it": "Italiano",
+    "en": "English"
+  },
+  "close": "Close",
+  "cupLabel": "{brand} coffee cup in ivory ceramic with a blue rim and logo, with pink steam made of pixels and bits",
+  "inBrief": "In short",
+  "progress": {
+    "label": "Coffee Check progress",
+    "question": "Question {n}",
+    "bonus": "Bonus question",
+    "current": "in progress",
+    "todo": "to do",
+    "done": "completed"
+  },
+  "receiptFoot": "espresso ··· 01000011 ··· thank you",
+  "formTicket": [
+    "order.new()",
+    "espresso × 1"
+  ],
+  "viz": {
+    "transferFile": "invoice_0427.pdf",
+    "transferTarget": "management tool",
+    "transferTrack": "copy · paste · repeat",
+    "transferCaption": "Hours per week: {value}",
+    "inboxNew": "New message · 9:47 pm",
+    "inboxIn": "Good evening, I'd need a quote for Thursday. Could you let me know?",
+    "inboxOut": "Of course! Here's your detailed quote.",
+    "inboxWaiting": "waiting for a reply",
+    "inboxForgotten": "no reply",
+    "inboxAnswered": "reply sent",
+    "networkKey": "key person",
+    "networkCaption": "Processes: {value}",
+    "networkStates": [
+      "running",
+      "slowed down",
+      "stopped"
+    ],
+    "channels": {
+      "crm": "CRM",
+      "phone": "mobile",
+      "email": "email",
+      "whatsapp": "whatsapp",
+      "social": "social",
+      "notes": "scattered notes",
+      "private": "private chat · 11:14 pm"
+    },
+    "channelsHub": "requests",
+    "channelsCaption": "Active channels: {value}",
+    "clockCaption": "Time given back → {value}"
+  },
+  "fv": {
+    "messagesIn": "Good morning, can I move my appointment to Thursday?",
+    "messagesSuggestion": "SegretarIA's suggestion",
+    "messagesReply": "Of course! Does Thursday at 10:00 work for you?",
+    "approve": "Approve",
+    "edit": "Edit",
+    "reminders": [
+      [
+        "1 day before",
+        "Appointment confirmation"
+      ],
+      [
+        "Every few months, you decide",
+        "Customer follow-up"
+      ],
+      [
+        "Expiring",
+        "Renewal to remember"
+      ]
+    ],
+    "accountingAlert": "Unpaid invoice reminder sent",
+    "crm": [
+      [
+        "MR",
+        "Customer since 2021",
+        "Loyal"
+      ],
+      [
+        "GB",
+        "Last contact: yesterday",
+        "To call back"
+      ],
+      [
+        "LS",
+        "New customer",
+        "First appointment"
+      ],
+      [
+        "AP",
+        "Last contact: 3 months ago",
+        "Follow-up"
+      ]
+    ],
+    "reportsComment": "SegretarIA's comment"
+  }
+}

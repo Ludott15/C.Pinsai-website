@@ -1,0 +1,168 @@
+{
+  "brand": {
+    "name": "C.PINSAI",
+    "description": "Solutions to streamline your everyday work."
+  },
+  "navigation": [
+    {
+      "label": "Home",
+      "href": "#home"
+    },
+    {
+      "label": "Self-Assessment",
+      "href": "#coffee-check"
+    },
+    {
+      "label": "Solutions",
+      "href": "#soluzioni"
+    },
+    {
+      "label": "Our demos",
+      "href": "proposte/",
+      "page": "proposte"
+    },
+    {
+      "label": "Contact",
+      "href": "#contatti"
+    }
+  ],
+  "navCta": {
+    "label": "Let's talk",
+    "href": "#contatti"
+  },
+  "hero": {
+    "headline": [
+      "As easy as a coffee,",
+      "but we brew it for you."
+    ],
+    "subheadline": "Coffee, code and people. We train AI to be the conductor of your infrastructure.",
+    "cta": {
+      "label": "Start the Self-Assessment",
+      "href": "#coffee-check"
+    },
+    "scrollHint": "Scroll to dive into the coffee",
+    "banner": {
+      "badge": "New",
+      "text": "SegretarIA has arrived: she handles the paperwork, you always have the final say.",
+      "cta": "Discover it",
+      "href": "proposte/#segretaria"
+    }
+  },
+  "dive": {
+    "label": "Dive into coffee",
+    "title": "Beneath the crema, there's code.",
+    "steps": [
+      "Coffee",
+      "Analysis",
+      "Test",
+      "Solution"
+    ]
+  },
+  "solutionsIntro": {
+    "index": "02",
+    "kicker": "Solutions",
+    "title": "Your AI Solution",
+    "subtitle": "Pick one of our core packages and book a consultation to tailor the right service to you"
+  },
+  "metricsIntro": {
+    "index": "03",
+    "kicker": "Numbers",
+    "title": "The Numbers Speak for Themselves",
+    "subtitle": "Concrete results our partner companies have achieved",
+    "hint": "Tap a number to find out why it matters.",
+    "hintDesktop": "Hover over a number or click it to find out why it matters."
+  },
+  "contact": {
+    "index": "04",
+    "kicker": "Contact",
+    "title": "Let's Talk Over a Coffee",
+    "subtitle": "Virtual or in person, we're here to listen and build the right solution for you",
+    "phoneDisplay": "+39 339 427 7111",
+    "phoneE164": "+393394277111",
+    "whatsappLabel": "Message us on WhatsApp",
+    "whatsappGreeting": "Hi C.PINSAI, I'd like to talk about a project.",
+    "copyLabel": "Copy number",
+    "copiedLabel": "Number copied",
+    "copyErrorLabel": "Copy failed: please select the number manually",
+    "form": {
+      "title": "Or tell us everything here",
+      "note": "Your message goes straight to our inbox: we'll reply to the address you leave us.",
+      "submitLabel": "Send message",
+      "fields": {
+        "name": {
+          "label": "Name",
+          "placeholder": "Your name",
+          "errorRequired": "Please enter your name.",
+          "errorShort": "Your name must be at least 2 characters long."
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "you@email.com",
+          "errorRequired": "Please enter your email.",
+          "errorInvalid": "Check your email: something seems to be missing (e.g. name@domain.com)."
+        },
+        "message": {
+          "label": "Message",
+          "placeholder": "Tell us about your project...",
+          "hint": "At least 10 characters: a couple of lines is plenty.",
+          "errorRequired": "Please write your message.",
+          "errorShort": "Your message must be at least 10 characters long."
+        }
+      },
+      "errorSummary": "Some fields need fixing before you continue.",
+      "successTitle": "Message sent.",
+      "successText": "Thank you! We'll get back to you as soon as possible at the email you left us.",
+      "openLinkLabel": "Open your email",
+      "messageTemplate": "Hi C.PINSAI, I'm {name} ({email}).\n\n{message}",
+      "sendingLabel": "Sending…",
+      "recipient": "cpinsai02@gmail.com",
+      "subject": "New message from the C.PINSAI website",
+      "failedText": "Sending failed. Please try again in a moment, or write to us from your own email:"
+    },
+    "phoneLabel": "Phone"
+  },
+  "footer": {
+    "tagline": "Coffee, code and people. We train AI to be the conductor of your infrastructure.",
+    "navTitle": "Sections",
+    "contactTitle": "Contact",
+    "legalTitle": "Legal",
+    "rights": "All rights reserved.",
+    "signature": "Made with care, served hot."
+  },
+  "legal": [
+    {
+      "id": "privacy",
+      "label": "Privacy",
+      "title": "Privacy",
+      "paragraphs": [
+        "This website does not store the data entered in the contact form on its own servers.",
+        "When you submit the form, your name, email and message are emailed to our inbox (cpinsai02@gmail.com), through our Gmail account or, as a fallback, the FormSubmit service, and used only to reply to you.",
+        "For any request about your data you can contact us at +39 339 427 7111."
+      ]
+    },
+    {
+      "id": "cookie",
+      "label": "Cookies",
+      "title": "Cookies",
+      "paragraphs": [
+        "This website does not use cookies, neither technical nor profiling ones, and does not include third-party tracking tools.",
+        "Fonts are served directly by the website, with no requests to external services."
+      ]
+    }
+  ],
+  "proposalsTeaser": {
+    "title": "Our proposals",
+    "text": "Not just another management tool: an operational infrastructure built around your industry.",
+    "cta": {
+      "label": "Explore our proposals",
+      "href": "proposte/"
+    }
+  },
+  "proposalsIntro": {
+    "index": "02",
+    "kicker": "Our demos",
+    "title": "Our proposals",
+    "subtitle": "Not just another management tool: an operational infrastructure built around your industry.",
+    "navLabel": "Industries"
+  }
+}

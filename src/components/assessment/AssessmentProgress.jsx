@@ -1,6 +1,9 @@
-const stateLabel = (index, current, selections) => {
-  if (index === current) return 'in corso';
-  return selections[index] === null ? 'da completare' : 'completata';
+import { useUi } from '../../pages/PageContext.jsx';
+import { fillTemplate } from '../../utils/text.js';
+
+const stateLabel = (index, current, selections, t) => {
+  if (index === current) return t.current;
+  return selections[index] === null ? t.todo : t.done;
 };
 
 /**
@@ -8,6 +11,7 @@ const stateLabel = (index, current, selections) => {
  * (growing in) when the bonus question itself is on screen.
  */
 export default function AssessmentProgress({ current, segments, selections, label, microcopy, bonus }) {
+  const t = useUi().progress;
   return (
     <div className="progress">
       <div className="progress__head">
@@ -16,7 +20,7 @@ export default function AssessmentProgress({ current, segments, selections, labe
       </div>
       <ol
         className="progress__segments"
-        aria-label="Avanzamento del Coffee Check"
+        aria-label={t.label}
         style={{ '--segments': segments }}
       >
         {Array.from({ length: segments }, (_, index) => {
@@ -29,7 +33,7 @@ export default function AssessmentProgress({ current, segments, selections, labe
               aria-current={index === current ? 'step' : undefined}
             >
               <span className="visually-hidden">
-                {isBonus ? 'Domanda bonus' : `Domanda ${index + 1}`}: {stateLabel(index, current, selections)}
+                {isBonus ? t.bonus : fillTemplate(t.question, { n: index + 1 })}: {stateLabel(index, current, selections, t)}
               </span>
             </li>
           );

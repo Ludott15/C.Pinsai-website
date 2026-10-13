@@ -1,7 +1,8 @@
-import { useHref } from '../../pages/PageContext.jsx';
+import { useHref, useUi } from '../../pages/PageContext.jsx';
 
 export default function AssessmentResult({ result, profile, questions, selections, onRestart, restartLabel }) {
   const toHref = useHref();
+  const ui = useUi();
 
   return (
     <div className="result">
@@ -27,7 +28,7 @@ export default function AssessmentResult({ result, profile, questions, selection
             ))}
           </dl>
           <p className="receipt__foot" aria-hidden="true">
-            espresso ··· 01000011 ··· grazie
+            {ui.receiptFoot}
           </p>
         </article>
 
