@@ -305,11 +305,6 @@
   text-underline-offset: 6px;
 }
 
-.phone__email {
-  font-size: clamp(1.125rem, 0.95rem + 0.8vw, 1.5rem);
-  overflow-wrap: anywhere;
-}
-
 .phone__copy {
   display: inline-flex;
   align-items: center;

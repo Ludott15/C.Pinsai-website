@@ -68,9 +68,10 @@ copre lo schermo e lascia il posto all'onda del Coffee Check.
 Il risultato è la somma dei punteggi, mappata sui range dei `profiles`. Per aggiungere o modificare domande
 basta il JSON; il campo `visual` sceglie uno dei visual esistenti (`transfer`, `inbox`, `network`, `channels`, `clock`).
 
-**Contatti.** Il sito è statico: il form valida i campi lato client e compone un messaggio WhatsApp
-precompilato verso il numero in `site.json` (`contact.phoneE164`). Se il browser blocca la nuova scheda,
-viene mostrato un link manuale.
+**Contatti.** Il sito è statico: il form valida i campi lato client e invia nome, email e messaggio a
+`contact.form.recipient` (cpinsai02@gmail.com) tramite FormSubmit (`https://formsubmit.co/ajax/…`), senza backend.
+Al primo invio FormSubmit manda a quell'indirizzo un'email di attivazione da confermare una volta sola.
+Se l'invio fallisce, il visitatore può spedire lo stesso messaggio dalla propria app email (link `mailto:`).
 
 ## Accessibilità
 

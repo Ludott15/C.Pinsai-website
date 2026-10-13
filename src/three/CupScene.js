@@ -3,6 +3,7 @@ import {
   CanvasTexture,
   Color,
   DirectionalLight,
+  Euler,
   Group,
   HemisphereLight,
   MathUtils,
@@ -14,14 +15,17 @@ import {
   PerspectiveCamera,
   PlaneGeometry,
   PMREMGenerator,
+  Raycaster,
   Scene,
   ShadowMaterial,
   SphereGeometry,
   SRGBColorSpace,
   TorusGeometry,
+  Vector3,
   WebGLRenderer,
 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { DecalGeometry } from 'three/examples/jsm/geometries/DecalGeometry.js';
 import { createSteam } from './Steam.js';
 
 /*
@@ -101,6 +105,42 @@ function reshape(node) {
   position.needsUpdate = true;
 }
 
+/** The wordmark printed on the front face, as in the header: C, pink dot, PINSAI. */
+const LOGO = { name: 'C.PINSAI', width: 0.05, y: 0.044, color: '#4B2D20', dot: '#E04A95' };
+
+function logoTexture() {
+  const [initial, rest] = LOGO.name.split('.');
+  const canvas = document.createElement('canvas');
+  canvas.width = 1024;
+  canvas.height = 256;
+  const context = canvas.getContext('2d');
+  const size = 150;
+  context.font = `800 ${size}px "Bricolage Grotesque Variable", ui-sans-serif, sans-serif`;
+  if ('letterSpacing' in context) context.letterSpacing = `${-0.03 * size}px`;
+  context.textBaseline = 'alphabetic';
+  const dot = size * 0.3;
+  const gap = size * 0.06;
+  const a = context.measureText(initial).width;
+  const b = context.measureText(rest).width;
+  const total = a + gap + dot + gap + b;
+  let x = (canvas.width - total) / 2;
+  const baseline = 128 + size * 0.36;
+  context.fillStyle = LOGO.color;
+  context.fillText(initial, x, baseline);
+  x += a + gap;
+  context.fillStyle = LOGO.dot;
+  context.beginPath();
+  context.arc(x + dot / 2, baseline - dot / 2, dot / 2, 0, Math.PI * 2);
+  context.fill();
+  x += dot + gap;
+  context.fillStyle = LOGO.color;
+  context.fillText(rest, x, baseline);
+  const texture = new CanvasTexture(canvas);
+  texture.colorSpace = SRGBColorSpace;
+  texture.anisotropy = 8;
+  return { texture, aspect: canvas.width / canvas.height };
+}
+
 /* Contact shadow: the darkest, tightest shade right under the saucer. */
 function contactTexture() {
   const canvas = document.createElement('canvas');
@@ -165,6 +205,7 @@ export async function createCupScene({ canvas, modelUrl, maxPixelRatio = 2, anim
     new GLTFLoader().loadAsync(modelUrl),
     /* The bits of the steam are drawn with the site's mono font. */
     document.fonts?.load('700 52px "JetBrains Mono Variable"').catch(() => null),
+    document.fonts?.load('800 150px "Bricolage Grotesque Variable"').catch(() => null),
   ]);
 
   const renderer = new WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'high-performance' });
@@ -249,6 +290,39 @@ export async function createCupScene({ canvas, modelUrl, maxPixelRatio = 2, anim
   cup.scale.setScalar(MODEL_SCALE);
   cup.position.y = -MODEL_COFFEE_Y * MODEL_SCALE;
   scene.add(cup);
+
+  /*
+   * The wordmark, printed on the front face: a decal projected onto the body (it follows the
+   * slope of the wall; shallow, so the inner wall is not printed), built with the cup at rest
+   * and then kept in the cup's own space.
+   */
+  cup.updateMatrixWorld(true);
+  let body = null;
+  model.traverse((node) => {
+    if (node.isMesh && /^Cup.Hollow/.test(node.name)) body = node;
+  });
+  const logo = logoTexture();
+  const logoMaterial = new MeshPhysicalMaterial({
+    map: logo.texture,
+    transparent: true,
+    roughness: 0.3,
+    clearcoat: 0.7,
+    clearcoatRoughness: 0.06,
+    depthWrite: false,
+    polygonOffset: true,
+    polygonOffsetFactor: -4,
+  });
+  let logoGeometry = null;
+  if (body) {
+    const ray = new Raycaster(new Vector3(0, (LOGO.y - MODEL_COFFEE_Y) * MODEL_SCALE, 1000), new Vector3(0, 0, -1));
+    const hit = ray.intersectObject(body, false)[0];
+    if (hit) {
+      const width = LOGO.width * MODEL_SCALE;
+      logoGeometry = new DecalGeometry(body, hit.point, new Euler(0, 0, 0), new Vector3(width, width / logo.aspect, 7));
+      logoGeometry.applyMatrix4(cup.matrixWorld.clone().invert());
+      cup.add(new Mesh(logoGeometry, logoMaterial));
+    }
+  }
 
   /* Steam stays upright while the cup turns under it. */
   const steam = createSteam();
@@ -370,6 +444,9 @@ export async function createCupScene({ canvas, modelUrl, maxPixelRatio = 2, anim
       });
       [groundGeometry, groundMaterial, contactGeometry, contactMaterial, contactMap].forEach((item) => item.dispose());
       steam.dispose();
+      logo.texture.dispose();
+      logoMaterial.dispose();
+      logoGeometry?.dispose();
       environment.dispose();
       pmrem.dispose();
       renderer.dispose();

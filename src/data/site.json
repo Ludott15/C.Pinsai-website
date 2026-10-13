@@ -1,7 +1,7 @@
 {
   "brand": {
     "name": "C.PINSAI",
-    "description": "Soluzioni di Intelligenza Artificiale che ti aiutano nel lavoro di tutti i giorni."
+    "description": "Soluzioni per ottimizzare il lavoro di tutti i giorni."
   },
   "navigation": [
     {
@@ -35,7 +35,7 @@
       "Come bere un caffè,",
       "ma te lo prepariamo noi."
     ],
-    "subheadline": "Soluzioni di Intelligenza Artificiale che ti aiutano nel lavoro di tutti i giorni.",
+    "subheadline": "Caffè, codice e persone. Istruiamo l'AI per essere l'orchestratore della tua infrastruttura.",
     "cta": {
       "label": "Inizia il Self-Assessment",
       "href": "#coffee-check"
@@ -86,8 +86,8 @@
     "copyErrorLabel": "Copia non riuscita: seleziona il numero manualmente",
     "form": {
       "title": "Oppure raccontaci tutto qui",
-      "note": "Il messaggio viene preparato su WhatsApp: decidi tu quando inviarlo.",
-      "submitLabel": "Prepara il messaggio",
+      "note": "Il messaggio arriva direttamente nella nostra casella email: ti rispondiamo all'indirizzo che ci lasci.",
+      "submitLabel": "Invia il messaggio",
       "fields": {
         "name": {
           "label": "Nome",
@@ -110,18 +110,19 @@
         }
       },
       "errorSummary": "Alcuni campi vanno sistemati prima di continuare.",
-      "successTitle": "Messaggio pronto.",
-      "successText": "Lo abbiamo aperto su WhatsApp: ti basta premere invio.",
-      "blockedText": "Il browser ha bloccato l'apertura di WhatsApp. Usa il collegamento qui sotto per inviare il messaggio.",
-      "openLinkLabel": "Apri il messaggio su WhatsApp",
-      "messageTemplate": "Ciao C.PINSAI, sono {name} ({email}).\n\n{message}"
+      "successTitle": "Messaggio inviato.",
+      "successText": "Grazie! Ti risponderemo il prima possibile all'email che ci hai lasciato.",
+      "openLinkLabel": "Apri la tua email",
+      "messageTemplate": "Ciao C.PINSAI, sono {name} ({email}).\n\n{message}",
+      "sendingLabel": "Invio in corso…",
+      "recipient": "cpinsai02@gmail.com",
+      "subject": "Nuovo messaggio dal sito C.PINSAI",
+      "failedText": "L'invio non è riuscito. Riprova tra poco, oppure scrivici dalla tua email:"
     },
-    "email": "cpinsai02@gmail.com",
-    "emailLabel": "Email",
     "phoneLabel": "Telefono"
   },
   "footer": {
-    "tagline": "Caffè, codice e persone. Prepariamo l'AI attorno al modo in cui lavori.",
+    "tagline": "Caffè, codice e persone. Istruiamo l'AI per essere l'orchestratore della tua infrastruttura.",
     "navTitle": "Sezioni",
     "contactTitle": "Contatti",
     "legalTitle": "Note legali",
@@ -134,8 +135,8 @@
       "label": "Privacy",
       "title": "Privacy",
       "paragraphs": [
-        "Questo sito non raccoglie, non salva e non trasmette a server propri i dati inseriti nel modulo contatti.",
-        "Quando invii il modulo, i dati vengono usati solo per comporre un messaggio WhatsApp che puoi rivedere e decidere se inviare. Da quel momento il trattamento segue le condizioni di WhatsApp.",
+        "Questo sito non salva su server propri i dati inseriti nel modulo contatti.",
+        "Quando invii il modulo, nome, email e messaggio vengono inoltrati alla nostra casella email (cpinsai02@gmail.com) tramite il servizio FormSubmit, e usati solo per risponderti.",
         "Per qualsiasi richiesta sui tuoi dati puoi contattarci al +39 339 427 7111."
       ]
     },
