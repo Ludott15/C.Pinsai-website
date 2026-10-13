@@ -1,9 +1,11 @@
 import { useRef, useState } from 'react';
-import { fillTemplate, whatsappUrl } from '../utils/text.js';
+import { fillTemplate } from '../utils/text.js';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const FIELDS = ['name', 'email', 'message'];
 const EMPTY = { name: '', email: '', message: '' };
+/** The site is static: messages reach the inbox through FormSubmit (no account, no keys). */
+const endpoint = (recipient) => `https://formsubmit.co/ajax/${recipient}`;
 
 function validate(values, copy) {
   const errors = {};
@@ -23,7 +25,7 @@ function validate(values, copy) {
   return errors;
 }
 
-export default function ContactForm({ form, phoneE164 }) {
+export default function ContactForm({ form }) {
   const [values, setValues] = useState(EMPTY);
   const [touched, setTouched] = useState({});
   const [submitted, setSubmitted] = useState(false);
@@ -45,8 +47,9 @@ export default function ContactForm({ form, phoneE164 }) {
     setTouched((current) => ({ ...current, [name]: true }));
   };
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
+    if (status.type === 'sending') return;
     setSubmitted(true);
 
     const firstInvalid = FIELDS.find((field) => errors[field]);
@@ -56,22 +59,36 @@ export default function ContactForm({ form, phoneE164 }) {
       return;
     }
 
-    const text = fillTemplate(form.messageTemplate, {
-      name: values.name.trim(),
-      email: values.email.trim(),
-      message: values.message.trim(),
-    });
-    const link = whatsappUrl(phoneE164, text);
-    const opened = window.open(link, '_blank');
+    const name = values.name.trim();
+    const email = values.email.trim();
+    const message = values.message.trim();
+    const text = fillTemplate(form.messageTemplate, { name, email, message });
+    /* If sending fails, the same message can leave from the visitor's own email app. */
+    const link = `mailto:${form.recipient}?subject=${encodeURIComponent(form.subject)}&body=${encodeURIComponent(text)}`;
 
-    if (opened) {
-      opened.opener = null;
-      setStatus({ type: 'success', link });
+    setStatus({ type: 'sending', link: '' });
+    try {
+      const response = await fetch(endpoint(form.recipient), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          name,
+          email,
+          message,
+          _subject: form.subject,
+          _replyto: email,
+          _template: 'table',
+          _captcha: 'false',
+        }),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || String(result.success) === 'false') throw new Error(result.message || 'send failed');
+      setStatus({ type: 'success', link: '' });
       setValues(EMPTY);
       setTouched({});
       setSubmitted(false);
-    } else {
-      setStatus({ type: 'blocked', link });
+    } catch {
+      setStatus({ type: 'failed', link });
     }
   };
 
@@ -131,8 +148,13 @@ export default function ContactForm({ form, phoneE164 }) {
       {field('email', { type: 'email', autoComplete: 'email', inputMode: 'email' })}
       {field('message', { multiline: true })}
 
-      <button type="submit" className="button button--primary button--block">
-        {form.submitLabel}
+      <button
+        type="submit"
+        className="button button--primary button--block"
+        disabled={status.type === 'sending'}
+        aria-busy={status.type === 'sending'}
+      >
+        {status.type === 'sending' ? form.sendingLabel : form.submitLabel}
         <span className="button__arrow" aria-hidden="true">
           →
         </span>
@@ -142,18 +164,12 @@ export default function ContactForm({ form, phoneE164 }) {
         {status.type === 'invalid' && <p className="form__message form__message--error">{form.errorSummary}</p>}
         {status.type === 'success' && (
           <p className="form__message form__message--success">
-            <strong>{form.successTitle}</strong> {form.successText}{' '}
-            <a href={status.link} target="_blank" rel="noopener noreferrer">
-              {form.openLinkLabel}
-            </a>
+            <strong>{form.successTitle}</strong> {form.successText}
           </p>
         )}
-        {status.type === 'blocked' && (
+        {status.type === 'failed' && (
           <p className="form__message form__message--error">
-            {form.blockedText}{' '}
-            <a href={status.link} target="_blank" rel="noopener noreferrer">
-              {form.openLinkLabel}
-            </a>
+            {form.failedText} <a href={status.link}>{form.openLinkLabel}</a>
           </p>
         )}
       </div>

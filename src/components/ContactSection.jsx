@@ -82,15 +82,9 @@ export default function ContactSection({ content }) {
             </p>
           </div>
 
-          <div className="phone phone--email">
-            <span className="phone__label">{content.emailLabel}</span>
-            <a className="phone__number phone__email" href={`mailto:${content.email}`}>
-              {content.email}
-            </a>
-          </div>
         </div>
 
-        <ContactForm form={content.form} phoneE164={content.phoneE164} />
+        <ContactForm form={content.form} />
       </div>
       <SectionWave to="brown-900" />
     </section>

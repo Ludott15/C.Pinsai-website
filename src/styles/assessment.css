@@ -1,13 +1,13 @@
 /* ==========================================================================
-   01 — The Coffee Check. Light cream section after the dive: a wave rises out of the
-   coffee brown; the question panel keeps its dark coffee look.
+   01 — The Coffee Check. Still inside the coffee: the same flat brown as the dive,
+   with the questions on a white card.
    ========================================================================== */
 .check {
   position: relative;
   z-index: 4;
   padding-block: clamp(32px, 4vw, 56px) calc(var(--section-gap) + var(--wave-h));
-  background: var(--cream-50);
-  color: var(--ink);
+  background: var(--brown-800);
+  color: var(--cream);
 }
 
 /* Pulled up over the empty bottom of the dive stage, so the wave follows the dive copy closely. */
@@ -59,25 +59,38 @@
 
 .check__title {
   font-size: var(--fs-h2);
-  color: var(--ink);
+  color: var(--cream);
 }
 
 .check__concept {
   font-family: var(--font-mono);
   font-size: var(--fs-small);
-  color: var(--ink-muted);
+  color: var(--on-dark-muted);
 }
 
 .check__concept::before {
   content: '// ';
-  color: var(--pink);
+  color: var(--pink-light);
 }
 
 .check__panel {
+  /*
+   * White card: the panel styles below were drawn for a dark card, so here the dark-theme
+   * tokens are remapped to their light counterparts (cream text → brown, dark fills → light).
+   */
+  --cream: var(--brown);
+  --on-dark-muted: var(--ink-muted);
+  --line-dark: rgb(75 45 32 / 0.16);
+  --pink-light: var(--pink);
+  --brown-700: var(--white);
+  --brown-800: var(--cream-50);
+  --brown-900: var(--cream-50);
   scroll-margin-top: calc(var(--header-h) + 16px);
-  border: 1px solid var(--line-dark);
+  border: 1px solid var(--line);
   border-radius: calc(var(--radius) + 6px);
-  background: var(--brown-700);
+  background: var(--white);
+  color: var(--ink);
+  box-shadow: 0 40px 80px -50px rgb(0 0 0 / 0.6);
   padding: clamp(18px, 3.5vw, 44px);
   overflow: hidden;
 }
@@ -1155,3 +1168,21 @@
     filter: none;
   }
 }
+
+/* Light card: the few spots that need more than the remapped tokens. */
+.check__panel .progress__label.is-bonus {
+  color: var(--brown);
+}
+
+.check__panel :is(.inbox__msg--in, .receipt) {
+  background: #f5efe2;
+}
+
+.check__panel .inbox__msg--in {
+  border: 1px solid var(--line);
+}
+
+.check__panel .week__block {
+  background: rgb(75 45 32 / 0.08);
+}
+

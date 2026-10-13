@@ -276,6 +276,12 @@ main:focus {
   transform: translateY(-2px);
 }
 
+.button:disabled {
+  cursor: progress;
+  opacity: 0.75;
+  transform: none;
+}
+
 .button:active {
   transform: translateY(0) scale(0.98);
 }
@@ -414,9 +420,6 @@ main:focus {
   inset: auto 0 calc(100% - 1px);
 }
 
-.wave--cream-50 {
-  fill: var(--cream-50);
-}
 
 .wave--cream {
   fill: var(--cream);

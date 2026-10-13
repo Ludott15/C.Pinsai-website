@@ -140,10 +140,9 @@ export default function SelfAssessment({ data }) {
 
   return (
     <section id="coffee-check" className="check" aria-labelledby="check-title">
-      <SectionWave to="cream-50" edge="top" />
       <div className="check__inner shell">
         <header ref={introRef} className={`check__intro${introInView ? ' is-visible' : ''}`}>
-          <p className="kicker">
+          <p className="kicker kicker--dark">
             <span className="kicker__index">{intro.index}</span>
             {intro.kicker}
           </p>

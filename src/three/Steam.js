@@ -21,20 +21,24 @@ const PINK = '#E04A95';
 const PINK_LIGHT = '#F59AC6';
 /** Size of one steam pixel, and of the grid the pixels snap to. */
 const PIXEL = 5.2;
-const HEIGHT = 92;
+const HEIGHT = 100;
 const PIXELS_PER_WISP = 34;
+/*
+ * Three wisps leave the coffee at different speeds. Their shape travels upwards with them
+ * (wave phase = k·height − ω·time), they widen and break apart as they rise.
+ */
 const WISPS = [
-  { x: -12, z: 4, phase: 0, speed: 0.000085, sway: 13 },
-  { x: 12, z: -4, phase: 2.4, speed: 0.00007, sway: 11 },
+  { x: -10, z: 4, phase: 0, rise: 3600, sway: 9, wave: 0.0021 },
+  { x: 9, z: -3, phase: 2.1, rise: 4300, sway: 8, wave: 0.0017 },
+  { x: 0, z: 0, phase: 4.2, rise: 5200, sway: 6, wave: 0.0013 },
 ];
-/* Bits float beside the wisps, slightly in front of them. */
 const BITS = [
   { char: '1', x: -40, phase: 0 },
   { char: '0', x: 38, phase: 0.25 },
   { char: '1', x: 30, phase: 0.5 },
   { char: '0', x: -34, phase: 0.75 },
 ];
-const BIT_CYCLE = 4600;
+const BIT_CYCLE = 3800;
 const BIT_SIZE = 17;
 
 const snap = (value) => Math.round(value / PIXEL) * PIXEL;
@@ -89,21 +93,31 @@ export function createSteam() {
 
     WISPS.forEach((wisp, w) => {
       for (let i = 0; i < PIXELS_PER_WISP; i += 1) {
-        /* Each pixel travels up the wisp and starts again at the bottom. */
-        const t = (i / PIXELS_PER_WISP + time * wisp.speed) % 1;
-        const y = 6 + t * HEIGHT;
-        const x = wisp.x + Math.sin(t * 5.2 + wisp.phase + time * 0.0011) * wisp.sway * (0.35 + t);
-        const z = wisp.z + Math.cos(t * 4 + wisp.phase) * 4;
-        /* Small at the start, full in the middle, gone at the top. */
-        const size = Math.min(1, t / 0.12, (1 - t) / 0.45) * amount;
+        /* A fixed pseudo-random value per pixel: its own speed, drift and flicker. */
+        const seed = (Math.sin((w + 1) * 91.7 + i * 12.9898) * 43758.5453) % 1;
+        const r = Math.abs(seed);
+        /* Each pixel leaves the coffee, rises (slightly accelerating) and starts again. */
+        const t = (i / PIXELS_PER_WISP + time / (wisp.rise * (0.9 + r * 0.2))) % 1;
+        const y = 3 + HEIGHT * (t * 0.8 + t * t * 0.2);
+        const wave = t * 5.5 - time * wisp.wave + wisp.phase;
+        const spread = wisp.sway * (0.25 + 1.2 * t);
+        const x =
+          wisp.x +
+          Math.sin(wave) * spread +
+          Math.sin(t * 13 - time * 0.0031 + r * 6) * 2.5 * t +
+          (r - 0.5) * 16 * t * t;
+        const z = wisp.z + Math.cos(wave * 0.8) * spread * 0.5;
+        /* Grows out of the coffee, thins out at the top, with a light flicker. */
+        const flicker = 0.85 + 0.15 * Math.sin(time * 0.006 + r * 20);
+        const size = Math.max(0, Math.min(1, t / 0.1, (1 - t) / 0.5)) * flicker * amount;
         const base = (w * PIXELS_PER_WISP + i) * 2;
         dummy.position.set(snap(x), snap(y), snap(z));
         dummy.scale.setScalar(Math.max(0.0001, size));
         dummy.updateMatrix();
         pixels.setMatrixAt(base, dummy.matrix);
-        /* The side pixel: only in the body of the wisp, on the side it sways towards. */
-        const side = t > 0.12 && t < 0.62 ? size : 0;
-        dummy.position.x = snap(x) + (Math.cos(t * 5.2 + wisp.phase) > 0 ? PIXEL : -PIXEL);
+        /* The side pixel: only in the thick lower body of the wisp, on the side it sways to. */
+        const side = t > 0.08 && t < 0.55 ? size : 0;
+        dummy.position.x = snap(x) + (Math.cos(wave) > 0 ? PIXEL : -PIXEL);
         dummy.scale.setScalar(Math.max(0.0001, side));
         dummy.updateMatrix();
         pixels.setMatrixAt(base + 1, dummy.matrix);
@@ -113,8 +127,11 @@ export function createSteam() {
 
     bits.forEach((sprite, index) => {
       const t = (time / BIT_CYCLE + BITS[index].phase) % 1;
-      sprite.position.set(BITS[index].x + Math.sin(t * 6 + index) * 5, 18 + t * 80, 14);
-      sprite.material.opacity = Math.min(1, t / 0.2, (1 - t) / 0.35) * amount;
+      /* Bits pop out of the coffee and drift up and outwards, turning slowly. */
+      const side = Math.sign(BITS[index].x);
+      sprite.position.set(BITS[index].x * (0.5 + t * 0.7) + Math.sin(t * 6 + index) * 4, 6 + t * 92, 14);
+      sprite.material.rotation = side * Math.sin(t * 3 + index) * 0.35;
+      sprite.material.opacity = Math.min(1, t / 0.15, (1 - t) / 0.35) * amount;
     });
   }
 
