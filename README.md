@@ -20,11 +20,11 @@ Sito multi-pagina statico (Vite, nessun router): ogni pagina è un file HTML con
 
 ```
 index.html                  Landing: Hero → Dive → Self-Assessment → Numeri → CTA → Contatti
-soluzioni/index.html        Soluzioni: Tailored Service, Facilit-AI, "Le nostre proposte"
-proposte/index.html         Le nostre demo: un settore alla volta (SegretarIA, Ristorazione, Palestre, Cliniche)
+soluzioni/index.html        redirect ai vecchi link: le Soluzioni ora sono nella home (#soluzioni)
+proposte/index.html         Le nostre demo: un settore alla volta (SegretarIA, Ristorazione, Palestre, Officine) + Contatti
 public/favicon.svg
 src/
-  pages/                    ingressi delle pagine (home, soluzioni, proposte), PageShell, PageContext
+  pages/                    ingressi delle pagine (home, proposte), PageShell, PageContext
                             (i link sono relativi, risolti da useHref: funzionano da qualsiasi cartella)
   data/                     tutti i contenuti, modificabili senza toccare React
     site.json               brand, navigazione, hero, dive, intro delle sezioni, contatti, footer, note legali
@@ -65,7 +65,7 @@ diventa l'ambiente del Coffee Check.
 
 **Coffee Check.** Le domande sono in `assessment.json` (testo, risposte, punteggi, visual).
 Il risultato è la somma dei punteggi, mappata sui range dei `profiles`. Per aggiungere o modificare domande
-basta il JSON; il campo `visual` sceglie uno dei visual esistenti (`transfer`, `inbox`, `network`, `clock`).
+basta il JSON; il campo `visual` sceglie uno dei visual esistenti (`transfer`, `inbox`, `network`, `channels`, `clock`).
 
 **Contatti.** Il sito è statico: il form valida i campi lato client e compone un messaggio WhatsApp
 precompilato verso il numero in `site.json` (`contact.phoneE164`). Se il browser blocca la nuova scheda,

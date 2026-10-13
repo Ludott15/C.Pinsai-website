@@ -1,12 +1,18 @@
 /* ==========================================================================
-   02 — The Coffee Check. Lives "inside the coffee": the dark brown environment
-   the hero dive lands in.
+   01 — The Coffee Check. Light cream section after the dive: a wave rises out of the
+   coffee brown; the question panel keeps its dark coffee look.
    ========================================================================== */
 .check {
   position: relative;
-  padding-block: clamp(48px, 7vw, 96px) calc(var(--section-pad) + clamp(40px, 7vw, 110px));
-  background: var(--brown-800);
-  color: var(--cream);
+  z-index: 4;
+  padding-block: clamp(32px, 4vw, 56px) calc(var(--section-pad) + clamp(40px, 7vw, 110px));
+  background: var(--cream-50);
+  color: var(--ink);
+}
+
+/* Pulled up over the empty bottom of the dive stage, so the wave follows the dive copy closely. */
+.hero:not(.hero--static) + .check {
+  margin-top: -24svh;
 }
 
 .check__inner {
@@ -53,18 +59,18 @@
 
 .check__title {
   font-size: var(--fs-h2);
-  color: var(--cream);
+  color: var(--ink);
 }
 
 .check__concept {
   font-family: var(--font-mono);
   font-size: var(--fs-small);
-  color: var(--on-dark-muted);
+  color: var(--ink-muted);
 }
 
 .check__concept::before {
   content: '// ';
-  color: var(--pink-light);
+  color: var(--pink);
 }
 
 .check__panel {
@@ -107,8 +113,12 @@
   max-width: 720px;
 }
 
+/* Same type as the questions. */
 .check__subtitle {
-  font-size: var(--fs-lead);
+  font-size: clamp(1.1875rem, 1rem + 0.9vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.32;
+  letter-spacing: -0.02em;
   color: var(--cream);
 }
 
@@ -658,6 +668,105 @@
   letter-spacing: 0.08em;
   fill: var(--cream);
   fill-opacity: 0.7;
+}
+
+/* Q4 — channels */
+.viz--channels svg {
+  width: 100%;
+  max-height: 200px;
+}
+
+.chan__line {
+  fill: none;
+  stroke: var(--cream);
+  stroke-opacity: 0.14;
+  stroke-width: 1.5;
+  stroke-dasharray: 3 7;
+  transition: stroke-opacity 0.4s ease;
+}
+
+.chan.is-on .chan__line {
+  stroke-opacity: 0.4;
+  stroke-dasharray: none;
+}
+
+.chan__pulse {
+  fill: none;
+  stroke: var(--pink);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 8 92;
+  animation: net-pulse 2.4s linear infinite;
+  animation-delay: calc(var(--i) * -0.41s);
+}
+
+.is-chaos .chan__pulse {
+  animation-duration: 1.3s;
+}
+
+.chan__node {
+  fill: var(--brown-700);
+  stroke: var(--cream);
+  stroke-opacity: 0.35;
+  stroke-width: 1.5;
+  transition:
+    fill 0.4s ease,
+    stroke-opacity 0.4s ease;
+}
+
+.chan.is-on .chan__node {
+  fill: var(--pink);
+  stroke: var(--pink);
+  stroke-opacity: 1;
+}
+
+.chan__label {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.04em;
+  fill: var(--cream);
+  fill-opacity: 0.35;
+  transition: fill-opacity 0.4s ease;
+}
+
+.chan.is-on .chan__label {
+  fill-opacity: 0.85;
+}
+
+.is-off-hours .chan--private .chan__node {
+  animation: chan-ping 1.4s ease-in-out infinite;
+}
+
+@keyframes chan-ping {
+  50% {
+    fill: var(--pink-light);
+  }
+}
+
+.chan__hub rect {
+  fill: var(--brown-700);
+  stroke: var(--cream);
+  stroke-opacity: 0.5;
+  stroke-width: 1.5;
+  transition: stroke 0.4s ease;
+}
+
+.is-calm .chan__hub rect {
+  stroke: var(--pink);
+  stroke-opacity: 1;
+}
+
+.is-chaos .chan__hub rect {
+  stroke: var(--pink-light);
+  stroke-dasharray: 4 3;
+  stroke-opacity: 1;
+}
+
+.chan__hub text {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  fill: var(--cream);
 }
 
 /* Q4 — clock */

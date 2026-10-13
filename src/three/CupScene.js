@@ -18,6 +18,7 @@ import {
   ShadowMaterial,
   SphereGeometry,
   SRGBColorSpace,
+  TorusGeometry,
   WebGLRenderer,
 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -37,7 +38,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
  */
 
 /* Model space (metres) → hero units. */
-const MODEL_SCALE = 2150;
+const MODEL_SCALE = 1950;
 /** Height of the coffee surface in the model (top of the meniscus). */
 const MODEL_COFFEE_Y = 0.0697;
 const FOV = 20;
@@ -52,6 +53,46 @@ const COFFEE_EXPOSURE = 0.62;
 const COFFEE_GLOSS = { clearcoat: 0.5, specularIntensity: 0.5, envMapIntensity: 0.25 };
 const DARKEN_FROM = 0.36;
 const DARKEN_TO = 0.56;
+
+/*
+ * Proportions, adjusted on the loaded geometry (model space, metres):
+ * a narrower, squarer cup (the front reads as a square, the mouth too), the handle pulled in
+ * closer to the body, a slightly smaller saucer with a thick navy lip like the cup's.
+ */
+const CUP_NARROW_X = 0.76;
+const CUP_NARROW_Z = 0.88;
+/** Handle: the part outside the wall is squeezed towards it. */
+const HANDLE_ROOT_X = 0.04;
+const HANDLE_SQUEEZE = 0.78;
+const SAUCER_SCALE = 0.86;
+/** Saucer lip: a navy ring as thick as the cup's rim, all round the edge. */
+const LIP = { radius: 0.0727, tube: 0.0017, y: 0.0106 };
+
+function reshape(node) {
+  const name = node.name.replace(/_/g, ' ');
+  const position = node.geometry.attributes.position;
+  const cupPart = /^(Cup|Handle|Coffee)/.test(name);
+  const saucerPart = /^Saucer/.test(name);
+  for (let index = 0; index < position.count; index += 1) {
+    let x = position.getX(index);
+    let z = position.getZ(index);
+    if (/^Handle/.test(name)) {
+      if (x > HANDLE_ROOT_X) x = HANDLE_ROOT_X + (x - HANDLE_ROOT_X) * HANDLE_SQUEEZE;
+      position.setX(index, x * CUP_NARROW_X);
+      continue;
+    }
+    if (cupPart) {
+      x *= CUP_NARROW_X;
+      z *= CUP_NARROW_Z;
+    } else if (saucerPart) {
+      x *= SAUCER_SCALE;
+      z *= SAUCER_SCALE;
+    }
+    position.setX(index, x);
+    position.setZ(index, z);
+  }
+  position.needsUpdate = true;
+}
 
 /* Contact shadow: the darkest, tightest shade right under the saucer. */
 function contactTexture() {
@@ -77,7 +118,7 @@ function contactTexture() {
  */
 function studioScene() {
   const studio = new Scene();
-  studio.add(new Mesh(new SphereGeometry(10, 32, 16), new MeshBasicMaterial({ color: '#6f6157', side: BackSide })));
+  studio.add(new Mesh(new SphereGeometry(10, 32, 16), new MeshBasicMaterial({ color: '#4a3f38', side: BackSide })));
   const panel = (width, height, intensity, position) => {
     const mesh = new Mesh(
       new PlaneGeometry(width, height),
@@ -88,9 +129,10 @@ function studioScene() {
     studio.add(mesh);
   };
   panel(8, 4, 3, [-2, 7, 3]);
-  panel(1.4, 9, 6, [-7, 1, -5]);
-  panel(1.4, 9, 6, [7, 1, -5]);
-  panel(6, 4, 2.4, [0, 1.5, 8]);
+  panel(1.2, 10, 14, [-7, 1, -4]);
+  panel(1.2, 10, 14, [7, 1, -4]);
+  panel(0.8, 8, 8, [-8, 1, 3]);
+  panel(6, 4, 1.2, [0, 1.5, 8]);
   return studio;
 }
 
@@ -125,40 +167,45 @@ export async function createCupScene({ canvas, modelUrl, maxPixelRatio = 2 }) {
   const pmrem = new PMREMGenerator(renderer);
   const environment = pmrem.fromScene(studioScene(), 0.02).texture;
   scene.environment = environment;
-  scene.environmentIntensity = 0.55;
+  scene.environmentIntensity = 0.8;
 
-  scene.add(new HemisphereLight('#FBF8F1', '#A88A70', 0.7));
+  scene.add(new HemisphereLight('#FBF8F1', '#8A6E58', 0.38));
 
   /* Front fill, from the viewer: keeps the ivory bright where it faces the camera. */
-  const fill = new DirectionalLight('#FFF9F0', 0.9);
+  const fill = new DirectionalLight('#FFF9F0', 0.45);
   fill.position.set(80, 120, 600);
   scene.add(fill);
 
   /* Key: soft, from the top left, the only light that casts shadows. */
-  const key = new DirectionalLight('#FFF8EE', 2.1);
-  key.position.set(-260, 520, 300);
+  const key = new DirectionalLight('#FFF8EE', 2.6);
+  key.position.set(-400, 640, 280);
   key.castShadow = true;
   key.shadow.mapSize.set(1024, 1024);
-    key.shadow.bias = -0.0004;
+  key.shadow.bias = -0.0004;
   key.shadow.normalBias = 0.6;
   Object.assign(key.shadow.camera, { left: -260, right: 260, top: 260, bottom: -260, near: 100, far: 1600 });
   scene.add(key);
 
   /* Back lights: bright rims on both sides of the silhouette, separating ivory from cream. */
-  const rimRight = new DirectionalLight('#FFFFFF', 2.4);
-  rimRight.position.set(420, 260, -480);
+  const rimRight = new DirectionalLight('#FFFFFF', 3.6);
+  rimRight.position.set(460, 320, -420);
   scene.add(rimRight);
-  const rimLeft = new DirectionalLight('#FFF1E0', 1.4);
+  const rimLeft = new DirectionalLight('#FFF1E0', 2.2);
   rimLeft.position.set(-460, 200, -420);
   scene.add(rimLeft);
 
   /* The model, scaled to hero units with the coffee surface at y = 0. */
   const model = gltf.scene;
   const coffeeMaterials = [];
+  let navy = null;
+  const thinRims = [];
   model.traverse((node) => {
     if (!node.isMesh) return;
+    reshape(node);
     /* The export carries positions only: smooth normals are rebuilt here. */
-    if (!node.geometry.attributes.normal) node.geometry.computeVertexNormals();
+    node.geometry.computeVertexNormals();
+    if (/^Saucer.Outer.Rim/.test(node.name)) thinRims.push(node);
+    const isNavy = /navy/i.test(node.material.name);
     const coffee = /coffee/i.test(node.material.name);
     node.material = ceramic(
       node.material,
@@ -167,6 +214,7 @@ export async function createCupScene({ canvas, modelUrl, maxPixelRatio = 2 }) {
         ? { ...COFFEE_GLOSS, clearcoatRoughness: 0.04, roughness: 0.3, toneMapped: false }
         : {},
     );
+    if (isNavy) navy = node.material;
     if (coffee) {
       /* The top light falls straight on the liquid: compensate, so it reads as the brand brown. */
       node.material.color.multiplyScalar(COFFEE_EXPOSURE);
@@ -175,6 +223,16 @@ export async function createCupScene({ canvas, modelUrl, maxPixelRatio = 2 }) {
     node.castShadow = !coffee;
     node.receiveShadow = true;
   });
+  /* The exported saucer rim is a thin band: replaced by a round navy lip. */
+  thinRims.forEach((node) => node.removeFromParent());
+  const lipGeometry = new TorusGeometry(LIP.radius * SAUCER_SCALE, LIP.tube, 20, 160);
+  const lip = new Mesh(lipGeometry, navy);
+  lip.rotation.x = Math.PI / 2;
+  lip.position.y = LIP.y;
+  lip.castShadow = true;
+  lip.receiveShadow = true;
+  model.add(lip);
+
   const cup = new Group();
   cup.add(model);
   cup.scale.setScalar(MODEL_SCALE);
@@ -196,7 +254,7 @@ export async function createCupScene({ canvas, modelUrl, maxPixelRatio = 2 }) {
   const contactMaterial = new MeshBasicMaterial({ map: contactMap, transparent: true, depthWrite: false });
   const contact = new Mesh(contactGeometry, contactMaterial);
   contact.rotation.x = -Math.PI / 2;
-  contact.scale.set(410, 410, 1);
+  contact.scale.set(300, 300, 1);
   contact.position.y = tableY + 0.2;
   scene.add(contact);
 

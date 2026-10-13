@@ -1,6 +1,9 @@
 import { useEffect, useId, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useInView } from '../../hooks/useInView.js';
 import { fillTemplate, whatsappUrl } from '../../utils/text.js';
+
+const fullTitle = (module) => [module.title, module.titleAccent].filter(Boolean).join(' ');
 
 /* Demo viewer: shows the module demo inside the card (iframe or video) once it exists. */
 function DemoViewer({ module, demo }) {
@@ -11,6 +14,7 @@ function DemoViewer({ module, demo }) {
         <span />
         <span />
         <span />
+        {module.code && <code>{module.code}</code>}
       </div>
       {source?.type === 'video' && (
         <video className="module__demo-frame" src={source.src} controls playsInline preload="metadata" />
@@ -19,7 +23,7 @@ function DemoViewer({ module, demo }) {
         <iframe
           className="module__demo-frame"
           src={source.src}
-          title={fillTemplate(demo.frameTitle, { module: module.title })}
+          title={fillTemplate(demo.frameTitle, { module: fullTitle(module) })}
           loading="lazy"
           referrerPolicy="no-referrer"
         />
@@ -36,12 +40,19 @@ function ModuleCard({ module, selected, onToggle, request, demo }) {
   return (
     <article
       ref={ref}
+      id={`module-${module.id}`}
       className={`module${selected ? ' is-selected' : ''}${inView ? ' is-visible' : ''}`}
       aria-labelledby={titleId}
     >
       <div className="module__main">
         <h3 id={titleId} className="module__title">
           {module.title}
+          {module.titleAccent && (
+            <>
+              {' '}
+              <em>{module.titleAccent}</em>
+            </>
+          )}
         </h3>
         {module.lead && <p className="module__lead">{module.lead}</p>}
         {module.paragraphs.map((paragraph) => (
@@ -95,16 +106,22 @@ function ModuleCard({ module, selected, onToggle, request, demo }) {
 }
 
 /**
- * Floating request, bottom right: appears once a module is selected, as a small chip
- * with the count. Clicked, it opens to list the modules and send them on WhatsApp.
+ * Request button, always bottom right: an icon (with the count once modules are chosen).
+ * Opened, it explains how to ask for modules, or lists the chosen ones, each a link back
+ * to its card, with the WhatsApp button.
  */
 function RequestToast({ chosen, request, href }) {
   const [open, setOpen] = useState(false);
+  const [bump, setBump] = useState(false);
   const panelId = useId();
   const count = chosen.length;
 
+  /* A short pulse on the icon each time the selection changes. */
   useEffect(() => {
-    if (!count) setOpen(false);
+    if (!count) return undefined;
+    setBump(true);
+    const timer = setTimeout(() => setBump(false), 500);
+    return () => clearTimeout(timer);
   }, [count]);
 
   useEffect(() => {
@@ -116,43 +133,65 @@ function RequestToast({ chosen, request, href }) {
     return () => window.removeEventListener('keydown', onKey);
   }, [open]);
 
-  return (
+  const goTo = (event, id) => {
+    event.preventDefault();
+    document.getElementById(`module-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  /* Rendered on <body>: an animated (transformed) ancestor would otherwise pin it to the card. */
+  return createPortal(
     <>
       <p className="visually-hidden" role="status">
         {count ? fillTemplate(request.barSelected, { count }) : ''}
       </p>
-      <div className={`request${open ? ' is-open' : ''}`} hidden={!count}>
+      <div className={`request${open ? ' is-open' : ''}`}>
         {open && (
           <div id={panelId} className="request__panel">
             <p className="request__title">{request.panelTitle}</p>
-            <ul className="request__list">
-              {chosen.map((module) => (
-                <li key={module.id}>{module.title}</li>
-              ))}
-            </ul>
-            <a className="button button--primary request__send" href={href} target="_blank" rel="noopener noreferrer">
-              {request.sendLabel}
-              <span className="button__arrow" aria-hidden="true">
-                →
-              </span>
-            </a>
+            {count ? (
+              <>
+                <ul className="request__list">
+                  {chosen.map((module) => (
+                    <li key={module.id}>
+                      <a href={`#module-${module.id}`} onClick={(event) => goTo(event, module.id)}>
+                        {fullTitle(module)}
+                        <span className="visually-hidden"> — {request.goTo}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+                <a className="button button--primary request__send" href={href} target="_blank" rel="noopener noreferrer">
+                  {request.sendLabel}
+                  <span className="button__arrow" aria-hidden="true">
+                    →
+                  </span>
+                </a>
+              </>
+            ) : (
+              <p className="request__empty">{request.emptyText}</p>
+            )}
           </div>
         )}
         <button
           type="button"
-          className="request__toggle"
+          className={`request__toggle${bump ? ' is-bumping' : ''}`}
           aria-expanded={open}
           aria-controls={panelId}
+          aria-label={count ? fillTemplate(request.barSelected, { count }) : request.toggleLabel}
           onClick={() => setOpen((value) => !value)}
         >
           <svg className="request__icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Z" />
+            <path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z" />
           </svg>
-          <span className="request__label">{fillTemplate(request.barSelected, { count })}</span>
-          <span className="request__chevron" aria-hidden="true" />
+          {count > 0 && (
+            <span className="request__count" aria-hidden="true">
+              {count}
+            </span>
+          )}
         </button>
       </div>
-    </>
+    </>,
+    document.body,
   );
 }
 
@@ -167,13 +206,20 @@ export default function ModuleSection({ section, request, demo, phone }) {
 
   const chosen = section.modules.filter((module) => selected.includes(module.id));
   const message = fillTemplate(request.message, {
-    modules: chosen.map((module) => module.title).join(', '),
+    modules: chosen.map(fullTitle).join(', '),
     section: section.title,
   });
 
   return (
     <div className="modules">
       <h2 className="sector__title">{section.title}</h2>
+      {section.description && (
+        <div className="sector__description">
+          {section.description.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </div>
+      )}
       <div className="modules__list">
         {section.modules.map((module) => (
           <ModuleCard

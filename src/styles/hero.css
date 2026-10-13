@@ -82,18 +82,19 @@
   text-transform: uppercase;
 }
 
-/* Scrolling banner towards the latest product. */
+/* Scrolling banner towards the latest product: a ribbon across the whole width of the site,
+   its badge and button aligned with the content. */
 .banner {
   display: flex;
-  justify-self: start;
-  width: min(100%, 860px);
+  justify-self: stretch;
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
   align-items: center;
   gap: 12px;
   min-width: 0;
-  min-height: 44px;
-  padding: 4px 6px 4px 4px;
-  border: 1px solid var(--line-strong);
-  border-radius: 999px;
+  min-height: 48px;
+  padding: 5px max(var(--gutter), (100vw - 1240px) / 2);
+  border-block: 1px solid var(--line-strong);
   background: var(--cream-50);
   color: var(--brown);
   text-decoration: none;
@@ -105,7 +106,6 @@
 
 .banner:hover {
   border-color: var(--pink);
-  box-shadow: 0 12px 28px -18px rgb(224 74 149 / 0.7);
 }
 
 .banner__badge {
@@ -376,8 +376,8 @@
   gap: 22px;
   text-align: center;
   /* Fades in with the dive, then drifts up and out as the Coffee Check arrives. */
-  opacity: calc(var(--dive, 0) * (1 - var(--out, 0)));
-  transform: translateY(calc((1 - var(--dive, 0)) * 36px - var(--out, 0) * 48px));
+  opacity: calc(var(--dive, 0) * (1 - var(--out, 0) * 0.25));
+  transform: translateY(calc((1 - var(--dive, 0)) * 36px - var(--out, 0) * 24px));
 }
 
 .dive__label {

@@ -97,38 +97,29 @@
     },
     {
       "id": 4,
-      "category": "OPPORTUNITÀ",
-      "label": "Cosa faresti con il tempo che possiamo restituirti?",
-      "visual": "clock",
+      "category": "CANALI",
+      "label": "Da dove arrivano le richieste?",
+      "visual": "channels",
       "microcopy": "Ultima domanda.",
-      "question": "Se da lunedì prossimo potesse recuperare magicamente il 25% del tempo impiegato in attività ripetitive, su cosa lo investirebbe prioritariamente?",
+      "question": "Attraverso quanti canali diversi vi arrivano oggi le richieste dei clienti e la documentazione operativa?",
       "answers": [
         {
-          "label": "Chiudere più contratti / seguire più clienti",
+          "label": "Canale unico: centralizziamo tutto in un gestionale/CRM dedicato",
           "score": 1
         },
         {
-          "label": "Migliorare la qualità del servizio",
+          "label": "2-3 canali: prevalentemente chiamate al cellulare ed email d'ufficio",
           "score": 2
         },
         {
-          "label": "Ridurre lo stress",
+          "label": "Caos multicanale (4+): WhatsApp titolare, email, social, chiamate e note sparse",
           "score": 3
+        },
+        {
+          "label": "Fuori controllo: i clienti ci scrivono privatamente la sera o nel weekend su chat personali",
+          "score": 4
         }
-      ],
-      "week": {
-        "label": "1 week",
-        "recovered": "25% recuperato",
-        "days": [
-          "L",
-          "M",
-          "M",
-          "G",
-          "V",
-          "S",
-          "D"
-        ]
-      }
+      ]
     }
   ],
   "result": {
@@ -143,7 +134,7 @@
     },
     "secondaryCta": {
       "label": "Scopri le soluzioni",
-      "href": "soluzioni/"
+      "href": "#soluzioni"
     },
     "profiles": [
       {
@@ -165,7 +156,7 @@
       {
         "id": "potential",
         "min": 11,
-        "max": 15,
+        "max": 16,
         "title": "POTENZIALE DI AUTOMAZIONE",
         "copy": "Una parte significativa del lavoro sembra dipendere ancora da attività manuali, tempi di risposta o persone chiave. Qui l'automazione potrebbe avere un impatto importante sulla continuità operativa.",
         "quote": "Se domani ti fermassi tu, cosa si fermerebbe con te? La risposta è già una mappa delle priorità."
@@ -176,20 +167,33 @@
     "id": 5,
     "category": "BONUS",
     "label": "Offerta dalla casa",
-    "visual": "bonus",
+    "visual": "clock",
     "microcopy": "Una domanda ancora.",
-    "note": "Un caffè in più, offerto dalla casa.",
-    "question": "[DA INSERIRE] Testo della domanda bonus",
+    "question": "Se da lunedì prossimo potesse recuperare magicamente il 25% del tempo impiegato in attività ripetitive, su cosa lo investirebbe prioritariamente?",
     "answers": [
       {
-        "label": "[DA INSERIRE] Risposta A"
+        "label": "Chiudere più contratti / seguire più clienti"
       },
       {
-        "label": "[DA INSERIRE] Risposta B"
+        "label": "Migliorare la qualità del servizio"
       },
       {
-        "label": "[DA INSERIRE] Risposta C"
+        "label": "Ridurre lo stress"
       }
-    ]
+    ],
+    "week": {
+      "label": "1 week",
+      "recovered": "25% recuperato",
+      "days": [
+        "L",
+        "M",
+        "M",
+        "G",
+        "V",
+        "S",
+        "D"
+      ]
+    },
+    "note": "Un caffè in più, offerto dalla casa."
   }
 }

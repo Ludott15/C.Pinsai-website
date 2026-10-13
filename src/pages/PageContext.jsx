@@ -6,10 +6,15 @@ import { createContext, useContext } from 'react';
  */
 export const PageContext = createContext({ id: 'home', root: './' });
 
-/** Turns a site link into one that works from the current page. */
+/**
+ * Turns a site link into one that works from the current page. Anchors point to the home page,
+ * unless the current page has that section too (`anchors`, e.g. the contacts on every page).
+ */
 export function resolveHref(href, page) {
   if (/^(https?:|mailto:|tel:)/.test(href)) return href;
-  if (href.startsWith('#')) return page.id === 'home' ? href : `${page.root}${href}`;
+  if (href.startsWith('#')) {
+    return page.id === 'home' || page.anchors?.includes(href) ? href : `${page.root}${href}`;
+  }
   return `${page.root}${href}`;
 }
 
