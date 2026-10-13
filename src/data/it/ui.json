@@ -1,0 +1,105 @@
+{
+  "skipLink": "Vai al contenuto",
+  "brandHome": "{brand} — torna all'inizio",
+  "navMain": "Principale",
+  "navMobile": "Principale (mobile)",
+  "menuOpen": "Apri il menu",
+  "menuClose": "Chiudi il menu",
+  "language": "Lingua",
+  "languageNames": {
+    "it": "Italiano",
+    "en": "English"
+  },
+  "close": "Chiudi",
+  "cupLabel": "Tazzina di caffè {brand} in ceramica avorio con bordo blu e logo, con un vapore rosa fatto di pixel e bit",
+  "inBrief": "In breve",
+  "progress": {
+    "label": "Avanzamento del Coffee Check",
+    "question": "Domanda {n}",
+    "bonus": "Domanda bonus",
+    "current": "in corso",
+    "todo": "da completare",
+    "done": "completata"
+  },
+  "receiptFoot": "espresso ··· 01000011 ··· grazie",
+  "formTicket": [
+    "ordine.nuovo()",
+    "espresso × 1"
+  ],
+  "viz": {
+    "transferFile": "fattura_0427.pdf",
+    "transferTarget": "gestionale",
+    "transferTrack": "copia · incolla · ripeti",
+    "transferCaption": "Ore a settimana: {value}",
+    "inboxNew": "Nuovo messaggio · 21:47",
+    "inboxIn": "Buonasera, mi servirebbe un preventivo per giovedì. Riuscite a farmi sapere?",
+    "inboxOut": "Certo! Ecco il preventivo strutturato.",
+    "inboxWaiting": "in attesa di risposta",
+    "inboxForgotten": "nessun riscontro",
+    "inboxAnswered": "riscontro inviato",
+    "networkKey": "persona chiave",
+    "networkCaption": "Processi: {value}",
+    "networkStates": [
+      "attivo",
+      "rallentato",
+      "interrotto"
+    ],
+    "channels": {
+      "crm": "gestionale",
+      "phone": "cellulare",
+      "email": "email",
+      "whatsapp": "whatsapp",
+      "social": "social",
+      "notes": "note sparse",
+      "private": "chat privata · 23:14"
+    },
+    "channelsHub": "richieste",
+    "channelsCaption": "Canali attivi: {value}",
+    "clockCaption": "Tempo restituito → {value}"
+  },
+  "fv": {
+    "messagesIn": "Buongiorno, posso spostare l'appuntamento a giovedì?",
+    "messagesSuggestion": "Suggerimento di SegretarIA",
+    "messagesReply": "Certo! Giovedì alle 10:00 le va bene?",
+    "approve": "Approva",
+    "edit": "Modifica",
+    "reminders": [
+      [
+        "1 giorno prima",
+        "Conferma appuntamento"
+      ],
+      [
+        "Ogni tot mesi, decidi tu",
+        "Richiamo cliente"
+      ],
+      [
+        "In scadenza",
+        "Rinnovo da ricordare"
+      ]
+    ],
+    "accountingAlert": "Promemoria insoluto inviato",
+    "crm": [
+      [
+        "MR",
+        "Cliente dal 2021",
+        "Fedele"
+      ],
+      [
+        "GB",
+        "Ultimo contatto: ieri",
+        "Da richiamare"
+      ],
+      [
+        "LS",
+        "Nuovo cliente",
+        "Primo appuntamento"
+      ],
+      [
+        "AP",
+        "Ultimo contatto: 3 mesi fa",
+        "Richiamo"
+      ]
+    ],
+    "reportsComment": "Il commento di SegretarIA"
+  }
+}

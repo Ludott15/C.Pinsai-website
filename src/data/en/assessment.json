@@ -1,0 +1,199 @@
+{
+  "intro": {
+    "index": "01",
+    "kicker": "THE COFFEE CHECK",
+    "title": "Can We Help? Let's Run a Check.",
+    "subtitle": "Answer 4 simple questions. A few seconds are enough to see where your work can become simpler, faster and more automated.",
+    "concept": "Before we brew your coffee, let's see how much time you're losing.",
+    "startLabel": "Let's start",
+    "meta": [
+      "4 questions",
+      "a few seconds",
+      "no data stored"
+    ]
+  },
+  "ui": {
+    "progressLabel": "Question {current} of {total}",
+    "backLabel": "Back",
+    "nextLabel": "Next",
+    "restartLabel": "Retake the Coffee Check",
+    "bonusLabel": "Bonus question"
+  },
+  "questions": [
+    {
+      "id": 1,
+      "category": "TIME",
+      "label": "Where does the time go?",
+      "visual": "transfer",
+      "microcopy": "Let's see where we can lighten the load.",
+      "question": "In a typical week, how many hours do you estimate your team (or you yourself) spend copying data, filing invoices/receipts or manually entering orders/records from one system to another?",
+      "answers": [
+        {
+          "label": "Less than 2 hours",
+          "score": 1
+        },
+        {
+          "label": "Between 2 and 5 hours",
+          "score": 2
+        },
+        {
+          "label": "Between 6 and 12 hours",
+          "score": 3
+        },
+        {
+          "label": "More than 15 hours",
+          "score": 4
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "category": "RESPONSE TIME",
+      "label": "HOW FAST DO YOU REPLY?",
+      "visual": "inbox",
+      "microcopy": "Your time is worth more than a series of clicks.",
+      "selectionMicrocopy": "A customer shouldn't have to wait while you work.",
+      "question": "When a customer asks for information, a quote or a service by email/WhatsApp outside business hours or while you're busy, what is the average time before they get a structured reply?",
+      "answers": [
+        {
+          "label": "Less than 15 min",
+          "score": 1
+        },
+        {
+          "label": "1 to 4 hours",
+          "score": 2
+        },
+        {
+          "label": "Within 24 hours",
+          "score": 3
+        },
+        {
+          "label": "Sometimes it gets forgotten",
+          "score": 4
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "category": "PROCESS DEPENDENCY",
+      "label": "What if someone were missing?",
+      "visual": "network",
+      "microcopy": "Almost there.",
+      "question": "If the key person who handles your front office, quotes or reception were suddenly away for 10 days, how much would your daily operations suffer?",
+      "answers": [
+        {
+          "label": "No problem, all processes are automated and documented",
+          "score": 1
+        },
+        {
+          "label": "Some manageable slowdowns",
+          "score": 2
+        },
+        {
+          "label": "Total chaos",
+          "score": 4
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "category": "CHANNELS",
+      "label": "Where do requests come from?",
+      "visual": "channels",
+      "microcopy": "Last question.",
+      "question": "Through how many different channels do customer requests and operational documents reach you today?",
+      "answers": [
+        {
+          "label": "Single channel: we centralise everything in a dedicated management tool/CRM",
+          "score": 1
+        },
+        {
+          "label": "2-3 channels: mostly mobile phone calls and office email",
+          "score": 2
+        },
+        {
+          "label": "Multichannel chaos (4+): owner's WhatsApp, email, social media, calls and scattered notes",
+          "score": 3
+        },
+        {
+          "label": "Out of control: customers message us privately in the evening or at weekends on personal chats",
+          "score": 4
+        }
+      ]
+    }
+  ],
+  "result": {
+    "title": "Your Coffee Check is ready.",
+    "subtitle": "We've found where your business could win back time, continuity and operating room.",
+    "receiptTitle": "Coffee Check receipt",
+    "profileLabel": "Profile",
+    "nextQuestion": "Want to know where to start?",
+    "primaryCta": {
+      "label": "Let's talk over a coffee",
+      "href": "#contatti"
+    },
+    "secondaryCta": {
+      "label": "Discover the solutions",
+      "href": "#soluzioni"
+    },
+    "profiles": [
+      {
+        "id": "solid",
+        "min": 4,
+        "max": 6,
+        "title": "OPERATIONS ALREADY SOLID",
+        "copy": "Your operations already seem to have a good structure. The next step could be finding where automation can turn the time you win back into growth.",
+        "quote": "When everything works, the right question isn't what to fix, but what to grow."
+      },
+      {
+        "id": "recover",
+        "min": 7,
+        "max": 10,
+        "title": "ROOM TO WIN BACK",
+        "copy": "There are repetitive tasks and operational steps that could free up valuable time. This is exactly where a good infrastructure can start to make a difference.",
+        "quote": "Lost hours make no noise: you only notice them when you try to count them."
+      },
+      {
+        "id": "potential",
+        "min": 11,
+        "max": 16,
+        "title": "AUTOMATION POTENTIAL",
+        "copy": "A significant part of the work still seems to depend on manual tasks, response times or key people. Here automation could have a major impact on business continuity.",
+        "quote": "If you stopped tomorrow, what would stop with you? The answer is already a map of your priorities."
+      }
+    ]
+  },
+  "bonus": {
+    "id": 5,
+    "category": "BONUS",
+    "label": "On the house",
+    "visual": "clock",
+    "microcopy": "One more question.",
+    "question": "If from next Monday you could magically win back 25% of the time spent on repetitive tasks, what would you invest it in first?",
+    "answers": [
+      {
+        "label": "Closing more deals / serving more customers"
+      },
+      {
+        "label": "Improving the quality of service"
+      },
+      {
+        "label": "Reducing stress"
+      }
+    ],
+    "week": {
+      "label": "1 week",
+      "recovered": "25% won back",
+      "days": [
+        "M",
+        "T",
+        "W",
+        "T",
+        "F",
+        "S",
+        "S"
+      ]
+    },
+    "note": "An extra coffee, on the house."
+  }
+}

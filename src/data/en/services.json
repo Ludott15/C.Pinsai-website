@@ -1,0 +1,53 @@
+{
+  "solutions": [
+    {
+      "id": "tailored",
+      "index": "S/01",
+      "kicker": "Tailored Service",
+      "title": "Tailored Service",
+      "concept": "Technology doesn't come as a standard package: we design it around the way you work.",
+      "manifesto": [
+        "We don't adapt you to the software;",
+        "we adapt the software to you."
+      ],
+      "toggle": {
+        "label": "Compare the approach",
+        "standard": "Standard software",
+        "tailored": "Tailored",
+        "standardCaption": "Your work has to fit into the box.",
+        "tailoredCaption": "The box takes the shape of your work."
+      },
+      "code": "fit(software, { to: \"you\" })",
+      "cta": {
+        "label": "Book a consultation",
+        "href": "#contatti"
+      }
+    },
+    {
+      "id": "facilitai",
+      "index": "S/02",
+      "kicker": "Coaching",
+      "title": "Facilit-AI",
+      "concept": "Coaching for business owners, designed to introduce you to the world of AI by trainers specialised in Non-Formal learning techniques.",
+      "pillars": [
+        {
+          "label": "For",
+          "value": "Business owners"
+        },
+        {
+          "label": "With",
+          "value": "Specialised trainers"
+        },
+        {
+          "label": "How",
+          "value": "Non-Formal learning"
+        }
+      ],
+      "aside": "First you learn how to use it. Then you decide where to put it to work.",
+      "cta": {
+        "label": "Let's talk",
+        "href": "#contatti"
+      }
+    }
+  ]
+}

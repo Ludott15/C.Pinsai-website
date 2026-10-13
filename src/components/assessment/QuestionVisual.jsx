@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useReducedMotion } from '../../hooks/useReducedMotion.js';
+import { useUi } from '../../pages/PageContext.jsx';
+import { fillTemplate } from '../../utils/text.js';
 
 /* Q1 — repetitive work: bits hop from one support to another, faster and denser as the hours grow. */
 function TransferVisual({ level, answers }) {
+  const t = useUi().viz;
   const intensity = level === null ? 1 : level + 1;
   const bits = 2 + intensity * 2;
 
   return (
     <div className="viz viz--transfer" style={{ '--speed': `${(3.4 - intensity * 0.55).toFixed(2)}s` }}>
       <div className="viz__box">
-        <span className="viz__box-title">fattura_0427.pdf</span>
+        <span className="viz__box-title">{t.transferFile}</span>
         <span className="viz__lines" />
       </div>
       <div className="viz__track">
@@ -18,14 +21,14 @@ function TransferVisual({ level, answers }) {
             {index % 3 === 0 ? '01' : index % 2 ? '1' : '0'}
           </span>
         ))}
-        <span className="viz__track-label">copia · incolla · ripeti</span>
+        <span className="viz__track-label">{t.transferTrack}</span>
       </div>
       <div className="viz__box viz__box--target">
-        <span className="viz__box-title">gestionale</span>
+        <span className="viz__box-title">{t.transferTarget}</span>
         <span className="viz__lines" />
       </div>
       <p className="viz__caption">
-        {level === null ? 'Ore a settimana: ?' : `Ore a settimana: ${answers[level].label.toLowerCase()}`}
+        {fillTemplate(t.transferCaption, { value: level === null ? '?' : answers[level].label.toLowerCase() })}
       </p>
     </div>
   );
@@ -33,6 +36,7 @@ function TransferVisual({ level, answers }) {
 
 /* Q2 — response time: an inbox where the waiting time keeps running until an answer is chosen. */
 function InboxVisual({ level, answers, selectionMicrocopy }) {
+  const t = useUi().viz;
   const reducedMotion = useReducedMotion();
   const [seconds, setSeconds] = useState(0);
   const waiting = level === null;
@@ -50,19 +54,19 @@ function InboxVisual({ level, answers, selectionMicrocopy }) {
     <div className={`viz viz--inbox${forgotten ? ' is-forgotten' : ''}${waiting ? '' : ' is-answered'}`}>
       <div className="inbox__bar">
         <span className="inbox__dot" />
-        <span>Nuovo messaggio · 21:47</span>
+        <span>{t.inboxNew}</span>
       </div>
       <div className="inbox__msg inbox__msg--in">
-        Buonasera, mi servirebbe un preventivo per giovedì. Riuscite a farmi sapere?
+        {t.inboxIn}
       </div>
       <div className="inbox__status">
         <span className="inbox__timer">{waiting ? clock : answers[level].label}</span>
         <span className="inbox__state">
-          {waiting ? 'in attesa di risposta' : forgotten ? 'nessun riscontro' : 'riscontro inviato'}
+          {waiting ? t.inboxWaiting : forgotten ? t.inboxForgotten : t.inboxAnswered}
         </span>
       </div>
       <div className="inbox__msg inbox__msg--out">
-        Certo! Ecco il preventivo strutturato.
+        {t.inboxOut}
       </div>
       {level !== null && level > 0 && selectionMicrocopy && <p className="viz__caption">{selectionMicrocopy}</p>}
     </div>
@@ -92,10 +96,9 @@ const EDGES = [
   { from: 'd', to: 'e', slow: 2, broken: 2 },
 ];
 
-const STATE_NAMES = ['attivo', 'rallentato', 'interrotto'];
-
 /* Q3 — key-person dependency: a process network that stays alive, slows down or breaks. */
 function NetworkVisual({ level }) {
+  const t = useUi().viz;
   const state = level === null ? 0 : level;
   const node = (id) => NODES.find((item) => item.id === id);
 
@@ -120,23 +123,23 @@ function NetworkVisual({ level }) {
           </g>
         ))}
         <text className="net__key-label" x="120" y="112" textAnchor="middle">
-          persona chiave
+          {t.networkKey}
         </text>
       </svg>
-      <p className="viz__caption">Processi: {STATE_NAMES[state]}</p>
+      <p className="viz__caption">{fillTemplate(t.networkCaption, { value: t.networkStates[state] })}</p>
     </div>
   );
 }
 
 const HUB = { x: 125, y: 88 };
 const CHANNELS = [
-  { id: 'crm', label: 'gestionale', x: 125, y: 18 },
-  { id: 'phone', label: 'cellulare', x: 38, y: 40 },
-  { id: 'email', label: 'email', x: 212, y: 40 },
-  { id: 'whatsapp', label: 'whatsapp', x: 26, y: 118 },
-  { id: 'social', label: 'social', x: 224, y: 118 },
-  { id: 'notes', label: 'note sparse', x: 70, y: 160 },
-  { id: 'private', label: 'chat privata · 23:14', x: 180, y: 160 },
+  { id: 'crm', x: 125, y: 18 },
+  { id: 'phone', x: 38, y: 40 },
+  { id: 'email', x: 212, y: 40 },
+  { id: 'whatsapp', x: 26, y: 118 },
+  { id: 'social', x: 224, y: 118 },
+  { id: 'notes', x: 70, y: 160 },
+  { id: 'private', x: 180, y: 160 },
 ];
 /* Which channels are in use for each answer, from one CRM to everything, nights included. */
 const CHANNELS_BY_LEVEL = [
@@ -148,6 +151,7 @@ const CHANNELS_BY_LEVEL = [
 
 /* Q4 — channels: requests flow into one inbox, or arrive from everywhere at once. */
 function ChannelsVisual({ level }) {
+  const t = useUi().viz;
   const active = level === null ? null : CHANNELS_BY_LEVEL[level];
   const state = level === null ? 'idle' : level >= 2 ? 'chaos' : 'calm';
 
@@ -171,7 +175,7 @@ function ChannelsVisual({ level }) {
               {on && <path className="chan__pulse" d={d} pathLength="100" />}
               <circle className="chan__node" cx={channel.x} cy={channel.y} r="7" />
               <text className="chan__label" x={channel.x} y={channel.y + (channel.y > HUB.y ? 17 : -11)} textAnchor="middle">
-                {channel.label}
+                {t.channels[channel.id]}
               </text>
             </g>
           );
@@ -179,11 +183,11 @@ function ChannelsVisual({ level }) {
         <g className="chan__hub">
           <rect x={HUB.x - 26} y={HUB.y - 15} width="52" height="30" rx="8" />
           <text x={HUB.x} y={HUB.y + 4} textAnchor="middle">
-            richieste
+            {t.channelsHub}
           </text>
         </g>
       </svg>
-      <p className="viz__caption">Canali attivi: {active ? active.length : '?'}</p>
+      <p className="viz__caption">{fillTemplate(t.channelsCaption, { value: active ? active.length : '?' })}</p>
     </div>
   );
 }
@@ -193,6 +197,7 @@ function ChannelsVisual({ level }) {
 const RECOVERED = 0.25;
 
 function ClockVisual({ level, answers, question }) {
+  const t = useUi().viz;
   const reducedMotion = useReducedMotion();
   const [percent, setPercent] = useState(reducedMotion ? 25 : 0);
 
@@ -246,7 +251,7 @@ function ClockVisual({ level, answers, question }) {
         </div>
       </div>
       <p className="viz__caption">
-        {level === null ? 'Tempo restituito → ?' : `Tempo restituito → ${answers[level].label}`}
+        {fillTemplate(t.clockCaption, { value: level === null ? '?' : answers[level].label })}
       </p>
     </div>
   );

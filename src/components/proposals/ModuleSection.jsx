@@ -3,7 +3,10 @@ import { createPortal } from 'react-dom';
 import { useInView } from '../../hooks/useInView.js';
 import { fillTemplate, whatsappUrl } from '../../utils/text.js';
 
-const fullTitle = (module) => [module.title, module.titleAccent].filter(Boolean).join(' ');
+/* "Modulo Eventi" in Italian, "Events Module" in English: the accent word can come first. */
+const titleParts = (module) =>
+  module.accentFirst ? [module.titleAccent, module.title] : [module.title, module.titleAccent];
+const fullTitle = (module) => titleParts(module).filter(Boolean).join(' ');
 
 /* Demo viewer: shows the module demo inside the card (iframe or video) once it exists. */
 function DemoViewer({ module, demo }) {
@@ -46,13 +49,14 @@ function ModuleCard({ module, selected, onToggle, request, demo }) {
     >
       <div className="module__main">
         <h3 id={titleId} className="module__title">
-          {module.title}
-          {module.titleAccent && (
-            <>
-              {' '}
-              <em>{module.titleAccent}</em>
-            </>
-          )}
+          {titleParts(module)
+            .filter(Boolean)
+            .map((part, index) => (
+              <span key={part}>
+                {index > 0 && ' '}
+                {part === module.titleAccent ? <em>{part}</em> : part}
+              </span>
+            ))}
         </h3>
         {module.lead && <p className="module__lead">{module.lead}</p>}
         {module.paragraphs.map((paragraph) => (

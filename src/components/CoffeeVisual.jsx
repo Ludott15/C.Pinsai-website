@@ -1,4 +1,6 @@
 import cupImage from '../assets/cpinsai-cup.webp';
+import { useUi } from '../pages/PageContext.jsx';
+import { fillTemplate } from '../utils/text.js';
 
 /**
  * The hero cup box (400 × 400 units, coffee surface at 50% 31.25%).
@@ -6,11 +8,12 @@ import cupImage from '../assets/cpinsai-cup.webp';
  * it shows while the WebGL cup loads, and stays where WebGL is not used.
  */
 export default function CoffeeVisual({ brandName }) {
+  const ui = useUi();
   return (
     <div
       className="coffee"
       role="img"
-      aria-label={`Tazzina di caffè ${brandName} in ceramica avorio con bordo blu, sul suo piattino`}
+      aria-label={fillTemplate(ui.cupLabel, { brand: brandName })}
     >
       <div className="coffee__camera">
         <img className="coffee__image" src={cupImage} alt="" width="1000" height="1000" decoding="async" />

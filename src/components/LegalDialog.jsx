@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react';
+import { useUi } from '../pages/PageContext.jsx';
 
 /** Native modal dialog: focus trapping, Escape and the backdrop are handled by the browser. */
 export default function LegalDialog({ entry, onClose }) {
+  const ui = useUi();
   const ref = useRef(null);
 
   useEffect(() => {
@@ -25,7 +27,7 @@ export default function LegalDialog({ entry, onClose }) {
             <p key={paragraph}>{paragraph}</p>
           ))}
           <button type="button" className="button button--primary" onClick={onClose} autoFocus>
-            Chiudi
+            {ui.close}
           </button>
         </div>
       )}

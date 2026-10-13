@@ -1,11 +1,11 @@
 import { useRef, useState } from 'react';
 import { fillTemplate } from '../utils/text.js';
+import { usePage, useUi } from '../pages/PageContext.jsx';
+import { sendContact } from '../utils/sendContact.js';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const FIELDS = ['name', 'email', 'message'];
 const EMPTY = { name: '', email: '', message: '' };
-/** The site is static: messages reach the inbox through FormSubmit (no account, no keys). */
-const endpoint = (recipient) => `https://formsubmit.co/ajax/${recipient}`;
 
 function validate(values, copy) {
   const errors = {};
@@ -26,6 +26,9 @@ function validate(values, copy) {
 }
 
 export default function ContactForm({ form }) {
+  const ui = useUi();
+  const page = usePage();
+  const honeypot = useRef(null);
   const [values, setValues] = useState(EMPTY);
   const [touched, setTouched] = useState({});
   const [submitted, setSubmitted] = useState(false);
@@ -68,21 +71,15 @@ export default function ContactForm({ form }) {
 
     setStatus({ type: 'sending', link: '' });
     try {
-      const response = await fetch(endpoint(form.recipient), {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          name,
-          email,
-          message,
-          _subject: form.subject,
-          _replyto: email,
-          _template: 'table',
-          _captcha: 'false',
-        }),
+      await sendContact({
+        apiUrl: `${page.siteRoot}api/contact`,
+        recipient: form.recipient,
+        subject: form.subject,
+        name,
+        email,
+        message,
+        website: honeypot.current?.value ?? '',
       });
-      const result = await response.json().catch(() => ({}));
-      if (!response.ok || String(result.success) === 'false') throw new Error(result.message || 'send failed');
       setStatus({ type: 'success', link: '' });
       setValues(EMPTY);
       setTouched({});
@@ -136,8 +133,8 @@ export default function ContactForm({ form }) {
   return (
     <form className="form" noValidate onSubmit={onSubmit} aria-labelledby="form-title">
       <p className="form__ticket" aria-hidden="true">
-        <span>ordine.nuovo()</span>
-        <span>espresso × 1</span>
+        <span>{ui.formTicket[0]}</span>
+        <span>{ui.formTicket[1]}</span>
       </p>
       <h3 id="form-title" className="form__title">
         {form.title}
@@ -147,6 +144,17 @@ export default function ContactForm({ form }) {
       {field('name', { type: 'text', autoComplete: 'name' })}
       {field('email', { type: 'email', autoComplete: 'email', inputMode: 'email' })}
       {field('message', { multiline: true })}
+
+      {/* Honeypot: hidden from people and assistive tech, filled in only by spam bots. */}
+      <input
+        ref={honeypot}
+        className="form__trap"
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+      />
 
       <button
         type="submit"

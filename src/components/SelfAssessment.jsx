@@ -7,6 +7,7 @@ import { useReducedMotion } from '../hooks/useReducedMotion.js';
 import { useInView } from '../hooks/useInView.js';
 import { computeScore, findProfile } from '../utils/assessment.js';
 import { fillTemplate } from '../utils/text.js';
+import { useUi } from '../pages/PageContext.jsx';
 
 /** Time the selected answer stays on screen (check mark + pulse) before moving on. */
 const PICK_DELAY = 650;
@@ -20,7 +21,8 @@ const leaveDuration = (reducedMotion) => {
 };
 
 export default function SelfAssessment({ data }) {
-  const { intro, ui, questions, bonus, result } = data;
+  const { intro, ui: copy, questions, bonus, result } = data;
+  const ui = useUi();
   /* The announced questions ("Domanda X di 4") and, after them, the unannounced bonus one. */
   const total = questions.length;
   const steps = bonus ? [...questions, bonus] : questions;
@@ -75,7 +77,7 @@ export default function SelfAssessment({ data }) {
   };
 
   const stepLabel = (index) =>
-    index < total ? fillTemplate(ui.progressLabel, { current: index + 1, total }) : ui.bonusLabel;
+    index < total ? fillTemplate(copy.progressLabel, { current: index + 1, total }) : copy.bonusLabel;
 
   const showQuestion = (index) => {
     setStage('quiz');
@@ -164,7 +166,7 @@ export default function SelfAssessment({ data }) {
             {stage === 'intro' && (
               <div className="check__start">
                 <p className="check__subtitle">{intro.subtitle}</p>
-                <ul className="check__meta" aria-label="In breve">
+                <ul className="check__meta" aria-label={ui.inBrief}>
                   {intro.meta.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
@@ -198,7 +200,7 @@ export default function SelfAssessment({ data }) {
                   selected={selections[current]}
                   picking={picking}
                   onSelect={select}
-                  ui={ui}
+                  ui={copy}
                   onBack={goBack}
                   onNext={goNext}
                 />
@@ -212,7 +214,7 @@ export default function SelfAssessment({ data }) {
                 questions={steps}
                 selections={selections}
                 onRestart={restart}
-                restartLabel={ui.restartLabel}
+                restartLabel={copy.restartLabel}
               />
             )}
           </div>

@@ -305,6 +305,14 @@
   text-underline-offset: 6px;
 }
 
+.form__trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
 .phone__copy {
   display: inline-flex;
   align-items: center;
