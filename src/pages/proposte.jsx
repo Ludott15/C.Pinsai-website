@@ -7,6 +7,6 @@ import { mount } from './mount.jsx';
 mount(
   { id: 'proposte', root: '../' },
   <PageShell>
-    <Proposals intro={site.proposalsIntro} categories={proposals.categories} />
+    <Proposals intro={site.proposalsIntro} data={proposals} phone={site.contact.phoneE164} />
   </PageShell>,
 );

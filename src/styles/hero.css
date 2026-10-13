@@ -15,7 +15,8 @@
   position: sticky;
   top: 0;
   height: 100vh;
-  height: 100svh;
+  /* Dynamic viewport: follows the mobile browser bars, so no strip of the page shows below the stage. */
+  height: 100dvh;
   overflow: clip;
 }
 
@@ -467,8 +468,9 @@
   justify-items: center;
   gap: 22px;
   text-align: center;
-  opacity: var(--dive, 0);
-  transform: translateY(calc((1 - var(--dive, 0)) * 36px));
+  /* Fades in with the dive, then drifts up and out as the Coffee Check arrives. */
+  opacity: calc(var(--dive, 0) * (1 - var(--out, 0)));
+  transform: translateY(calc((1 - var(--dive, 0)) * 36px - var(--out, 0) * 48px));
 }
 
 .dive__label {

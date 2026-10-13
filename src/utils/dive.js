@@ -30,7 +30,8 @@ export function getDiveState(progress) {
     '--steam': 1 - smootherstep(segment(progress, 0.18, 0.46)),
     '--fill': smootherstep(segment(progress, 0.54, 0.88)),
     '--dive': smootherstep(segment(progress, 0.66, 0.86)),
-    '--steps': segment(progress, 0.78, 0.98),
+    '--steps': segment(progress, 0.74, 0.9),
+    '--out': smootherstep(segment(progress, 0.93, 1)),
   };
 }
 

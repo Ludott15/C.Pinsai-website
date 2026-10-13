@@ -15,7 +15,15 @@
     {
       "label": "Soluzioni",
       "href": "soluzioni/",
-      "page": "soluzioni"
+      "page": "soluzioni",
+      "children": [
+        {
+          "label": "Le nostre demo",
+          "href": "proposte/",
+          "page": "proposte"
+        }
+      ],
+      "submenuLabel": "Apri il sottomenu Soluzioni"
     },
     {
       "label": "Numeri",
@@ -161,10 +169,10 @@
   },
   "proposalsIntro": {
     "index": "02",
-    "kicker": "Proposte",
+    "kicker": "Le nostre demo",
     "title": "Le nostre proposte",
     "subtitle": "Non un gestionale in più: un'infrastruttura operativa costruita attorno al tuo settore.",
-    "navLabel": "Servizi",
+    "navLabel": "Settori",
     "back": {
       "label": "Torna ai Numeri",
       "href": "#numeri"

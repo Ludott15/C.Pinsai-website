@@ -34,6 +34,37 @@
   max-width: 900px;
 }
 
+/* Coming out of the dive: the intro surfaces line by line. */
+.check__intro > *,
+.check__panel {
+  opacity: 0;
+  transform: translateY(28px);
+  filter: blur(4px);
+  transition:
+    opacity 0.9s var(--ease-out),
+    transform 0.9s var(--ease-out),
+    filter 0.9s var(--ease-out);
+}
+
+.check__intro > :nth-child(2) {
+  transition-delay: 0.1s;
+}
+
+.check__intro > :nth-child(3) {
+  transition-delay: 0.2s;
+}
+
+.check__intro.is-visible > *,
+.check__intro.is-visible ~ .check__panel {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+.check__intro.is-visible ~ .check__panel {
+  transition-delay: 0.3s;
+}
+
 .check__title {
   font-size: var(--fs-h2);
   color: var(--cream);
@@ -735,35 +766,49 @@
 
 .week__blocks {
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   gap: 6px;
 }
 
 .week__block {
+  position: relative;
   display: grid;
   place-items: end start;
-  height: clamp(48px, 9vw, 64px);
-  padding: 6px 7px;
+  height: clamp(52px, 10vw, 68px);
+  padding: 6px 8px;
+  overflow: hidden;
   border-radius: 10px;
   background: rgb(245 239 226 / 0.2);
   color: var(--on-dark-muted);
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
-.week__block.is-free {
+/* The recovered share fills each day from the right (the 6th day is three quarters free). */
+.week__free {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: calc(var(--free) * 100%);
   border: 2px dashed var(--pink-light);
-  background: rgb(224 74 149 / 0.16);
-  color: var(--pink-light);
-  font-weight: 700;
+  border-radius: 10px;
+  background: rgb(224 74 149 / 0.2);
+  transform-origin: right;
   animation: free-block 0.8s var(--ease-out) both;
-  animation-delay: calc(0.7s + (var(--i) - 6) * 0.2s);
+  animation-delay: calc(0.7s + (var(--i) - 5) * 0.25s);
+}
+
+.week__day {
+  position: relative;
+}
+
+.week__block:has(.week__free) .week__day {
+  color: var(--pink-light);
 }
 
 @keyframes free-block {
   from {
-    border-color: transparent;
-    background: rgb(245 239 226 / 0.2);
-    color: var(--on-dark-muted);
+    opacity: 0;
+    transform: scaleX(0);
   }
 }
 
@@ -1004,5 +1049,14 @@
   .result__body {
     grid-template-columns: minmax(260px, 4fr) minmax(0, 7fr);
     gap: clamp(32px, 5vw, 64px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .check__intro > *,
+  .check__panel {
+    opacity: 1;
+    transform: none;
+    filter: none;
   }
 }

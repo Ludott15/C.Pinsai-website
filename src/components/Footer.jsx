@@ -24,7 +24,7 @@ export default function Footer({ brand, content, navigation, contact, legal }) {
             {content.navTitle}
           </h2>
           <ul>
-            {navigation.map((item) => (
+            {navigation.flatMap((item) => [item, ...(item.children ?? [])]).map((item) => (
               <li key={item.href}>
                 <a href={toHref(item.href)}>{item.label}</a>
               </li>

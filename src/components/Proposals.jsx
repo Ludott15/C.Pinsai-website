@@ -1,45 +1,62 @@
 import { useEffect, useRef, useState } from 'react';
 import SectionHeader from './SectionHeader.jsx';
-import ProposalCard from './proposals/ProposalCard.jsx';
+import ModuleSection from './proposals/ModuleSection.jsx';
+import ProductShowcase from './proposals/ProductShowcase.jsx';
+import WipPanel from './proposals/WipPanel.jsx';
 import { useHref } from '../pages/PageContext.jsx';
 
-/** Follows which category is in view, to highlight its pill. */
-function useActiveCategory(ids) {
-  const [active, setActive] = useState(ids[0]);
+const sectionFromHash = (sections) => {
+  const id = window.location.hash.slice(1);
+  return sections.some((section) => section.id === id) ? id : sections[0].id;
+};
+
+/**
+ * "Le nostre demo": a pill for every sector; choosing one opens its section
+ * (tabs, with the choice kept in the address so it can be linked and survives "back").
+ */
+export default function Proposals({ intro, data, phone }) {
+  const { sections, request, demo } = data;
+  const [active, setActive] = useState(() => sectionFromHash(sections));
+  const pillsRef = useRef(null);
+  const panelRef = useRef(null);
+  const toHref = useHref();
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActive(entry.target.id);
-        });
-      },
-      { rootMargin: '-40% 0px -55% 0px' },
-    );
-    ids.forEach((id) => {
-      const node = document.getElementById(id);
-      if (node) observer.observe(node);
-    });
-    return () => observer.disconnect();
-  }, [ids]);
-
-  return active;
-}
-
-export default function Proposals({ intro, categories }) {
-  const [ids] = useState(() => categories.map((category) => category.id));
-  const active = useActiveCategory(ids);
-  const pillsRef = useRef(null);
-  const toHref = useHref();
+    const onHash = () => setActive(sectionFromHash(sections));
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, [sections]);
 
   /* Keep the active pill visible inside the horizontal list, without moving the page. */
   useEffect(() => {
     const list = pillsRef.current;
     const pill = list?.querySelector(`[data-id="${active}"]`);
     if (!list || !pill) return;
-    const left = pill.offsetLeft - (list.clientWidth - pill.offsetWidth) / 2;
-    list.scrollTo({ left, behavior: 'smooth' });
+    list.scrollTo({ left: pill.offsetLeft - (list.clientWidth - pill.offsetWidth) / 2, behavior: 'smooth' });
   }, [active]);
+
+  const open = (id) => {
+    if (id === active) return;
+    window.history.replaceState(null, '', `#${id}`);
+    setActive(id);
+    const panel = panelRef.current;
+    if (panel && panel.getBoundingClientRect().top < 0) {
+      panel.scrollIntoView({ block: 'start' });
+    }
+  };
+
+  /* Arrow keys move between tabs, as in any tab list. */
+  const onKeyDown = (event) => {
+    const index = sections.findIndex((section) => section.id === active);
+    const step = { ArrowRight: 1, ArrowLeft: -1 }[event.key];
+    if (!step) return;
+    event.preventDefault();
+    const next = sections[(index + step + sections.length) % sections.length].id;
+    open(next);
+    pillsRef.current?.querySelector(`[data-id="${next}"]`)?.focus();
+  };
+
+  const section = sections.find((item) => item.id === active);
 
   return (
     <section className="proposals" aria-labelledby="proposals-title">
@@ -47,36 +64,40 @@ export default function Proposals({ intro, categories }) {
         <SectionHeader id="proposals-title" as="h1" {...intro} />
       </div>
 
-      <nav className="pills" aria-label={intro.navLabel}>
-        <ul ref={pillsRef} className="pills__list shell">
-          {categories.map((category) => (
-            <li key={category.id}>
-              <a
-                href={`#${category.id}`}
-                data-id={category.id}
-                className="pills__pill"
-                aria-current={active === category.id ? 'true' : undefined}
-              >
-                {category.label}
-              </a>
-            </li>
+      <div className="pills">
+        <div ref={pillsRef} className="pills__list shell" role="tablist" aria-label={intro.navLabel} onKeyDown={onKeyDown}>
+          {sections.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              role="tab"
+              id={`tab-${item.id}`}
+              data-id={item.id}
+              className="pills__pill"
+              aria-selected={item.id === active}
+              aria-controls="sector-panel"
+              tabIndex={item.id === active ? 0 : -1}
+              onClick={() => open(item.id)}
+            >
+              {item.label}
+            </button>
           ))}
-        </ul>
-      </nav>
+        </div>
+      </div>
 
-      <div className="proposals__groups shell">
-        {categories.map((category) => (
-          <section key={category.id} id={category.id} className="proposals__group" aria-labelledby={`${category.id}-group`}>
-            <h2 id={`${category.id}-group`} className="proposals__group-title">
-              {category.label}
-            </h2>
-            <div className="proposals__cards">
-              {category.cards.map((card) => (
-                <ProposalCard key={card.id} card={card} />
-              ))}
-            </div>
-          </section>
-        ))}
+      <div
+        ref={panelRef}
+        id="sector-panel"
+        className="sector shell"
+        role="tabpanel"
+        aria-labelledby={`tab-${active}`}
+        key={active}
+      >
+        {section.type === 'product' && <ProductShowcase section={section} phone={phone} />}
+        {section.type === 'modules' && (
+          <ModuleSection section={section} request={request} demo={demo} phone={phone} />
+        )}
+        {section.type === 'wip' && <WipPanel section={section} phone={phone} />}
       </div>
 
       <div className="proposals__back shell">
