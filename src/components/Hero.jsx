@@ -6,9 +6,10 @@ import { useScrollProgress } from '../hooks/useScrollProgress.js';
 import { applyDiveState, clearDiveState } from '../utils/dive.js';
 import modelUrl from '../assets/cpinsai-cup.glb?url';
 import { toBinary } from '../utils/text.js';
+import { useHref } from '../pages/PageContext.jsx';
 
 /** Vertical position of the coffee surface inside the cup visual box (see CoffeeVisual geometry). */
-const COFFEE_CENTER_Y = 296 / 540;
+const COFFEE_CENTER_Y = 125 / 400;
 /** Time constant (ms) of the scroll smoothing: the dive glides instead of following every wheel step. */
 const SCROLL_SMOOTHING = 140;
 const MOBILE_QUERY = '(max-width: 640px)';
@@ -32,6 +33,7 @@ export default function Hero({ content, dive, brandName }) {
   const latest = useRef({ state: null, layout: null });
   const [renderer, setRenderer] = useState('svg');
   const reducedMotion = useReducedMotion();
+  const toHref = useHref();
 
   const onProgress = useCallback((progress) => {
     const state = applyDiveState(trackRef.current, progress);
@@ -146,10 +148,27 @@ export default function Hero({ content, dive, brandName }) {
         <canvas ref={canvasRef} className="hero__canvas" aria-hidden="true" />
 
         <div className="hero__grid shell">
-          <p className="hero__kicker">
-            <span className="hero__kicker-dot" aria-hidden="true" />
-            {content.kicker}
-          </p>
+          {/* Scrolling banner: always points to the latest product. */}
+          <a className="hero__kicker banner" href={toHref(content.banner.href)}>
+            <span className="banner__badge">
+              <span className="hero__kicker-dot" aria-hidden="true" />
+              {content.banner.badge}
+            </span>
+            <span className="banner__track">
+              <span className="banner__text">
+                {content.banner.text}
+                <span className="visually-hidden"> — {content.banner.cta}</span>
+              </span>
+              {[1, 2].map((copy) => (
+                <span key={copy} className="banner__text" aria-hidden="true">
+                  {content.banner.text}
+                </span>
+              ))}
+            </span>
+            <span className="banner__cta" aria-hidden="true">
+              {content.banner.cta} →
+            </span>
+          </a>
 
           <h1 id="hero-title" className="hero__title">
             <span className="hero__line hero__line--a">{content.headline[0]}</span>{' '}

@@ -43,10 +43,11 @@ export default function ProductShowcase({ section, phone }) {
   return (
     <article className="product" aria-labelledby={`${section.id}-name`}>
       <header ref={heroRef} className={`product__hero${heroInView ? ' is-visible' : ''}`}>
-        <p className="product__meta">
-          <code>{section.code}</code>
-          {section.status && <span className="badge">{section.status}</span>}
-        </p>
+        {section.status && (
+          <p className="product__meta">
+            <span className="badge">{section.status}</span>
+          </p>
+        )}
         <h2 id={`${section.id}-name`} className="product__name">
           {section.name}
           {section.nameAccent && <em>{section.nameAccent}</em>}

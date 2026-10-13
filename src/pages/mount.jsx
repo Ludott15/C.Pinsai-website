@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import '@fontsource-variable/bricolage-grotesque';
 import '@fontsource-variable/jetbrains-mono';
+import '@fontsource-variable/inter';
 import '../styles/index.css';
 import { PageContext } from './PageContext.jsx';
 

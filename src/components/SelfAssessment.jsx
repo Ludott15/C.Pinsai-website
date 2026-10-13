@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import QuestionCard from './assessment/QuestionCard.jsx';
+import SectionWave from './SectionWave.jsx';
 import AssessmentProgress from './assessment/AssessmentProgress.jsx';
 import AssessmentResult from './assessment/AssessmentResult.jsx';
 import { useReducedMotion } from '../hooks/useReducedMotion.js';
@@ -218,11 +219,7 @@ export default function SelfAssessment({ data }) {
         </div>
       </div>
 
-      <div className="check__waves" aria-hidden="true">
-        <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
-          <path d="M0 120 L0 64 C 160 20, 320 96, 520 60 C 720 24, 860 92, 1060 58 C 1220 30, 1340 70, 1440 44 L1440 120 Z" />
-        </svg>
-      </div>
+      <SectionWave to="brown-900" />
     </section>
   );
 }

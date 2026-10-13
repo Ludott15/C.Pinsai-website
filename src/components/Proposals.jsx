@@ -4,6 +4,7 @@ import ModuleSection from './proposals/ModuleSection.jsx';
 import ProductShowcase from './proposals/ProductShowcase.jsx';
 import WipPanel from './proposals/WipPanel.jsx';
 import { useHref } from '../pages/PageContext.jsx';
+import SectionWave from './SectionWave.jsx';
 
 const sectionFromHash = (sections) => {
   const id = window.location.hash.slice(1);
@@ -108,6 +109,7 @@ export default function Proposals({ intro, data, phone }) {
           {intro.back.label}
         </a>
       </div>
+      <SectionWave to="brown-900" />
     </section>
   );
 }

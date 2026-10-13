@@ -29,6 +29,12 @@
   z-index: 50;
   max-width: 1240px;
   margin-inline: auto;
+  transition: transform 0.35s var(--ease-out);
+}
+
+/* Hidden while scrolling down, back at the smallest scroll up. */
+.header.is-hidden {
+  transform: translateY(calc(-100% - 20px));
 }
 
 .header__bar {
@@ -98,133 +104,6 @@
   margin-left: -2.5px;
   border-radius: 50%;
   background: var(--pink);
-}
-
-.nav__link.has-current {
-  color: var(--brown);
-}
-
-/* Soluzioni → "Le nostre demo": a small dropdown on desktop, a nested list on mobile. */
-.nav__group {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.nav--desktop .nav__group > .nav__link {
-  padding-right: 6px;
-}
-
-.nav__caret {
-  display: inline-grid;
-  place-items: center;
-  width: 28px;
-  height: 44px;
-  margin-right: 4px;
-  padding: 0;
-  border: 0;
-  border-radius: 999px;
-  background: none;
-  color: var(--ink-muted);
-}
-
-.nav__caret::before {
-  content: '';
-  width: 7px;
-  height: 7px;
-  margin-top: -4px;
-  border-right: 1.6px solid currentColor;
-  border-bottom: 1.6px solid currentColor;
-  transform: rotate(45deg);
-  transition: transform 0.25s var(--ease-out);
-}
-
-.nav__caret:hover {
-  color: var(--brown);
-}
-
-.nav__group[data-open] .nav__caret::before {
-  transform: translateY(4px) rotate(225deg);
-}
-
-.nav--desktop .nav__submenu {
-  position: absolute;
-  top: calc(100% + 6px);
-  left: 0;
-  display: grid;
-  min-width: 210px;
-  padding: 8px;
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius-sm);
-  background: var(--cream-50);
-  box-shadow: 0 24px 50px -30px rgb(28 16 11 / 0.6);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-6px);
-  transition:
-    opacity 0.2s ease,
-    transform 0.25s var(--ease-out),
-    visibility 0s linear 0.25s;
-}
-
-/* Bridge the gap so the pointer can travel from the link to the menu. */
-.nav--desktop .nav__submenu::before {
-  content: '';
-  position: absolute;
-  inset: -10px 0 auto;
-  height: 10px;
-}
-
-.nav--desktop .nav__group:hover .nav__submenu,
-.nav--desktop .nav__group[data-open] .nav__submenu {
-  opacity: 1;
-  visibility: visible;
-  transform: none;
-  transition-delay: 0s;
-}
-
-.nav__sublink {
-  position: relative;
-  display: flex;
-  align-items: center;
-  min-height: 44px;
-  padding: 0 14px;
-  border-radius: 10px;
-  font-size: var(--fs-small);
-  font-weight: 500;
-  text-decoration: none;
-  color: var(--ink-muted);
-}
-
-.nav__sublink:hover {
-  background: var(--cream);
-  color: var(--brown);
-}
-
-.nav__sublink[aria-current] {
-  color: var(--brown);
-}
-
-.nav__sublink[aria-current]::before {
-  content: '';
-  width: 5px;
-  height: 5px;
-  margin-right: 10px;
-  border-radius: 50%;
-  background: var(--pink);
-}
-
-.nav--mobile .nav__group {
-  display: block;
-}
-
-.nav--mobile .nav__submenu {
-  padding-left: 18px;
-}
-
-.nav--mobile .nav__sublink {
-  min-height: 48px;
-  font-size: 1.0625rem;
 }
 
 .header__cta {

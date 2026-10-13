@@ -23,14 +23,16 @@
 
   --font-sans: 'Bricolage Grotesque Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  /* Third font, only inside demo mockups and visuals: they read as product UI, not as the site. */
+  --font-demo: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   --fs-micro: 0.75rem;
   --fs-small: 0.9375rem;
   --fs-body: 1.0625rem;
   --fs-lead: clamp(1.0625rem, 0.98rem + 0.4vw, 1.3125rem);
-  --fs-h3: clamp(1.45rem, 1.1rem + 1.3vw, 2.15rem);
-  --fs-h2: clamp(2.1rem, 1.3rem + 3.3vw, 4.25rem);
-  --fs-h1: clamp(2.3rem, 1.15rem + 4.4vw, 5.4rem);
+  --fs-h3: clamp(1.35rem, 1.05rem + 1.1vw, 1.95rem);
+  --fs-h2: clamp(1.9rem, 1.25rem + 2.7vw, 3.6rem);
+  --fs-h1: clamp(2.15rem, 1.1rem + 4vw, 4.75rem);
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
@@ -382,6 +384,39 @@ main:focus {
 .section-head.is-visible > * {
   opacity: 1;
   transform: none;
+}
+
+/* ==========================================================================
+   Demo font: every mockup and visual demo shares it, labels included.
+   ========================================================================== */
+:is(.question__visual, .feature__visual, .module__demo, .product__example, .fv, .viz, .week) {
+  --font-sans: var(--font-demo);
+  --font-mono: var(--font-demo);
+  font-family: var(--font-demo);
+  letter-spacing: -0.005em;
+}
+
+/* ==========================================================================
+   Wavy section edges
+   ========================================================================== */
+.wave {
+  position: absolute;
+  inset: auto 0 -1px;
+  height: clamp(40px, 7vw, 110px);
+  pointer-events: none;
+}
+
+.wave svg {
+  width: 100%;
+  height: 100%;
+}
+
+.wave--cream {
+  fill: var(--cream);
+}
+
+.wave--brown-900 {
+  fill: var(--brown-900);
 }
 
 /* ==========================================================================

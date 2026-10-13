@@ -2,8 +2,8 @@
   "request": {
     "selectLabel": "Seleziona il modulo",
     "selectedLabel": "Modulo selezionato",
-    "barEmpty": "Seleziona uno o più moduli per richiederli su WhatsApp.",
     "barSelected": "Moduli selezionati: {count}",
+    "panelTitle": "La tua richiesta",
     "sendLabel": "Richiedi su WhatsApp",
     "message": "Ciao C.PINSAI, vorrei ricevere informazioni su: {modules} ({section})."
   },
@@ -17,7 +17,6 @@
       "id": "segretaria",
       "label": "SegretarIA",
       "type": "product",
-      "code": "/segretaria",
       "name": "Segretar",
       "nameAccent": "IA",
       "lead": "La tua nuova spalla per messaggi, promemoria, contabilità e clienti: lavora in silenzio, ti chiede conferma quando serve.",
@@ -75,7 +74,6 @@
       "modules": [
         {
           "id": "eventi",
-          "code": "ristorazione/eventi",
           "title": "Modulo Eventi",
           "paragraphs": [
             "Una soluzione per la tua location eventi, la quale permetterà al tuo cliente di creare la sua prossima esperienza personalizzata, in completa autonomia.",
@@ -100,7 +98,6 @@
         },
         {
           "id": "classic",
-          "code": "ristorazione/classic",
           "title": "Modulo Classic",
           "lead": "Tutto quello che ti serve in un solo posto.",
           "paragraphs": [
@@ -125,7 +122,6 @@
       "id": "palestre",
       "label": "Palestre",
       "type": "product",
-      "code": "/palestre",
       "status": "In arrivo",
       "name": "Infrastruttura per Palestre",
       "lead": "Il tuo migliore strumento, se possiedi una palestra, cambia il modo in cui fidelizzi la tua clientela, rivoluziona la loro esperienza di Allenamento",
