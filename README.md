@@ -19,7 +19,7 @@ Requisiti: Node.js 20+.
 Sito multi-pagina statico (Vite, nessun router): ogni pagina è un file HTML con il suo ingresso React.
 
 ```
-index.html                  Landing: Hero → Dive → Self-Assessment → Numeri → CTA → Contatti
+index.html                  Landing: Hero → Dive → Self-Assessment → Soluzioni → Numeri → Contatti
 soluzioni/index.html        redirect ai vecchi link: le Soluzioni ora sono nella home (#soluzioni)
 proposte/index.html         Le nostre demo: un settore alla volta (SegretarIA, Ristorazione, Palestre, Officine) + Contatti
 public/favicon.svg
