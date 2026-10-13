@@ -11,7 +11,7 @@ export default function Services({ intro, items }) {
   return (
     <section id="soluzioni" className="services" aria-labelledby="services-title">
       <div className="shell">
-        <SectionHeader id="services-title" as="h1" {...intro} />
+        <SectionHeader id="services-title" {...intro} />
         <div className="services__grid">
           {items.map((item) => {
             const Solution = SOLUTIONS[item.id];

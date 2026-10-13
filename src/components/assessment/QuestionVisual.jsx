@@ -128,8 +128,68 @@ function NetworkVisual({ level }) {
   );
 }
 
-/* Q4 — opportunity: 25% of the repetitive timeline frees itself and becomes yours. */
-/** Share of the week given back in question 4 (25%). */
+const HUB = { x: 125, y: 88 };
+const CHANNELS = [
+  { id: 'crm', label: 'gestionale', x: 125, y: 18 },
+  { id: 'phone', label: 'cellulare', x: 38, y: 40 },
+  { id: 'email', label: 'email', x: 212, y: 40 },
+  { id: 'whatsapp', label: 'whatsapp', x: 26, y: 118 },
+  { id: 'social', label: 'social', x: 224, y: 118 },
+  { id: 'notes', label: 'note sparse', x: 70, y: 160 },
+  { id: 'private', label: 'chat privata · 23:14', x: 180, y: 160 },
+];
+/* Which channels are in use for each answer, from one CRM to everything, nights included. */
+const CHANNELS_BY_LEVEL = [
+  ['crm'],
+  ['phone', 'email'],
+  ['phone', 'email', 'whatsapp', 'social', 'notes'],
+  ['phone', 'email', 'whatsapp', 'social', 'notes', 'private'],
+];
+
+/* Q4 — channels: requests flow into one inbox, or arrive from everywhere at once. */
+function ChannelsVisual({ level }) {
+  const active = level === null ? null : CHANNELS_BY_LEVEL[level];
+  const state = level === null ? 'idle' : level >= 2 ? 'chaos' : 'calm';
+
+  return (
+    <div className={`viz viz--channels is-${state}${level === 3 ? ' is-off-hours' : ''}`}>
+      <svg viewBox="0 0 250 178" aria-hidden="true">
+        {CHANNELS.map((channel, index) => {
+          const on = active?.includes(channel.id);
+          /* In the chaos states the lines bend: requests take crooked paths to get in. */
+          const bend = state === 'chaos' ? (index % 2 ? 22 : -22) : 0;
+          const mx = (channel.x + HUB.x) / 2 + bend;
+          const my = (channel.y + HUB.y) / 2 - bend / 2;
+          const d = `M${channel.x} ${channel.y} Q${mx} ${my} ${HUB.x} ${HUB.y}`;
+          return (
+            <g
+              key={channel.id}
+              className={`chan${on ? ' is-on' : ''}${channel.id === 'private' ? ' chan--private' : ''}`}
+              style={{ '--i': index }}
+            >
+              <path className="chan__line" d={d} />
+              {on && <path className="chan__pulse" d={d} pathLength="100" />}
+              <circle className="chan__node" cx={channel.x} cy={channel.y} r="7" />
+              <text className="chan__label" x={channel.x} y={channel.y + (channel.y > HUB.y ? 17 : -11)} textAnchor="middle">
+                {channel.label}
+              </text>
+            </g>
+          );
+        })}
+        <g className="chan__hub">
+          <rect x={HUB.x - 26} y={HUB.y - 15} width="52" height="30" rx="8" />
+          <text x={HUB.x} y={HUB.y + 4} textAnchor="middle">
+            richieste
+          </text>
+        </g>
+      </svg>
+      <p className="viz__caption">Canali attivi: {active ? active.length : '?'}</p>
+    </div>
+  );
+}
+
+/* Bonus — opportunity: 25% of the repetitive timeline frees itself and becomes yours. */
+/** Share of the week given back in the bonus question (25%). */
 const RECOVERED = 0.25;
 
 function ClockVisual({ level, answers, question }) {
@@ -206,6 +266,7 @@ const VISUALS = {
   transfer: TransferVisual,
   inbox: InboxVisual,
   network: NetworkVisual,
+  channels: ChannelsVisual,
   clock: ClockVisual,
   bonus: BonusVisual,
 };

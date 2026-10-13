@@ -14,8 +14,7 @@
     },
     {
       "label": "Soluzioni",
-      "href": "soluzioni/",
-      "page": "soluzioni"
+      "href": "#soluzioni"
     },
     {
       "label": "Le nostre demo",
@@ -60,13 +59,13 @@
     ]
   },
   "solutionsIntro": {
-    "index": "01",
+    "index": "02",
     "kicker": "Soluzioni",
     "title": "La tua Soluzione AI",
     "subtitle": "Scegli tra i pacchetti base e prenota una consulenza per poter personalizzare il servizio giusto per te"
   },
   "metricsIntro": {
-    "index": "02",
+    "index": "03",
     "kicker": "Numeri",
     "title": "I Numeri Parlano Chiaro",
     "subtitle": "Risultati concreti che le nostre aziende partner hanno ottenuto",
@@ -74,7 +73,7 @@
     "hintDesktop": "Passa sopra un numero o cliccalo per scoprire perché conta."
   },
   "contact": {
-    "index": "03",
+    "index": "04",
     "kicker": "Contatti",
     "title": "Parliamone Davanti a un Caffè",
     "subtitle": "Virtuale o reale, siamo qui per ascoltarti e costruire la soluzione perfetta per te",
@@ -116,7 +115,10 @@
       "blockedText": "Il browser ha bloccato l'apertura di WhatsApp. Usa il collegamento qui sotto per inviare il messaggio.",
       "openLinkLabel": "Apri il messaggio su WhatsApp",
       "messageTemplate": "Ciao C.PINSAI, sono {name} ({email}).\n\n{message}"
-    }
+    },
+    "email": "cpinsai02@gmail.com",
+    "emailLabel": "Email",
+    "phoneLabel": "Telefono"
   },
   "footer": {
     "tagline": "Caffè, codice e persone. Prepariamo l'AI attorno al modo in cui lavori.",
@@ -160,10 +162,6 @@
     "kicker": "Le nostre demo",
     "title": "Le nostre proposte",
     "subtitle": "Non un gestionale in più: un'infrastruttura operativa costruita attorno al tuo settore.",
-    "navLabel": "Settori",
-    "back": {
-      "label": "Torna ai Numeri",
-      "href": "#numeri"
-    }
+    "navLabel": "Settori"
   }
 }

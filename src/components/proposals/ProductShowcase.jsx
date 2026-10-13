@@ -1,6 +1,7 @@
 import { useInView } from '../../hooks/useInView.js';
 import { whatsappUrl } from '../../utils/text.js';
 import FeatureVisual from './FeatureVisual.jsx';
+import WipPanel from './WipPanel.jsx';
 
 function Feature({ feature, index }) {
   const [ref, inView] = useInView({ threshold: 0.25 });
@@ -50,7 +51,7 @@ export default function ProductShowcase({ section, phone }) {
         )}
         <h2 id={`${section.id}-name`} className="product__name">
           {section.name}
-          {section.nameAccent && <em>{section.nameAccent}</em>}
+          {section.nameAccent && <em className={section.accent === 'rose' ? 'is-rose' : undefined}>{section.nameAccent}</em>}
         </h2>
         <p className="product__lead">{section.lead}</p>
         {section.intro && <p className="product__intro">{section.intro}</p>}
@@ -65,11 +66,15 @@ export default function ProductShowcase({ section, phone }) {
         )}
       </header>
 
-      <ol className="product__features">
-        {section.features.map((feature, index) => (
-          <Feature key={feature.id} feature={feature} index={index} />
-        ))}
-      </ol>
+      {section.features && (
+        <ol className="product__features">
+          {section.features.map((feature, index) => (
+            <Feature key={feature.id} feature={feature} index={index} />
+          ))}
+        </ol>
+      )}
+
+      {section.wip && <WipPanel section={{ id: `${section.id}-wip`, ...section.wip }} phone={phone} />}
 
       {section.example && <p className="product__example">{section.example}</p>}
 
@@ -80,6 +85,7 @@ export default function ProductShowcase({ section, phone }) {
         </section>
       )}
 
+      {section.cta && (
       <a
         className="button button--primary button--large product__cta"
         href={whatsappUrl(phone, section.cta.message)}
@@ -91,6 +97,7 @@ export default function ProductShowcase({ section, phone }) {
           →
         </span>
       </a>
+      )}
     </article>
   );
 }

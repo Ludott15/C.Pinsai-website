@@ -43,6 +43,9 @@ export default function Footer({ brand, content, navigation, contact, legal }) {
             <li>
               <a href={`tel:${contact.phoneE164}`}>{contact.phoneDisplay}</a>
             </li>
+            <li>
+              <a href={`mailto:${contact.email}`}>{contact.email}</a>
+            </li>
           </ul>
         </div>
 

@@ -66,7 +66,7 @@ export default function ContactSection({ content }) {
           </a>
 
           <div className="phone">
-            <span className="phone__label">Telefono</span>
+            <span className="phone__label">{content.phoneLabel}</span>
             <a className="phone__number" href={`tel:${content.phoneE164}`}>
               {content.phoneDisplay}
             </a>
@@ -80,6 +80,13 @@ export default function ContactSection({ content }) {
             <p className={`phone__status is-${copyState}`} role="status">
               {copyMessage}
             </p>
+          </div>
+
+          <div className="phone phone--email">
+            <span className="phone__label">{content.emailLabel}</span>
+            <a className="phone__number phone__email" href={`mailto:${content.email}`}>
+              {content.email}
+            </a>
           </div>
         </div>
 

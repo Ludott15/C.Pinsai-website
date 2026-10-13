@@ -3,7 +3,7 @@
    ========================================================================== */
 .services {
   position: relative;
-  padding-block: calc(var(--header-h) + clamp(48px, 7vw, 96px)) clamp(56px, 7vw, 96px);
+  padding-block: var(--section-pad) clamp(56px, 7vw, 96px);
   background: var(--cream);
 }
 
@@ -129,14 +129,13 @@
   background: var(--brown);
   color: var(--cream);
   transition:
-    transform 0.4s var(--ease-spring),
-    background-color 0.3s ease;
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 .service:hover .service__cta-arrow {
   background: var(--pink);
   color: var(--white);
-  transform: translateX(4px) rotate(-12deg);
 }
 
 /* The pink line that follows the pointer along the bottom edge. */

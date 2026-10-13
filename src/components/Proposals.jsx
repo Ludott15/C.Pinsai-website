@@ -3,8 +3,6 @@ import SectionHeader from './SectionHeader.jsx';
 import ModuleSection from './proposals/ModuleSection.jsx';
 import ProductShowcase from './proposals/ProductShowcase.jsx';
 import WipPanel from './proposals/WipPanel.jsx';
-import { useHref } from '../pages/PageContext.jsx';
-import SectionWave from './SectionWave.jsx';
 
 const sectionFromHash = (sections) => {
   const id = window.location.hash.slice(1);
@@ -20,10 +18,13 @@ export default function Proposals({ intro, data, phone }) {
   const [active, setActive] = useState(() => sectionFromHash(sections));
   const pillsRef = useRef(null);
   const panelRef = useRef(null);
-  const toHref = useHref();
 
   useEffect(() => {
-    const onHash = () => setActive(sectionFromHash(sections));
+    /* Only sector hashes switch the tab: other anchors (e.g. #contatti) just scroll. */
+    const onHash = () => {
+      const id = window.location.hash.slice(1);
+      if (sections.some((section) => section.id === id)) setActive(id);
+    };
     window.addEventListener('hashchange', onHash);
     return () => window.removeEventListener('hashchange', onHash);
   }, [sections]);
@@ -101,15 +102,6 @@ export default function Proposals({ intro, data, phone }) {
         {section.type === 'wip' && <WipPanel section={section} phone={phone} />}
       </div>
 
-      <div className="proposals__back shell">
-        <a className="button button--primary button--large" href={toHref(intro.back.href)}>
-          <span className="button__arrow" aria-hidden="true">
-            ←
-          </span>
-          {intro.back.label}
-        </a>
-      </div>
-      <SectionWave to="brown-900" />
     </section>
   );
 }
