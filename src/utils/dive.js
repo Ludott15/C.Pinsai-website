@@ -15,19 +15,13 @@ const MAX_ZOOM = 7;
  * Phases overlap so the movement never stops and restarts between them.
  */
 export function getDiveState(progress) {
-  const turn = easeInOutSine(segment(progress, 0, 0.56)) * MAX_TURN;
-  const radians = (turn * Math.PI) / 180;
-
   return {
     '--p': progress,
     '--text': easeInOutSine(segment(progress, 0, 0.26)),
-    '--turn': turn,
-    '--sin': Math.sin(radians),
-    '--cos': Math.cos(radians),
+    '--turn': easeInOutSine(segment(progress, 0, 0.56)) * MAX_TURN,
     '--tilt': smootherstep(segment(progress, 0.14, 0.6)),
     /* Exponential dolly: the approach feels like a constant-speed camera move. */
     '--zoom': MAX_ZOOM ** smootherstep(segment(progress, 0.28, 0.86)),
-    '--steam': 1 - smootherstep(segment(progress, 0.18, 0.46)),
     '--fill': smootherstep(segment(progress, 0.54, 0.88)),
     '--dive': smootherstep(segment(progress, 0.66, 0.86)),
     '--steps': segment(progress, 0.74, 0.9),
@@ -40,15 +34,12 @@ export function applyDiveState(node, progress) {
   Object.entries(state).forEach(([name, value]) => {
     node.style.setProperty(name, value.toFixed(4));
   });
-  /* The cup is composited flat (crisper while zooming), so depth is resolved by stacking:
-     the handle is drawn over the body only while it swings towards the viewer. */
-  node.style.setProperty('--handle-layer', state['--sin'] < -0.05 ? '2' : '0');
   node.dataset.phase = progress < 0.2 ? 'surface' : progress < 0.9 ? 'dive' : 'deep';
   return state;
 }
 
 export function clearDiveState(node) {
   Object.keys(getDiveState(0)).forEach((name) => node.style.removeProperty(name));
-  ['--cx', '--cy', '--handle-layer'].forEach((name) => node.style.removeProperty(name));
+  ['--cx', '--cy'].forEach((name) => node.style.removeProperty(name));
   delete node.dataset.phase;
 }
