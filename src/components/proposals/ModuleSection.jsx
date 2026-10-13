@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { useInView } from '../../hooks/useInView.js';
 import { fillTemplate, whatsappUrl } from '../../utils/text.js';
 
@@ -11,7 +11,6 @@ function DemoViewer({ module, demo }) {
         <span />
         <span />
         <span />
-        <code>{module.code}</code>
       </div>
       {source?.type === 'video' && (
         <video className="module__demo-frame" src={source.src} controls playsInline preload="metadata" />
@@ -41,9 +40,6 @@ function ModuleCard({ module, selected, onToggle, request, demo }) {
       aria-labelledby={titleId}
     >
       <div className="module__main">
-        <p className="module__meta">
-          <code className="module__code">{module.code}</code>
-        </p>
         <h3 id={titleId} className="module__title">
           {module.title}
         </h3>
@@ -99,6 +95,68 @@ function ModuleCard({ module, selected, onToggle, request, demo }) {
 }
 
 /**
+ * Floating request, bottom right: appears once a module is selected, as a small chip
+ * with the count. Clicked, it opens to list the modules and send them on WhatsApp.
+ */
+function RequestToast({ chosen, request, href }) {
+  const [open, setOpen] = useState(false);
+  const panelId = useId();
+  const count = chosen.length;
+
+  useEffect(() => {
+    if (!count) setOpen(false);
+  }, [count]);
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const onKey = (event) => {
+      if (event.key === 'Escape') setOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open]);
+
+  return (
+    <>
+      <p className="visually-hidden" role="status">
+        {count ? fillTemplate(request.barSelected, { count }) : ''}
+      </p>
+      <div className={`request${open ? ' is-open' : ''}`} hidden={!count}>
+        {open && (
+          <div id={panelId} className="request__panel">
+            <p className="request__title">{request.panelTitle}</p>
+            <ul className="request__list">
+              {chosen.map((module) => (
+                <li key={module.id}>{module.title}</li>
+              ))}
+            </ul>
+            <a className="button button--primary request__send" href={href} target="_blank" rel="noopener noreferrer">
+              {request.sendLabel}
+              <span className="button__arrow" aria-hidden="true">
+                →
+              </span>
+            </a>
+          </div>
+        )}
+        <button
+          type="button"
+          className="request__toggle"
+          aria-expanded={open}
+          aria-controls={panelId}
+          onClick={() => setOpen((value) => !value)}
+        >
+          <svg className="request__icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Z" />
+          </svg>
+          <span className="request__label">{fillTemplate(request.barSelected, { count })}</span>
+          <span className="request__chevron" aria-hidden="true" />
+        </button>
+      </div>
+    </>
+  );
+}
+
+/**
  * A sector: bold title, then its modules. Modules can be selected and sent together
  * as a WhatsApp request with a pre-filled message.
  */
@@ -129,24 +187,7 @@ export default function ModuleSection({ section, request, demo, phone }) {
         ))}
       </div>
 
-      <div className={`request${chosen.length ? ' is-ready' : ''}`}>
-        <p className="request__status" role="status">
-          {chosen.length ? fillTemplate(request.barSelected, { count: chosen.length }) : request.barEmpty}
-        </p>
-        {chosen.length > 0 && (
-          <a
-            className="button button--primary request__send"
-            href={whatsappUrl(phone, message)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {request.sendLabel}
-            <span className="button__arrow" aria-hidden="true">
-              →
-            </span>
-          </a>
-        )}
-      </div>
+      <RequestToast chosen={chosen} request={request} href={whatsappUrl(phone, message)} />
     </div>
   );
 }

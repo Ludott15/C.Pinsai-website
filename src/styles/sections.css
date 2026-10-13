@@ -2,7 +2,8 @@
    06 — Metrics: precise, technical, almost an instrument panel.
    ========================================================================== */
 .metrics {
-  padding-block: var(--section-pad);
+  position: relative;
+  padding-block: var(--section-pad) calc(var(--section-pad) + clamp(40px, 7vw, 110px));
   background: var(--brown-900);
   color: var(--cream);
 }
@@ -166,7 +167,7 @@
 
 .metric__value {
   margin-top: 12px;
-  font-size: clamp(3.4rem, 2.4rem + 4vw, 6rem);
+  font-size: clamp(3rem, 2.2rem + 3.4vw, 5.2rem);
   font-weight: 750;
   line-height: 0.9;
   letter-spacing: -0.06em;
@@ -215,12 +216,6 @@
   transform: scaleX(1);
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(1turn);
-  }
-}
-
 @media (min-width: 640px) {
   .metrics__grid {
     grid-template-columns: repeat(2, 1fr);
@@ -234,96 +229,11 @@
 }
 
 /* ==========================================================================
-   07 — Final CTA: minimal and strong. Concentric rings: a cup seen from above.
-   ========================================================================== */
-.final {
-  position: relative;
-  display: grid;
-  place-items: center;
-  min-height: min(92svh, 860px);
-  padding-block: var(--section-pad);
-  background: var(--brown);
-  color: var(--cream);
-  text-align: center;
-  overflow: hidden;
-}
-
-.final__rings {
-  position: absolute;
-  inset: 50% auto auto 50%;
-  width: min(130vw, 1100px);
-  aspect-ratio: 1;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-}
-
-.final__rings span {
-  position: absolute;
-  inset: 0;
-  border: 1px solid rgb(245 239 226 / 0.12);
-  border-radius: 50%;
-  transform: scale(0.6);
-  opacity: 0;
-  transition:
-    transform 1.6s var(--ease-out),
-    opacity 1.6s var(--ease-out);
-}
-
-.final__rings span:nth-child(2) {
-  inset: 14%;
-  border-color: rgb(245 239 226 / 0.18);
-  border-style: dashed;
-  transition-delay: 0.15s;
-}
-
-.final__rings span:nth-child(3) {
-  inset: 30%;
-  border: 0;
-  background: radial-gradient(closest-side, var(--brown-800), var(--brown-700) 88%, rgb(245 239 226 / 0.2) 99%, transparent);
-  transition-delay: 0.3s;
-}
-
-.final.is-visible .final__rings span {
-  transform: none;
-  opacity: 1;
-}
-
-.final.is-visible .final__rings span:nth-child(2) {
-  animation: spin 60s linear infinite;
-}
-
-.final__inner {
-  position: relative;
-  display: grid;
-  justify-items: center;
-  gap: 22px;
-}
-
-.final__title {
-  max-width: 14ch;
-  font-size: clamp(2.5rem, 1.4rem + 5vw, 6rem);
-  font-weight: 750;
-  line-height: 0.95;
-  letter-spacing: -0.05em;
-  color: var(--cream);
-}
-
-.final__sub {
-  max-width: 46ch;
-  font-size: var(--fs-lead);
-  color: var(--on-dark-muted);
-}
-
-.final__cta {
-  margin-top: 10px;
-  min-width: min(100%, 260px);
-}
-
-/* ==========================================================================
    08 — Contacts
    ========================================================================== */
 .contact {
-  padding-block: var(--section-pad);
+  position: relative;
+  padding-block: var(--section-pad) calc(var(--section-pad) + clamp(40px, 7vw, 110px));
   background: var(--cream);
 }
 
@@ -732,13 +642,11 @@
     transform: none;
   }
 
-  .metric__ruler::after,
-  .final__rings span {
+  .metric__ruler::after {
     transform: none;
     opacity: 1;
   }
 
-  .final.is-visible .final__rings span:nth-child(2),
   .metric__signal {
     animation: none;
   }

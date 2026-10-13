@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import ContactForm from './ContactForm.jsx';
 import SectionHeader from './SectionHeader.jsx';
+import SectionWave from './SectionWave.jsx';
 import { whatsappUrl } from '../utils/text.js';
 
 async function copyText(text) {
@@ -84,6 +85,7 @@ export default function ContactSection({ content }) {
 
         <ContactForm form={content.form} phoneE164={content.phoneE164} />
       </div>
+      <SectionWave to="brown-900" />
     </section>
   );
 }

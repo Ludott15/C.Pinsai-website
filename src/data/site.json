@@ -15,19 +15,12 @@
     {
       "label": "Soluzioni",
       "href": "soluzioni/",
-      "page": "soluzioni",
-      "children": [
-        {
-          "label": "Le nostre demo",
-          "href": "proposte/",
-          "page": "proposte"
-        }
-      ],
-      "submenuLabel": "Apri il sottomenu Soluzioni"
+      "page": "soluzioni"
     },
     {
-      "label": "Numeri",
-      "href": "#numeri"
+      "label": "Le nostre demo",
+      "href": "proposte/",
+      "page": "proposte"
     },
     {
       "label": "Contatti",
@@ -39,7 +32,6 @@
     "href": "#contatti"
   },
   "hero": {
-    "kicker": "Il ponte tra il codice e le persone",
     "headline": [
       "Come bere un caffè,",
       "ma te lo prepariamo noi."
@@ -49,7 +41,13 @@
       "label": "Inizia il Self-Assessment",
       "href": "#coffee-check"
     },
-    "scrollHint": "Scorri per entrare nel caffè"
+    "scrollHint": "Scorri per entrare nel caffè",
+    "banner": {
+      "badge": "Novità",
+      "text": "SegretarIA è arrivata: le scartoffie le sbriga lei, l'ultima parola resta sempre tua.",
+      "cta": "Scoprila",
+      "href": "proposte/#segretaria"
+    }
   },
   "dive": {
     "label": "Dive into coffee",
@@ -75,18 +73,8 @@
     "hint": "Tocca un numero per scoprire perché conta.",
     "hintDesktop": "Passa sopra un numero o cliccalo per scoprire perché conta."
   },
-  "finalCta": {
-    "index": "03",
-    "kicker": "ready.state = true",
-    "headline": "Pronto a Trasformare il Tuo Business?",
-    "subheadline": "Unisciti alle aziende che hanno già fatto il salto verso l'efficienza AI-powered",
-    "cta": {
-      "label": "Inizia Ora",
-      "href": "#contatti"
-    }
-  },
   "contact": {
-    "index": "04",
+    "index": "03",
     "kicker": "Contatti",
     "title": "Parliamone Davanti a un Caffè",
     "subtitle": "Virtuale o reale, siamo qui per ascoltarti e costruire la soluzione perfetta per te",

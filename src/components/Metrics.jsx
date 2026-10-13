@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import SectionHeader from './SectionHeader.jsx';
+import SectionWave from './SectionWave.jsx';
 import { useInView } from '../hooks/useInView.js';
 import { useReducedMotion } from '../hooks/useReducedMotion.js';
 
@@ -120,6 +121,7 @@ export default function Metrics({ intro, items, whyLabel }) {
           ))}
         </ul>
       </div>
+      <SectionWave to="cream" />
     </section>
   );
 }

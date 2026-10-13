@@ -1,56 +1,68 @@
 import {
-  AmbientLight,
+  BackSide,
   CanvasTexture,
+  Color,
   DirectionalLight,
   Group,
   HemisphereLight,
   MathUtils,
   Mesh,
   MeshBasicMaterial,
+  MeshPhysicalMaterial,
   NeutralToneMapping,
+  PCFShadowMap,
   PerspectiveCamera,
   PlaneGeometry,
   PMREMGenerator,
   Scene,
+  ShadowMaterial,
+  SphereGeometry,
   SRGBColorSpace,
   WebGLRenderer,
 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 
 /*
- * The hero cup: the C.PINSAI voxel cup (src/assets/cpinsai-cup.glb).
+ * The hero cup: the C.PINSAI ceramic cup (src/assets/cpinsai-cup.glb).
  *
  * The scene works in the units of the 400-wide hero cup box, with y pointing up and the
  * coffee surface at y = 0, so the model lines up with the dive portal (which opens from
  * the coffee) and with the fallback image. The scroll timeline drives it:
  * --turn rotates the cup, --tilt raises the camera to look into it, --zoom dollies in.
- * The pixel steam and the floating bits of the model are animated here.
+ *
+ * The ivory body sits on a cream page, almost the same colour: contrast comes from light,
+ * not from paint. A soft key from the top left casts real shadows (cup on saucer, saucer
+ * on the table), and two back lights plus a studio environment draw bright rims along the
+ * glossy edges, product-shot style. Base colours stay those of the model.
  */
 
-/* Model space (metres, as exported from Blender) → hero units. */
-const MODEL_SCALE = 100;
-/** Height of the coffee surface in the model. */
-const MODEL_COFFEE_Y = 1.8;
+/* Model space (metres) → hero units. */
+const MODEL_SCALE = 2150;
+/** Height of the coffee surface in the model (top of the meniscus). */
+const MODEL_COFFEE_Y = 0.0697;
 const FOV = 20;
 const START_ELEVATION = 12;
 const TILT_ELEVATION = 40;
-/** The steam fades out early in the dive, before the camera gets close. */
-const STEAM_UNTIL = 0.46;
-const STEAM_NODES = ['Fumo pixel 0', 'Fumo pixel 1'];
-const BIT_PREFIX = 'Numero pixel';
-/** How far a bit rises (model units) during one cycle, and how long a cycle lasts (ms). */
-const BIT_RISE = 0.45;
-const BIT_CYCLE = 4200;
+/* The dive portal and the Coffee Check are var(--brown-800): as the camera approaches, the
+   coffee settles on that same brown, so the circle that opens from it has no seam. */
+const DIVE_BROWN = new Color('#2A1810');
+const BLACK = new Color(0, 0, 0);
+/** Dark, smooth coffee: a clean highlight, not a mirror that would wash out the brown. */
+const COFFEE_EXPOSURE = 0.62;
+const COFFEE_GLOSS = { clearcoat: 0.5, specularIntensity: 0.5, envMapIntensity: 0.25 };
+const DARKEN_FROM = 0.36;
+const DARKEN_TO = 0.56;
 
-function shadowTexture() {
+/* Contact shadow: the darkest, tightest shade right under the saucer. */
+function contactTexture() {
   const canvas = document.createElement('canvas');
   canvas.width = 256;
   canvas.height = 256;
   const context = canvas.getContext('2d');
   const gradient = context.createRadialGradient(128, 128, 0, 128, 128, 128);
-  gradient.addColorStop(0, 'rgba(42, 24, 16, 0.42)');
-  gradient.addColorStop(0.55, 'rgba(42, 24, 16, 0.18)');
+  gradient.addColorStop(0, 'rgba(42, 24, 16, 0.5)');
+  gradient.addColorStop(0.62, 'rgba(42, 24, 16, 0.34)');
+  gradient.addColorStop(0.8, 'rgba(42, 24, 16, 0.1)');
   gradient.addColorStop(1, 'rgba(42, 24, 16, 0)');
   context.fillStyle = gradient;
   context.fillRect(0, 0, 256, 256);
@@ -59,19 +71,39 @@ function shadowTexture() {
   return texture;
 }
 
-/* Gives every animated part its own material, so each one can fade on its own. */
-function ownMaterial(mesh) {
-  mesh.traverse((child) => {
-    if (child.isMesh) {
-      child.material = child.material.clone();
-      child.material.transparent = true;
-    }
-  });
+/*
+ * Studio environment for reflections: a warm, dim room with softboxes, one above and two
+ * strips behind. On glossy ceramic they read as clean highlights and rim lines.
+ */
+function studioScene() {
+  const studio = new Scene();
+  studio.add(new Mesh(new SphereGeometry(10, 32, 16), new MeshBasicMaterial({ color: '#6f6157', side: BackSide })));
+  const panel = (width, height, intensity, position) => {
+    const mesh = new Mesh(
+      new PlaneGeometry(width, height),
+      new MeshBasicMaterial({ color: new Color(1, 0.98, 0.95).multiplyScalar(intensity) }),
+    );
+    mesh.position.set(...position);
+    mesh.lookAt(0, 0, 0);
+    studio.add(mesh);
+  };
+  panel(8, 4, 3, [-2, 7, 3]);
+  panel(1.4, 9, 6, [-7, 1, -5]);
+  panel(1.4, 9, 6, [7, 1, -5]);
+  panel(6, 4, 2.4, [0, 1.5, 8]);
+  return studio;
 }
 
-function setOpacity(object, opacity) {
-  object.traverse((child) => {
-    if (child.isMesh) child.material.opacity = opacity;
+/* glTF colour factors are linear; this model stores its sRGB brand colours there. */
+function ceramic(source, options) {
+  const color = source.color.clone().convertSRGBToLinear();
+  return new MeshPhysicalMaterial({
+    color,
+    roughness: source.roughness,
+    metalness: 0,
+    clearcoat: 0.7,
+    clearcoatRoughness: 0.06,
+    ...options,
   });
 }
 
@@ -79,65 +111,101 @@ function setOpacity(object, opacity) {
  * Creates the scene on `canvas`. Returns controls to feed it the scroll state and the layout
  * of the hero (where the cup box sits on the sticky stage).
  */
-export async function createCupScene({ canvas, modelUrl, maxPixelRatio = 2, animate = true }) {
+export async function createCupScene({ canvas, modelUrl, maxPixelRatio = 2 }) {
   const gltf = await new GLTFLoader().loadAsync(modelUrl);
 
   const renderer = new WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'high-performance' });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxPixelRatio));
   renderer.outputColorSpace = SRGBColorSpace;
   renderer.toneMapping = NeutralToneMapping;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = PCFShadowMap;
 
   const scene = new Scene();
   const pmrem = new PMREMGenerator(renderer);
-  const environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+  const environment = pmrem.fromScene(studioScene(), 0.02).texture;
   scene.environment = environment;
-  scene.environmentIntensity = 0.45;
+  scene.environmentIntensity = 0.55;
 
-  scene.add(new HemisphereLight('#FBF8F1', '#4B2D20', 0.8));
-  scene.add(new AmbientLight('#F5EFE2', 0.35));
-  const key = new DirectionalLight('#FFFFFF', 1.8);
-  key.position.set(-3, 5, 4);
+  scene.add(new HemisphereLight('#FBF8F1', '#A88A70', 0.7));
+
+  /* Front fill, from the viewer: keeps the ivory bright where it faces the camera. */
+  const fill = new DirectionalLight('#FFF9F0', 0.9);
+  fill.position.set(80, 120, 600);
+  scene.add(fill);
+
+  /* Key: soft, from the top left, the only light that casts shadows. */
+  const key = new DirectionalLight('#FFF8EE', 2.1);
+  key.position.set(-260, 520, 300);
+  key.castShadow = true;
+  key.shadow.mapSize.set(1024, 1024);
+    key.shadow.bias = -0.0004;
+  key.shadow.normalBias = 0.6;
+  Object.assign(key.shadow.camera, { left: -260, right: 260, top: 260, bottom: -260, near: 100, far: 1600 });
   scene.add(key);
-  const rim = new DirectionalLight('#F5EFE2', 0.5);
-  rim.position.set(4, 2, -3);
-  scene.add(rim);
+
+  /* Back lights: bright rims on both sides of the silhouette, separating ivory from cream. */
+  const rimRight = new DirectionalLight('#FFFFFF', 2.4);
+  rimRight.position.set(420, 260, -480);
+  scene.add(rimRight);
+  const rimLeft = new DirectionalLight('#FFF1E0', 1.4);
+  rimLeft.position.set(-460, 200, -420);
+  scene.add(rimLeft);
 
   /* The model, scaled to hero units with the coffee surface at y = 0. */
   const model = gltf.scene;
+  const coffeeMaterials = [];
+  model.traverse((node) => {
+    if (!node.isMesh) return;
+    /* The export carries positions only: smooth normals are rebuilt here. */
+    if (!node.geometry.attributes.normal) node.geometry.computeVertexNormals();
+    const coffee = /coffee/i.test(node.material.name);
+    node.material = ceramic(
+      node.material,
+      /* Not tone mapped: the curve would shift the final brown away from the page's. */
+      coffee
+        ? { ...COFFEE_GLOSS, clearcoatRoughness: 0.04, roughness: 0.3, toneMapped: false }
+        : {},
+    );
+    if (coffee) {
+      /* The top light falls straight on the liquid: compensate, so it reads as the brand brown. */
+      node.material.color.multiplyScalar(COFFEE_EXPOSURE);
+      coffeeMaterials.push({ material: node.material, base: node.material.color.clone() });
+    }
+    node.castShadow = !coffee;
+    node.receiveShadow = true;
+  });
   const cup = new Group();
   cup.add(model);
   cup.scale.setScalar(MODEL_SCALE);
   cup.position.y = -MODEL_COFFEE_Y * MODEL_SCALE;
   scene.add(cup);
 
-  /* The loader turns spaces in node names into underscores: compare names without them. */
-  const plainName = (node) => node.name.replace(/_/g, ' ');
-  const steam = [];
-  const bits = [];
-  model.traverse((node) => {
-    if (STEAM_NODES.includes(plainName(node))) steam.push(node);
-    else if (plainName(node).startsWith(BIT_PREFIX)) bits.push(node);
-  });
-  [...steam, ...bits].forEach(ownMaterial);
-  const bitBase = bits.map((bit) => bit.position.y);
+  /* The table: real shadow from the key light, plus a tight contact shade under the saucer. */
+  const tableY = cup.position.y - 0.4;
+  const groundGeometry = new PlaneGeometry(900, 900);
+  const groundMaterial = new ShadowMaterial({ color: '#2A1810', opacity: 0.22 });
+  const ground = new Mesh(groundGeometry, groundMaterial);
+  ground.rotation.x = -Math.PI / 2;
+  ground.position.y = tableY;
+  ground.receiveShadow = true;
+  scene.add(ground);
 
-  /* Soft shadow on the table under the saucer. */
-  const shadowMap = shadowTexture();
-  const shadowGeometry = new PlaneGeometry(1, 1);
-  const shadowMaterial = new MeshBasicMaterial({ map: shadowMap, transparent: true, depthWrite: false });
-  const shadow = new Mesh(shadowGeometry, shadowMaterial);
-  shadow.rotation.x = -Math.PI / 2;
-  shadow.scale.set(4.2, 3.9, 1);
-  shadow.position.y = -0.005;
-  model.add(shadow);
+  const contactMap = contactTexture();
+  const contactGeometry = new PlaneGeometry(1, 1);
+  const contactMaterial = new MeshBasicMaterial({ map: contactMap, transparent: true, depthWrite: false });
+  const contact = new Mesh(contactGeometry, contactMaterial);
+  contact.rotation.x = -Math.PI / 2;
+  contact.scale.set(410, 410, 1);
+  contact.position.y = tableY + 0.2;
+  scene.add(contact);
 
   const camera = new PerspectiveCamera(FOV, 1, 1, 20000);
   const layout = { width: 1, height: 1, x: 0.5, y: 0.5, unit: 1 };
-  const state = { turn: 0, tilt: 0, zoom: 1, steam: 1, progress: 0 };
+  const state = { turn: 0, tilt: 0, zoom: 1, darken: 0 };
   let active = true;
   let dirty = true;
   let frame = 0;
-  let last = 0;
 
   function placeCamera() {
     const distance = layout.height / (2 * Math.tan(MathUtils.degToRad(FOV / 2))) / layout.unit / state.zoom;
@@ -158,37 +226,26 @@ export async function createCupScene({ canvas, modelUrl, maxPixelRatio = 2, anim
     camera.updateProjectionMatrix();
   }
 
-  /* Pixel steam sways and breathes; the bits rise and fade, one after the other. */
-  function animateSteam(time) {
-    steam.forEach((wisp, index) => {
-      const phase = time / 1300 + index * 1.7;
-      wisp.rotation.z = Math.sin(phase) * 0.035;
-      wisp.scale.y = 1 + Math.sin(phase * 0.8) * 0.035;
-      setOpacity(wisp, state.steam);
-    });
-    bits.forEach((bit, index) => {
-      const t = ((time + index * (BIT_CYCLE / bits.length)) % BIT_CYCLE) / BIT_CYCLE;
-      bit.position.y = bitBase[index] + t * BIT_RISE;
-      const fade = Math.min(1, t / 0.2, (1 - t) / 0.3);
-      setOpacity(bit, fade * state.steam);
-    });
-  }
-
-  function render(time) {
+  function render() {
     cup.rotation.y = MathUtils.degToRad(state.turn);
+    coffeeMaterials.forEach(({ material, base }) => {
+      /* Lit colour out, flat (emissive) brown in: at the end the light no longer changes it. */
+      material.color.lerpColors(base, BLACK, state.darken);
+      material.emissive.copy(DIVE_BROWN).multiplyScalar(state.darken);
+      material.clearcoat = COFFEE_GLOSS.clearcoat * (1 - state.darken);
+      material.specularIntensity = COFFEE_GLOSS.specularIntensity * (1 - state.darken);
+      material.envMapIntensity = COFFEE_GLOSS.envMapIntensity * (1 - state.darken);
+    });
     placeCamera();
-    if (animate) animateSteam(time);
     renderer.render(scene, camera);
   }
 
-  /* Renders on scroll changes, plus a 30 fps steam animation while the steam is visible. */
-  function loop(time) {
+  /* Renders only when the scroll state or the layout change. */
+  function loop() {
     frame = requestAnimationFrame(loop);
-    const steaming = animate && state.progress < STEAM_UNTIL;
-    if (!dirty && !(steaming && time - last > 33)) return;
+    if (!dirty) return;
     dirty = false;
-    last = time;
-    render(time);
+    render();
   }
 
   function start() {
@@ -207,8 +264,7 @@ export async function createCupScene({ canvas, modelUrl, maxPixelRatio = 2, anim
       state.turn = next['--turn'];
       state.tilt = next['--tilt'];
       state.zoom = next['--zoom'];
-      state.steam = 1 - MathUtils.smoothstep(next['--p'], 0.18, STEAM_UNTIL);
-      state.progress = next['--p'];
+      state.darken = MathUtils.smootherstep(next['--p'], DARKEN_FROM, DARKEN_TO);
       dirty = true;
     },
     setLayout({ width, height, x, y, unit }) {
@@ -234,7 +290,7 @@ export async function createCupScene({ canvas, modelUrl, maxPixelRatio = 2, anim
           child.material.dispose();
         }
       });
-      shadowMap.dispose();
+      [groundGeometry, groundMaterial, contactGeometry, contactMaterial, contactMap].forEach((item) => item.dispose());
       environment.dispose();
       pmrem.dispose();
       renderer.dispose();

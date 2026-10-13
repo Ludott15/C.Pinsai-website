@@ -1,5 +1,6 @@
 import { useInView } from '../hooks/useInView.js';
 import { useHref } from '../pages/PageContext.jsx';
+import SectionWave from './SectionWave.jsx';
 
 /** "Le nostre proposte": the door from the solutions to the infrastructures page. */
 export default function ProposalsTeaser({ content }) {
@@ -22,6 +23,7 @@ export default function ProposalsTeaser({ content }) {
           </span>
         </a>
       </div>
+      <SectionWave to="brown-900" />
     </section>
   );
 }

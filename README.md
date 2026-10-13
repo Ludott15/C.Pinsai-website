@@ -45,23 +45,23 @@ src/
 
 ## Come funziona
 
-**Tazzina 3D.** Il modello è `src/assets/cpinsai-cup.glb` (tazzina voxel con fumo e bit in pixel).
-`src/three/CupScene.js` lo carica con three.js, lo porta nelle unità del riquadro della hero (caffè a y = 0,
-così il cerchio del dive si apre dal caffè), anima il fumo e i bit e segue lo scroll: rotazione, inclinazione
-della camera, avvicinamento. three.js e il modello vengono scaricati solo dopo il primo rendering;
+**Tazzina 3D.** Il modello è `src/assets/cpinsai-cup.glb` (tazzina in ceramica avorio, bordi blu, caffè scuro).
+`src/three/CupScene.js` lo carica con three.js, ricostruisce le normali, converte i colori del modello (salvati in sRGB)
+e li applica a materiali ceramici lucidi; lo porta nelle unità del riquadro della hero (caffè a y = 0,
+così il cerchio del dive si apre dal caffè) e segue lo scroll: rotazione, inclinazione della camera, avvicinamento.
+Poiché l'avorio è quasi uguale allo sfondo crema, il contrasto viene dalla luce: una key light morbida con ombre reali,
+due controluce e un ambiente "studio" che disegnano i bordi lucidi, più un'ombra di contatto sul tavolo.
+Durante l'avvicinamento il caffè sfuma nello stesso marrone del dive e del Coffee Check (`--brown-800`), senza stacchi. three.js e il modello vengono scaricati solo dopo il primo rendering;
 `src/assets/cpinsai-cup.webp` è un'immagine ricavata dallo stesso modello, mostrata mentre carica e come
 fallback (niente WebGL, prefers-reduced-motion, risparmio dati). Se il modello cambia, va rigenerata anche
-l'immagine (stessa inquadratura: riquadro 400 × 540, caffè al 54,8% dell'altezza).
+l'immagine (stessa inquadratura: riquadro 400 × 400, caffè al 31,25% dell'altezza).
 
 **Hero e "Dive into coffee".** La sezione hero è una track alta 250svh con uno stage sticky.
 `useScrollProgress` misura il progresso (un solo `getBoundingClientRect` per frame, via rAF) e
 `utils/dive.js` lo trasforma in variabili CSS (`--turn`, `--tilt`, `--zoom`, `--fill`, …).
 Tutte le animazioni usano solo `transform`, `opacity` e una maschera: React non re-renderizza mai durante lo scroll.
-La tazzina è fatta di livelli indipendenti (SVG + CSS 3D): il manico orbita sull'asse Y, il logo stampato
-scorre sul corpo, la bocca si apre con l'inclinazione, poi la camera entra nel caffè e un cerchio marrone
-(con bordo morbido) diventa l'ambiente del Coffee Check.
-
-**Vapore.** È quello del modello: due filamenti di pixel rosa che ondeggiano e quattro bit (0/1) che salgono e sfumano, animati in `CupScene.js` e spenti quando la camera si avvicina al caffè.
+La camera entra nel caffè e un cerchio marrone (con bordo morbido, stesso colore piatto della sezione successiva)
+diventa l'ambiente del Coffee Check.
 
 **Coffee Check.** Le domande sono in `assessment.json` (testo, risposte, punteggi, visual).
 Il risultato è la somma dei punteggi, mappata sui range dei `profiles`. Per aggiungere o modificare domande
@@ -77,7 +77,7 @@ viene mostrato un link manuale.
 - Coffee Check: `aria-pressed` sulle risposte, `aria-current="step"` sul progresso, regione `aria-live`,
   focus spostato sulla nuova domanda/risultato a ogni passaggio.
 - Form: label reali, `aria-invalid`, `aria-describedby` per suggerimenti ed errori, focus sul primo campo errato.
-- `prefers-reduced-motion`: niente track sticky né zoom, vapore immobile, nessun parallax; la transizione
+- `prefers-reduced-motion`: niente track sticky né zoom, banner fermo, nessun parallax; la transizione
   crema → caffè resta come gradiente statico.
 - Il rosa `#E04A95` è usato per testo solo in grandi dimensioni o su sfondo con contrasto adeguato;
   per il testo piccolo su marrone si usa la sola variante chiara `#F59AC6`.
@@ -90,7 +90,8 @@ viene mostrato un link manuale.
 ## Dipendenze
 
 Solo `react`, `react-dom`, `three` (caricato in differita per la tazzina 3D) e i font variabili `@fontsource-variable/bricolage-grotesque` e
-`@fontsource-variable/jetbrains-mono`, serviti dal sito stesso (nessuna richiesta a Google Fonts).
+`@fontsource-variable/jetbrains-mono` (pagine) e `@fontsource-variable/inter` (solo dentro demo e visual: mockup,
+anteprime dei moduli, visual del Coffee Check), serviti dal sito stesso (nessuna richiesta a Google Fonts).
 In sviluppo: `vite` e `@vitejs/plugin-react`.
 
 ## Note

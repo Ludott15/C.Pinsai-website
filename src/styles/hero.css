@@ -4,7 +4,7 @@
    --steps and --out on the track (--turn and --tilt drive the 3D cup).
    ========================================================================== */
 .hero {
-  --cup-w: clamp(150px, min(66vw, (100svh - 420px) / 1.35), 330px);
+  --cup-w: clamp(170px, min(88vw, 100svh - 400px), 400px);
   position: relative;
   height: 250vh;
   height: 250svh;
@@ -76,14 +76,84 @@
 }
 
 .hero__kicker {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
   font-family: var(--font-mono);
   font-size: var(--fs-micro);
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--ink-muted);
+}
+
+/* Scrolling banner towards the latest product. */
+.banner {
+  display: flex;
+  justify-self: start;
+  width: min(100%, 860px);
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  min-height: 44px;
+  padding: 4px 6px 4px 4px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--cream-50);
+  color: var(--brown);
+  text-decoration: none;
+  overflow: hidden;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.banner:hover {
+  border-color: var(--pink);
+  box-shadow: 0 12px 28px -18px rgb(224 74 149 / 0.7);
+}
+
+.banner__badge {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: var(--brown);
+  color: var(--cream);
+  font-weight: 600;
+}
+
+.banner__track {
+  flex: 1;
+  display: flex;
+  min-width: 0;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+
+.banner__text {
+  flex: none;
+  padding-right: 64px;
+  white-space: nowrap;
+  animation: banner-scroll 22s linear infinite;
+}
+
+.banner:hover .banner__text,
+.banner:focus-visible .banner__text {
+  animation-play-state: paused;
+}
+
+@keyframes banner-scroll {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.banner__cta {
+  flex: none;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--pink);
+  color: var(--white);
+  font-weight: 600;
 }
 
 .hero__kicker-dot {
@@ -144,6 +214,7 @@
 .hero__visual {
   position: relative;
   z-index: 2;
+  pointer-events: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -171,14 +242,14 @@
 }
 
 /* ==========================================================================
-   Cup — the visual box is 400 × 540 units; the coffee surface centre is at
-   (200, 296) → 50% 54.8%. The still image fills the box; the WebGL cup is drawn
+   Cup — the visual box is 400 × 400 units; the coffee surface centre is at
+   (200, 125) → 50% 31.25%. The still image fills the box; the WebGL cup is drawn
    on a canvas covering the stage, aligned on the same point (see three/CupScene.js).
    ========================================================================== */
 .coffee {
   position: relative;
   width: var(--cup-w);
-  aspect-ratio: 400 / 540;
+  aspect-ratio: 1;
 }
 
 .hero[data-phase='deep'] .coffee {
@@ -189,8 +260,26 @@
 .coffee__camera {
   position: absolute;
   inset: 0;
-  transform-origin: 50% 54.8%;
+  transform-origin: 50% 31.25%;
   transform: scale(var(--zoom, 1));
+}
+
+/* Still image only: the coffee darkens to the dive brown while the camera closes in. */
+.coffee__camera::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 31.25%;
+  width: 52%;
+  height: 7%;
+  border-radius: 50%;
+  background: var(--brown-800);
+  transform: translate(-50%, -50%);
+  opacity: clamp(0, (var(--zoom, 1) - 1.5) * 1.2, 1);
+}
+
+.hero[data-renderer='webgl'] .coffee__camera::after {
+  display: none;
 }
 
 .coffee__image {
@@ -235,9 +324,8 @@
   display: grid;
   place-items: center;
   --radius: calc(var(--fill, 0) * 162vmax - 1.5vmax);
-  background:
-    radial-gradient(circle at var(--cx, 50%) var(--cy, 55%), var(--brown) 0, var(--brown-800) 60%),
-    var(--brown-800);
+  /* Flat: the same brown as the Coffee Check that follows, so there is no seam. */
+  background: var(--brown-800);
   /* Soft, liquid edge: the coffee spreads instead of being cut out. */
   -webkit-mask-image: radial-gradient(
     circle at var(--cx, 50%) var(--cy, 55%),
@@ -362,7 +450,7 @@
   padding-block: 120px 96px;
   -webkit-mask-image: none;
   mask-image: none;
-  background: linear-gradient(to bottom, var(--cream) 0, var(--brown-700) 34%, var(--brown-800) 70%);
+  background: linear-gradient(to bottom, var(--cream) 0, var(--brown-800) 40%);
 }
 
 .hero--static :is(.dive__rain, .dive__copy) {
@@ -379,7 +467,7 @@
    ========================================================================== */
 @media (min-width: 960px) {
   .hero {
-    --cup-w: clamp(230px, min(29vw, (100svh - 250px) / 1.32), 470px);
+    --cup-w: clamp(260px, min(34vw, 100svh - 250px), 540px);
   }
 
   .hero__grid {
@@ -391,7 +479,7 @@
   }
 
   .hero__kicker {
-    grid-column: 1;
+    grid-column: 1 / -1;
     grid-row: 1;
     align-self: end;
   }
@@ -493,6 +581,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .banner__text {
+    animation: none;
+  }
+
   .hero__binary span,
   .dive__rain span {
     animation: none;
