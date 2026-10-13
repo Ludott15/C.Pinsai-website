@@ -32,8 +32,8 @@
     "transferTrack": "copy · paste · repeat",
     "transferCaption": "Hours per week: {value}",
     "inboxNew": "New message · 9:47 pm",
-    "inboxIn": "Good evening, I'd need a quote for Thursday. Could you let me know?",
-    "inboxOut": "Of course! Here's your detailed quote.",
+    "inboxIn": "Good evening, could I get a quote for Thursday? Let me know!",
+    "inboxOut": "Of course! Here's your quote.",
     "inboxWaiting": "waiting for a reply",
     "inboxForgotten": "no reply",
     "inboxAnswered": "reply sent",
@@ -58,23 +58,23 @@
     "clockCaption": "Time given back → {value}"
   },
   "fv": {
-    "messagesIn": "Good morning, can I move my appointment to Thursday?",
+    "messagesIn": "Hi, could I move my appointment to Thursday?",
     "messagesSuggestion": "SegretarIA's suggestion",
-    "messagesReply": "Of course! Does Thursday at 10:00 work for you?",
+    "messagesReply": "Of course! Would Thursday at 10:00 work for you?",
     "approve": "Approve",
     "edit": "Edit",
     "reminders": [
       [
         "1 day before",
-        "Appointment confirmation"
+        "Confirm appointment"
       ],
       [
-        "Every few months, you decide",
+        "Every few months, your call",
         "Customer follow-up"
       ],
       [
-        "Expiring",
-        "Renewal to remember"
+        "Due soon",
+        "Renewal reminder"
       ]
     ],
     "accountingAlert": "Unpaid invoice reminder sent",

@@ -1,7 +1,7 @@
 {
   "brand": {
     "name": "C.PINSAI",
-    "description": "Solutions to streamline your everyday work."
+    "description": "Smarter everyday work, built around you."
   },
   "navigation": [
     {
@@ -32,61 +32,61 @@
   },
   "hero": {
     "headline": [
-      "As easy as a coffee,",
+      "Easy like having a coffee,",
       "but we brew it for you."
     ],
-    "subheadline": "Coffee, code and people. We train AI to be the conductor of your infrastructure.",
+    "subheadline": "Coffee, code and people. We train AI to orchestrate your entire infrastructure.",
     "cta": {
       "label": "Start the Self-Assessment",
       "href": "#coffee-check"
     },
-    "scrollHint": "Scroll to dive into the coffee",
+    "scrollHint": "Scroll down and dive in",
     "banner": {
       "badge": "New",
-      "text": "SegretarIA has arrived: she handles the paperwork, you always have the final say.",
-      "cta": "Discover it",
+      "text": "Meet SegretarIA: she takes care of the paperwork, you keep the final word.",
+      "cta": "Take a look",
       "href": "proposte/#segretaria"
     }
   },
   "dive": {
     "label": "Dive into coffee",
-    "title": "Beneath the crema, there's code.",
+    "title": "Under the crema, there's code.",
     "steps": [
       "Coffee",
       "Analysis",
-      "Test",
+      "Testing",
       "Solution"
     ]
   },
   "solutionsIntro": {
     "index": "02",
     "kicker": "Solutions",
-    "title": "Your AI Solution",
-    "subtitle": "Pick one of our core packages and book a consultation to tailor the right service to you"
+    "title": "AI That Fits Your Business",
+    "subtitle": "Start from one of our core packages, then book a consultation and we'll shape it around the way you work"
   },
   "metricsIntro": {
     "index": "03",
     "kicker": "Numbers",
-    "title": "The Numbers Speak for Themselves",
-    "subtitle": "Concrete results our partner companies have achieved",
-    "hint": "Tap a number to find out why it matters.",
-    "hintDesktop": "Hover over a number or click it to find out why it matters."
+    "title": "The Numbers Say It All",
+    "subtitle": "Real results from the companies we work with",
+    "hint": "Tap a number to see why it matters.",
+    "hintDesktop": "Hover over a number, or click it, to see why it matters."
   },
   "contact": {
     "index": "04",
     "kicker": "Contact",
-    "title": "Let's Talk Over a Coffee",
-    "subtitle": "Virtual or in person, we're here to listen and build the right solution for you",
+    "title": "Let's Talk Over Coffee",
+    "subtitle": "Online or in person, we're here to listen and build what your business actually needs",
     "phoneDisplay": "+39 339 427 7111",
     "phoneE164": "+393394277111",
-    "whatsappLabel": "Message us on WhatsApp",
+    "whatsappLabel": "Chat with us on WhatsApp",
     "whatsappGreeting": "Hi C.PINSAI, I'd like to talk about a project.",
     "copyLabel": "Copy number",
     "copiedLabel": "Number copied",
-    "copyErrorLabel": "Copy failed: please select the number manually",
+    "copyErrorLabel": "Couldn't copy: please select the number manually",
     "form": {
-      "title": "Or tell us everything here",
-      "note": "Your message goes straight to our inbox: we'll reply to the address you leave us.",
+      "title": "Or tell us all about it here",
+      "note": "Your message lands straight in our inbox, and we'll reply to the email you leave below.",
       "submitLabel": "Send message",
       "fields": {
         "name": {
@@ -99,7 +99,7 @@
           "label": "Email",
           "placeholder": "you@email.com",
           "errorRequired": "Please enter your email.",
-          "errorInvalid": "Check your email: something seems to be missing (e.g. name@domain.com)."
+          "errorInvalid": "That email doesn't look quite right (e.g. name@domain.com)."
         },
         "message": {
           "label": "Message",
@@ -109,20 +109,20 @@
           "errorShort": "Your message must be at least 10 characters long."
         }
       },
-      "errorSummary": "Some fields need fixing before you continue.",
+      "errorSummary": "A few fields need a quick fix before you can send.",
       "successTitle": "Message sent.",
-      "successText": "Thank you! We'll get back to you as soon as possible at the email you left us.",
+      "successText": "Thanks! We'll get back to you soon at the email you gave us.",
       "openLinkLabel": "Open your email",
       "messageTemplate": "Hi C.PINSAI, I'm {name} ({email}).\n\n{message}",
       "sendingLabel": "Sending…",
       "recipient": "cpinsai02@gmail.com",
       "subject": "New message from the C.PINSAI website",
-      "failedText": "Sending failed. Please try again in a moment, or write to us from your own email:"
+      "failedText": "Something went wrong. Please try again in a moment, or email us directly:"
     },
     "phoneLabel": "Phone"
   },
   "footer": {
-    "tagline": "Coffee, code and people. We train AI to be the conductor of your infrastructure.",
+    "tagline": "Coffee, code and people. We train AI to orchestrate your entire infrastructure.",
     "navTitle": "Sections",
     "contactTitle": "Contact",
     "legalTitle": "Legal",
@@ -152,9 +152,9 @@
   ],
   "proposalsTeaser": {
     "title": "Our proposals",
-    "text": "Not just another management tool: an operational infrastructure built around your industry.",
+    "text": "Not another management app: an operational backbone built around your industry.",
     "cta": {
-      "label": "Explore our proposals",
+      "label": "See our proposals",
       "href": "proposte/"
     }
   },
@@ -162,7 +162,7 @@
     "index": "02",
     "kicker": "Our demos",
     "title": "Our proposals",
-    "subtitle": "Not just another management tool: an operational infrastructure built around your industry.",
+    "subtitle": "Not another management app: an operational backbone built around your industry.",
     "navLabel": "Industries"
   }
 }
