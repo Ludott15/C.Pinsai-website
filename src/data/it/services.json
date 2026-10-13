@@ -3,8 +3,8 @@
     {
       "id": "tailored",
       "index": "S/01",
-      "kicker": "Tailored Service",
-      "title": "Tailored Service",
+      "kicker": "Su misura",
+      "title": "Su misura",
       "concept": "La tecnologia non arriva come un pacchetto standard: la progettiamo attorno al modo in cui lavori.",
       "manifesto": [
         "Non adattiamo te al software;",
@@ -13,7 +13,7 @@
       "toggle": {
         "label": "Confronta l'approccio",
         "standard": "Software standard",
-        "tailored": "Tailored",
+        "tailored": "Su misura",
         "standardCaption": "Il tuo lavoro deve entrare nella scatola.",
         "tailoredCaption": "La scatola prende la forma del tuo lavoro."
       },
