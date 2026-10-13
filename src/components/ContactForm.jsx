@@ -72,12 +72,12 @@ export default function ContactForm({ form }) {
     setStatus({ type: 'sending', link: '' });
     try {
       await sendContact({
-        apiUrl: `${page.siteRoot}api/contact`,
         recipient: form.recipient,
         subject: form.subject,
         name,
         email,
         message,
+        language: page.lang,
         website: honeypot.current?.value ?? '',
       });
       setStatus({ type: 'success', link: '' });
@@ -150,7 +150,7 @@ export default function ContactForm({ form }) {
         ref={honeypot}
         className="form__trap"
         type="text"
-        name="website"
+        name="bot-field"
         tabIndex={-1}
         autoComplete="off"
         aria-hidden="true"

@@ -1,38 +1,31 @@
-/**
- * Sends a contact message by email. First through the site's own function (/api/contact on
- * Vercel, Gmail SMTP); where that is not available (not configured, local dev) through
- * FormSubmit. Resolves when one of them accepted the message, rejects otherwise.
- */
-export async function sendContact({ apiUrl, recipient, name, email, message, subject, website }) {
-  const json = { 'Content-Type': 'application/json', Accept: 'application/json' };
+/** Name of the form registered with Netlify Forms (see the hidden form in index.html). */
+export const FORM_NAME = 'contatti';
 
+const encode = (fields) => new URLSearchParams(fields).toString();
+
+/**
+ * Sends a contact message. The site is hosted on Netlify: the message is posted to Netlify Forms,
+ * which stores it and emails it to the address set in the Netlify dashboard (Forms → notifications).
+ * Where Netlify is not available (local dev, another host) it falls back to FormSubmit.
+ * Resolves when one of them accepted the message, rejects otherwise.
+ */
+export async function sendContact({ recipient, name, email, message, subject, language, website }) {
   try {
-    const response = await fetch(apiUrl, {
+    const response = await fetch('/', {
       method: 'POST',
-      headers: json,
-      body: JSON.stringify({ name, email, message, subject, website }),
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: encode({ 'form-name': FORM_NAME, name, email, message, subject, language, 'bot-field': website }),
     });
+    /* Netlify answers 200 with its own page; other hosts answer 404/405 to a POST on "/". */
     if (response.ok) return;
-    /* The function exists and refused the message itself: no point in trying elsewhere. */
-    if (response.status === 400) throw new Error('invalid');
-    /* 404 (no function), 405, 503 (not configured), 502 (provider down): try the fallback. */
-  } catch (error) {
-    if (error.message === 'invalid') throw error;
+  } catch {
+    /* Network error: try the fallback. */
   }
 
-  if (website) return;
   const response = await fetch(`https://formsubmit.co/ajax/${recipient}`, {
     method: 'POST',
-    headers: json,
-    body: JSON.stringify({
-      name,
-      email,
-      message,
-      _subject: subject,
-      _replyto: email,
-      _template: 'table',
-      _captcha: 'false',
-    }),
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify({ name, email, message, _subject: subject, _replyto: email, _captcha: 'false' }),
   });
   const result = await response.json().catch(() => ({}));
   if (!response.ok || String(result.success) === 'false') throw new Error(result.message || 'send failed');

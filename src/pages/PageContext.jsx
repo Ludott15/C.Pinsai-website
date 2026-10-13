@@ -5,7 +5,7 @@ import { getContent } from '../data/index.js';
  * Which page is rendering, in which language, and where things are relative to it.
  * - root: the home of the current language (links between pages stay inside the language);
  * - siteRoot: the real root of the site (the Italian home), used to switch language.
- * Links are kept relative so the build works from any folder (Vercel, previews, subdirectories).
+ * Links are kept relative so the build works from any folder (Netlify, previews, subdirectories).
  */
 export const PageContext = createContext({ id: 'home', lang: 'it', root: './', siteRoot: './', path: '' });
 

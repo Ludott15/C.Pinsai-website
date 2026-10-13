@@ -135,8 +135,8 @@
       "label": "Privacy",
       "title": "Privacy",
       "paragraphs": [
-        "This website does not store the data entered in the contact form on its own servers.",
-        "When you submit the form, your name, email and message are emailed to our inbox (cpinsai02@gmail.com), through our Gmail account or, as a fallback, the FormSubmit service, and used only to reply to you.",
+        "This website has no database of its own for the data entered in the contact form.",
+        "When you submit the form, your name, email and message are received through the forms service of Netlify, which hosts the website, and forwarded to our inbox (cpinsai02@gmail.com). We use them only to reply to you.",
         "For any request about your data you can contact us at +39 339 427 7111."
       ]
     },
