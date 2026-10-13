@@ -1,0 +1,7 @@
+# Netlify: build the Vite site and publish dist/.
+# The contact form uses Netlify Forms (form "contatti", declared in the HTML pages):
+# enable form detection and add an email notification to cpinsai02@gmail.com in
+# Site configuration → Forms (see README).
+[build]
+  command = "npm run build"
+  publish = "dist"

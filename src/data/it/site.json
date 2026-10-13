@@ -135,8 +135,8 @@
       "label": "Privacy",
       "title": "Privacy",
       "paragraphs": [
-        "Questo sito non salva su server propri i dati inseriti nel modulo contatti.",
-        "Quando invii il modulo, nome, email e messaggio vengono inoltrati per email alla nostra casella (cpinsai02@gmail.com), tramite il nostro account Gmail o, in alternativa, il servizio FormSubmit, e usati solo per risponderti.",
+        "Questo sito non usa database propri per i dati inseriti nel modulo contatti.",
+        "Quando invii il modulo, nome, email e messaggio vengono ricevuti tramite il servizio moduli di Netlify, che ospita il sito, e inoltrati alla nostra casella email (cpinsai02@gmail.com). Li usiamo solo per risponderti.",
         "Per qualsiasi richiesta sui tuoi dati puoi contattarci al +39 339 427 7111."
       ]
     },

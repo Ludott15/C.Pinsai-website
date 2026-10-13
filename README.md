@@ -70,14 +70,13 @@ copre lo schermo e lascia il posto all'onda del Coffee Check.
 Il risultato è la somma dei punteggi, mappata sui range dei `profiles`. Per aggiungere o modificare domande
 basta il JSON; il campo `visual` sceglie uno dei visual esistenti (`transfer`, `inbox`, `network`, `channels`, `clock`).
 
-**Contatti.** Il form valida i campi lato client e invia nome, email e messaggio a cpinsai02@gmail.com:
-1. tramite la funzione serverless `api/contact.js` (Vercel), che spedisce con l'account Gmail indicato nelle
-   variabili d'ambiente del progetto Vercel: `GMAIL_USER` (es. cpinsai02@gmail.com) e `GMAIL_APP_PASSWORD`
-   (una "password per le app" di Google, richiede la verifica in due passaggi). Facoltativa: `CONTACT_TO`;
-2. se la funzione non è configurata o non risponde (es. `npm run dev`), tramite FormSubmit; al primo invio
-   FormSubmit manda a cpinsai02@gmail.com un'email di attivazione da confermare una volta sola;
-3. se entrambi falliscono, il visitatore può spedire lo stesso messaggio dalla propria app email (`mailto:`).
-Un campo nascosto (honeypot) scarta i bot.
+**Contatti.** Il sito è ospitato su Netlify (cpinsai.it, cpinsai.com) e il form usa **Netlify Forms**: il modulo
+"contatti" è dichiarato in HTML nelle pagine (form nascosto, rilevato da Netlify al deploy) e il form React invia
+gli stessi campi con una POST a "/" (`src/utils/sendContact.js`). Per ricevere le email, una volta sola su Netlify:
+1. Site configuration → Forms → **Enable form detection** (poi rifare il deploy);
+2. Forms → Form notifications → Add notification → **Email notification** → cpinsai02@gmail.com, form "contatti".
+I messaggi restano comunque visibili in Netlify → Forms. Il campo nascosto `bot-field` scarta i bot.
+Fuori da Netlify (es. `npm run dev`) il form ripiega su FormSubmit; se tutto fallisce propone un link `mailto:`.
 
 **Lingue.** I testi stanno in `src/data/<lingua>/` (`it` e `en`, stessa struttura: site, assessment, services,
 proposals, metrics e `ui` per le scritte dei componenti). Le pagine italiane sono alla radice, quelle inglesi in

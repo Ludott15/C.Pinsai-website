@@ -10,9 +10,9 @@
     />
     <meta name="theme-color" content="#F5EFE2" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="alternate" hreflang="it" href="https://c-pinsai-website.vercel.app/proposte/" />
-    <link rel="alternate" hreflang="en" href="https://c-pinsai-website.vercel.app/en/proposte/" />
-    <link rel="alternate" hreflang="x-default" href="https://c-pinsai-website.vercel.app/proposte/" />
+    <link rel="alternate" hreflang="it" href="https://cpinsai.it/proposte/" />
+    <link rel="alternate" hreflang="en" href="https://cpinsai.it/en/proposte/" />
+    <link rel="alternate" hreflang="x-default" href="https://cpinsai.it/proposte/" />
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="it_IT" />
@@ -26,6 +26,18 @@
   </head>
   <body>
     <div id="root"></div>
+    <!--
+      Contact form registered with Netlify Forms (detected at deploy time). The visible form is
+      rendered by React and posts the same fields; see src/utils/sendContact.js.
+    -->
+    <form name="contatti" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <textarea name="message"></textarea>
+      <input type="text" name="subject" />
+      <input type="text" name="language" />
+      <input type="text" name="bot-field" />
+    </form>
     <noscript>
       <p style="padding:2rem;font-family:system-ui;color:#4B2D20;background:#F5EFE2">
         C.PINSAI — Soluzioni per ottimizzare il lavoro di tutti i giorni.
