@@ -36,19 +36,22 @@ src/
                             o "wip" (lavori in corso). Aggiungere un settore qui aggiunge la sua pill
     metrics.json            i quattro numeri e i rispettivi "perché"
   three/CupScene.js         la tazzina 3D (three.js), caricata in differita
+  assets/                   modello 3D della tazzina e la sua immagine di riserva
   hooks/                    scroll (con smoothing), reveal, reduced motion
-  utils/                    timeline del dive, manico SVG, punteggio, testo
+  utils/                    timeline del dive, punteggio, testo
   components/               componenti della UI
   styles/                   base (token), header, hero, assessment, services, sections, proposals
 ```
 
 ## Come funziona
 
-**Tazzina 3D.** `src/three/CupScene.js` costruisce la tazza in codice (corpo e piattino al tornio,
-manico come tubo, logo come decalcomania, contorno marrone) con le stesse unità del disegno SVG, così
-vapore e cerchio del dive restano allineati. three.js viene scaricato solo dopo il primo rendering;
-la tazzina SVG resta come fallback (niente WebGL, prefers-reduced-motion, risparmio dati) e su mobile
-la risoluzione è limitata. Il rendering si ferma quando la hero non è visibile.
+**Tazzina 3D.** Il modello è `src/assets/cpinsai-cup.glb` (tazzina voxel con fumo e bit in pixel).
+`src/three/CupScene.js` lo carica con three.js, lo porta nelle unità del riquadro della hero (caffè a y = 0,
+così il cerchio del dive si apre dal caffè), anima il fumo e i bit e segue lo scroll: rotazione, inclinazione
+della camera, avvicinamento. three.js e il modello vengono scaricati solo dopo il primo rendering;
+`src/assets/cpinsai-cup.webp` è un'immagine ricavata dallo stesso modello, mostrata mentre carica e come
+fallback (niente WebGL, prefers-reduced-motion, risparmio dati). Se il modello cambia, va rigenerata anche
+l'immagine (stessa inquadratura: riquadro 400 × 540, caffè al 54,8% dell'altezza).
 
 **Hero e "Dive into coffee".** La sezione hero è una track alta 250svh con uno stage sticky.
 `useScrollProgress` misura il progresso (un solo `getBoundingClientRect` per frame, via rAF) e
@@ -58,9 +61,7 @@ La tazzina è fatta di livelli indipendenti (SVG + CSS 3D): il manico orbita sul
 scorre sul corpo, la bocca si apre con l'inclinazione, poi la camera entra nel caffè e un cerchio marrone
 (con bordo morbido) diventa l'ambiente del Coffee Check.
 
-**Vapore binario.** `CoffeeSteam` genera i frammenti (0/1 e pochi glifi di codice) con un random
-deterministico: ogni frammento ha durata, ritardo, deriva laterale, rotazione, scala e opacità propri;
-i tre "filamenti" oscillano con ritmi diversi. Colore: esattamente `#E04A95`.
+**Vapore.** È quello del modello: due filamenti di pixel rosa che ondeggiano e quattro bit (0/1) che salgono e sfumano, animati in `CupScene.js` e spenti quando la camera si avvicina al caffè.
 
 **Coffee Check.** Le domande sono in `assessment.json` (testo, risposte, punteggi, visual).
 Il risultato è la somma dei punteggi, mappata sui range dei `profiles`. Per aggiungere o modificare domande

@@ -4,7 +4,7 @@ import ScrollDive from './ScrollDive.jsx';
 import { useReducedMotion } from '../hooks/useReducedMotion.js';
 import { useScrollProgress } from '../hooks/useScrollProgress.js';
 import { applyDiveState, clearDiveState } from '../utils/dive.js';
-import { updateHandle } from '../utils/handle.js';
+import modelUrl from '../assets/cpinsai-cup.glb?url';
 import { toBinary } from '../utils/text.js';
 
 /** Vertical position of the coffee surface inside the cup visual box (see CoffeeVisual geometry). */
@@ -13,7 +13,7 @@ const COFFEE_CENTER_Y = 296 / 540;
 const SCROLL_SMOOTHING = 140;
 const MOBILE_QUERY = '(max-width: 640px)';
 
-/** The WebGL cup is loaded only where it can run comfortably; everywhere else the SVG cup stays. */
+/** The WebGL cup is loaded only where it can run comfortably; everywhere else the still image stays. */
 function canUseWebGL() {
   if (navigator.connection?.saveData) return false;
   if (navigator.deviceMemory && navigator.deviceMemory < 2) return false;
@@ -27,7 +27,6 @@ function canUseWebGL() {
 
 export default function Hero({ content, dive, brandName }) {
   const trackRef = useRef(null);
-  const handleRef = useRef(null);
   const canvasRef = useRef(null);
   const sceneRef = useRef(null);
   const latest = useRef({ state: null, layout: null });
@@ -37,19 +36,13 @@ export default function Hero({ content, dive, brandName }) {
   const onProgress = useCallback((progress) => {
     const state = applyDiveState(trackRef.current, progress);
     latest.current.state = state;
-    if (sceneRef.current) {
-      sceneRef.current.setState(state);
-      sceneRef.current.setActive(progress < 0.92);
-    } else {
-      updateHandle(handleRef.current, state['--turn'], state['--tilt']);
-    }
+    sceneRef.current?.setState(state);
+    sceneRef.current?.setActive(progress < 0.92);
   }, []);
   useScrollProgress(trackRef, onProgress, !reducedMotion, SCROLL_SMOOTHING);
 
   useEffect(() => {
-    if (!reducedMotion || !trackRef.current) return;
-    clearDiveState(trackRef.current);
-    updateHandle(handleRef.current, 0, 0);
+    if (reducedMotion && trackRef.current) clearDiveState(trackRef.current);
   }, [reducedMotion]);
 
   /* 3D cup: loaded after the page is interactive, never blocking the first paint. */
@@ -63,7 +56,7 @@ export default function Hero({ content, dive, brandName }) {
         const { createCupScene } = await import('../three/CupScene.js');
         if (disposed) return;
         const mobile = window.matchMedia(MOBILE_QUERY).matches;
-        scene = await createCupScene({ canvas: canvasRef.current, brandName, maxPixelRatio: mobile ? 1.5 : 2 });
+        scene = await createCupScene({ canvas: canvasRef.current, modelUrl, maxPixelRatio: mobile ? 1.5 : 2 });
         if (disposed) {
           scene.dispose();
           return;
@@ -102,7 +95,7 @@ export default function Hero({ content, dive, brandName }) {
       scene?.dispose();
       setRenderer('svg');
     };
-  }, [reducedMotion, brandName]);
+  }, [reducedMotion]);
 
   /* The dive opens from the centre of the coffee: keep its position (relative to the sticky stage) up to date. */
   useEffect(() => {
@@ -167,7 +160,7 @@ export default function Hero({ content, dive, brandName }) {
           </h1>
 
           <div className="hero__visual">
-            <CoffeeVisual brandName={brandName} handleRef={handleRef} />
+            <CoffeeVisual brandName={brandName} />
           </div>
 
           <div className="hero__aside">

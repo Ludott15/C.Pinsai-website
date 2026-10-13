@@ -1,7 +1,7 @@
 /* ==========================================================================
    01 — Hero. The section is a tall scroll track; the stage sticks to the viewport
-   while the scroll timeline (utils/dive.js) writes --text, --turn, --tilt, --zoom,
-   --steam, --fill, --dive and --steps on the track.
+   while the scroll timeline (utils/dive.js) writes --text, --zoom, --fill, --dive,
+   --steps and --out on the track (--turn and --tilt drive the 3D cup).
    ========================================================================== */
 .hero {
   --cup-w: clamp(150px, min(66vw, (100svh - 420px) / 1.35), 330px);
@@ -171,8 +171,9 @@
 }
 
 /* ==========================================================================
-   Cup — geometry: the visual box is 400 × 540 units; the cup SVG (400 × 320)
-   sits at the bottom; the coffee surface centre is at (200, 296) → 50% 54.8%.
+   Cup — the visual box is 400 × 540 units; the coffee surface centre is at
+   (200, 296) → 50% 54.8%. The still image fills the box; the WebGL cup is drawn
+   on a canvas covering the stage, aligned on the same point (see three/CupScene.js).
    ========================================================================== */
 .coffee {
   position: relative;
@@ -184,8 +185,21 @@
   visibility: hidden;
 }
 
-/* WebGL cup: drawn on a canvas covering the stage, under the text and the steam.
-   Once it is ready the SVG cup fades out; the steam stays (it is HTML). */
+/* Without WebGL the image itself dollies into the coffee. */
+.coffee__camera {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 54.8%;
+  transform: scale(var(--zoom, 1));
+}
+
+.coffee__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.6s var(--ease-out);
+}
+
 .hero__canvas {
   position: absolute;
   inset: 0;
@@ -196,213 +210,18 @@
   transition: opacity 0.6s var(--ease-out);
 }
 
+/* Once the 3D cup is ready it takes over from the image. */
 .hero[data-renderer='webgl'] .hero__canvas {
   opacity: 1;
 }
 
-.hero[data-renderer='webgl'] :is(.coffee__cup, .coffee__handle) {
+.hero[data-renderer='webgl'] .coffee__image {
   opacity: 0;
-  transition: opacity 0.6s var(--ease-out);
 }
 
 .hero[data-phase='deep'] .hero__canvas,
 .hero--static .hero__canvas {
   visibility: hidden;
-}
-
-.coffee__camera {
-  position: absolute;
-  inset: 0;
-  transform-origin: 50% 54.8%;
-  transform: scale(var(--zoom, 1));
-  perspective: 1100px;
-  perspective-origin: 50% 40%;
-}
-
-.coffee__cup {
-  position: absolute;
-  inset: auto 0 0;
-  aspect-ratio: 400 / 320;
-  transform-origin: 50% 23.75%;
-  transform: rotateX(calc(var(--tilt, 0) * -16deg));
-}
-
-.coffee__saucer,
-.coffee__body {
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-.coffee__saucer {
-  transform-origin: 50% 82%;
-  transform: scaleY(calc(1 + var(--tilt, 0) * 0.55));
-}
-
-.coffee__shadow {
-  fill: var(--brown);
-  opacity: calc(0.16 + var(--tilt, 0) * 0.12);
-}
-
-.coffee__shell {
-  transform-box: view-box;
-  transform-origin: 200px 72px;
-  transform: scaleY(calc(1 - var(--tilt, 0) * 0.32));
-}
-
-.coffee__mouth {
-  transform-box: view-box;
-  transform-origin: 200px 76px;
-  transform: scaleY(calc(1 + var(--tilt, 0) * 1.6));
-}
-
-.coffee__logo {
-  font-family: var(--font-sans);
-  font-size: 30px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  fill: var(--brown);
-  transform-box: view-box;
-  transform-origin: 200px 150px;
-  transform: translateX(calc(var(--sin, 0) * 92px)) scaleX(var(--cos, 1));
-  opacity: clamp(0, calc(var(--cos, 1) * 3), 1);
-}
-
-.coffee__logo-glow {
-  fill: var(--pink);
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: sun-glow-svg 3.2s ease-in-out infinite;
-}
-
-@keyframes sun-glow-svg {
-  0%,
-  100% {
-    opacity: 0.45;
-    transform: scale(0.85);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.15);
-  }
-}
-
-.coffee__surface-glint {
-  animation: glint 6s ease-in-out infinite;
-}
-
-@keyframes glint {
-  50% {
-    opacity: 0.38;
-  }
-}
-
-/* The handle: redrawn by utils/handle.js, layered behind or over the body. */
-.coffee__handle {
-  position: absolute;
-  inset: 0;
-  z-index: var(--handle-layer, 0);
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-
-/* ==========================================================================
-   Binary steam — pink glyphs born on the surface, drifting like vapour.
-   ========================================================================== */
-.steam {
-  --rise: calc(var(--cup-w) * 0.62);
-  position: absolute;
-  inset: 0 0 auto;
-  height: 55%;
-  font-family: var(--font-mono);
-  font-size: calc(var(--cup-w) * 0.05);
-  font-weight: 600;
-  color: #e04a95;
-  opacity: var(--steam, 1);
-  pointer-events: none;
-}
-
-.steam__wisp {
-  position: absolute;
-  left: calc(50% + var(--offset));
-  bottom: 0;
-  width: 36%;
-  height: 100%;
-  transform-origin: 50% 100%;
-  transform: translateX(-50%);
-  animation: wisp-sway var(--sway) ease-in-out infinite alternate;
-}
-
-.steam__bit {
-  position: absolute;
-  bottom: 0;
-  left: calc(50% + var(--x0));
-  font-size: var(--size);
-  line-height: 1;
-  opacity: 0;
-  will-change: transform, opacity;
-  animation: steam-rise var(--dur) cubic-bezier(0.33, 0.1, 0.45, 1) var(--delay) infinite;
-}
-
-.steam__bit--soft {
-  animation-name: steam-rise-soft;
-}
-
-@keyframes wisp-sway {
-  from {
-    transform: translateX(-54%) skewX(-8deg);
-  }
-  to {
-    transform: translateX(-46%) skewX(9deg);
-  }
-}
-
-@keyframes steam-rise {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 0, 0) scale(var(--s0)) rotate(0deg);
-  }
-  14% {
-    opacity: var(--o);
-  }
-  42% {
-    transform: translate3d(var(--x1), calc(var(--rise) * -0.4), 0) scale(calc(var(--s0) + 0.25), var(--s0))
-      rotate(calc(var(--rot) * 0.35));
-  }
-  72% {
-    opacity: calc(var(--o) * 0.55);
-    transform: translate3d(var(--x2), calc(var(--rise) * -0.74), 0) scale(var(--s1), calc(var(--s1) * 0.8))
-      rotate(calc(var(--rot) * 0.75));
-  }
-  100% {
-    opacity: 0;
-    transform: translate3d(var(--x3), calc(var(--rise) * -1), 0) scale(calc(var(--s1) * 1.25)) rotate(var(--rot));
-  }
-}
-
-@keyframes steam-rise-soft {
-  0% {
-    opacity: 0;
-    filter: blur(0);
-    transform: translate3d(0, 0, 0) scale(var(--s0));
-  }
-  18% {
-    opacity: var(--o);
-  }
-  55% {
-    filter: blur(0.6px);
-    transform: translate3d(var(--x2), calc(var(--rise) * -0.55), 0) scale(var(--s1)) rotate(calc(var(--rot) * 0.5));
-  }
-  100% {
-    opacity: 0;
-    filter: blur(1.6px);
-    transform: translate3d(var(--x3), calc(var(--rise) * -1.05), 0) scale(calc(var(--s1) * 1.35)) rotate(var(--rot));
-  }
 }
 
 /* ==========================================================================
@@ -415,7 +234,7 @@
   z-index: 3;
   display: grid;
   place-items: center;
-  --radius: calc(var(--fill, 0) * 164vmax - 4vmax);
+  --radius: calc(var(--fill, 0) * 162vmax - 1.5vmax);
   background:
     radial-gradient(circle at var(--cx, 50%) var(--cy, 55%), var(--brown) 0, var(--brown-800) 60%),
     var(--brown-800);
@@ -423,12 +242,12 @@
   -webkit-mask-image: radial-gradient(
     circle at var(--cx, 50%) var(--cy, 55%),
     #000 var(--radius),
-    transparent calc(var(--radius) + 4vmax)
+    transparent calc(var(--radius) + 1.5vmax)
   );
   mask-image: radial-gradient(
     circle at var(--cx, 50%) var(--cy, 55%),
     #000 var(--radius),
-    transparent calc(var(--radius) + 4vmax)
+    transparent calc(var(--radius) + 1.5vmax)
   );
   pointer-events: none;
 }
@@ -674,19 +493,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* Steam freezes into a still, readable plume. */
-  .steam__wisp,
-  .hero__binary span {
-    animation: none;
-  }
-
-  .steam__bit {
-    animation: none;
-    opacity: calc(var(--o) * (1 - var(--py)));
-    transform: translate3d(calc(var(--x2) * var(--py)), calc(var(--rise) * var(--py) * -1), 0)
-      scale(calc(var(--s0) + var(--py) * 0.5));
-  }
-
+  .hero__binary span,
   .dive__rain span {
     animation: none;
   }
