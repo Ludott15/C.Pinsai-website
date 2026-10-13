@@ -51,7 +51,8 @@ e li applica a materiali ceramici lucidi; lo porta nelle unità del riquadro del
 così il cerchio del dive si apre dal caffè) e segue lo scroll: rotazione, inclinazione della camera, avvicinamento.
 Poiché l'avorio è quasi uguale allo sfondo crema, il contrasto viene dalla luce: una key light morbida con ombre reali,
 due controluce e un ambiente "studio" che disegnano i bordi lucidi, più un'ombra di contatto sul tavolo.
-Durante l'avvicinamento il caffè sfuma nello stesso marrone del dive e del Coffee Check (`--brown-800`), senza stacchi. three.js e il modello vengono scaricati solo dopo il primo rendering;
+Durante l'avvicinamento il caffè sfuma nello stesso marrone del dive (`--brown-800`), senza stacchi.
+Sopra il caffè c'è il vapore rosa in pixel con i bit 0/1 (`src/three/Steam.js`), che sfuma all'inizio del dive. three.js e il modello vengono scaricati solo dopo il primo rendering;
 `src/assets/cpinsai-cup.webp` è un'immagine ricavata dallo stesso modello, mostrata mentre carica e come
 fallback (niente WebGL, prefers-reduced-motion, risparmio dati). Se il modello cambia, va rigenerata anche
 l'immagine (stessa inquadratura: riquadro 400 × 400, caffè al 31,25% dell'altezza).
@@ -60,8 +61,8 @@ l'immagine (stessa inquadratura: riquadro 400 × 400, caffè al 31,25% dell'alte
 `useScrollProgress` misura il progresso (un solo `getBoundingClientRect` per frame, via rAF) e
 `utils/dive.js` lo trasforma in variabili CSS (`--turn`, `--tilt`, `--zoom`, `--fill`, …).
 Tutte le animazioni usano solo `transform`, `opacity` e una maschera: React non re-renderizza mai durante lo scroll.
-La camera entra nel caffè e un cerchio marrone (con bordo morbido, stesso colore piatto della sezione successiva)
-diventa l'ambiente del Coffee Check.
+La camera entra nel caffè e uno splash marrone (`src/assets/dive-splash.svg`, usato come maschera: bordo ondulato, dita e gocce)
+copre lo schermo e lascia il posto all'onda del Coffee Check.
 
 **Coffee Check.** Le domande sono in `assessment.json` (testo, risposte, punteggi, visual).
 Il risultato è la somma dei punteggi, mappata sui range dei `profiles`. Per aggiungere o modificare domande

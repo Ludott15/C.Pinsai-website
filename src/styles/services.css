@@ -3,7 +3,7 @@
    ========================================================================== */
 .services {
   position: relative;
-  padding-block: var(--section-pad) clamp(56px, 7vw, 96px);
+  padding-block: var(--section-gap) clamp(32px, 4vw, 56px);
   background: var(--cream);
 }
 

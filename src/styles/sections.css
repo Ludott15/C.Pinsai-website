@@ -3,7 +3,7 @@
    ========================================================================== */
 .metrics {
   position: relative;
-  padding-block: var(--section-pad) calc(var(--section-pad) + clamp(40px, 7vw, 110px));
+  padding-block: var(--section-gap) calc(var(--section-gap) + var(--wave-h));
   background: var(--brown-900);
   color: var(--cream);
 }
@@ -233,7 +233,7 @@
    ========================================================================== */
 .contact {
   position: relative;
-  padding-block: var(--section-pad) calc(var(--section-pad) + clamp(40px, 7vw, 110px));
+  padding-block: var(--section-gap) calc(var(--section-gap) + var(--wave-h));
   background: var(--cream);
 }
 

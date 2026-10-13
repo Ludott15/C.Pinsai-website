@@ -323,20 +323,17 @@
   z-index: 3;
   display: grid;
   place-items: center;
-  --radius: calc(var(--fill, 0) * 162vmax - 1.5vmax);
-  /* Flat: the same brown as the Coffee Check that follows, so there is no seam. */
+  /* Size of the splash: its body covers the whole stage when --fill reaches 1. */
+  --splash: calc(var(--fill, 0) * 600vmax);
+  /* Flat: the same brown as the coffee and as the dark panels that follow, so there is no seam. */
   background: var(--brown-800);
-  /* Soft, liquid edge: the coffee spreads instead of being cut out. */
-  -webkit-mask-image: radial-gradient(
-    circle at var(--cx, 50%) var(--cy, 55%),
-    #000 var(--radius),
-    transparent calc(var(--radius) + 1.5vmax)
-  );
-  mask-image: radial-gradient(
-    circle at var(--cx, 50%) var(--cy, 55%),
-    #000 var(--radius),
-    transparent calc(var(--radius) + 1.5vmax)
-  );
+  /* A splash, not a circle: wavy edge, fingers and drops, like the section waves. */
+  -webkit-mask: url('../assets/dive-splash.svg') no-repeat;
+  mask: url('../assets/dive-splash.svg') no-repeat;
+  -webkit-mask-size: var(--splash) var(--splash);
+  mask-size: var(--splash) var(--splash);
+  -webkit-mask-position: calc(var(--cx, 50vw) - var(--splash) / 2) calc(var(--cy, 55vh) - var(--splash) / 2);
+  mask-position: calc(var(--cx, 50vw) - var(--splash) / 2) calc(var(--cy, 55vh) - var(--splash) / 2);
   pointer-events: none;
 }
 
@@ -567,16 +564,6 @@
   .hero {
     height: 200vh;
     height: 200svh;
-  }
-
-  .dive {
-    -webkit-mask-image: none;
-    mask-image: none;
-    clip-path: circle(max(0px, var(--radius)) at var(--cx, 50%) var(--cy, 55%));
-  }
-
-  .hero--static .dive {
-    clip-path: none;
   }
 }
 
