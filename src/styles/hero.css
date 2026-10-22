@@ -507,6 +507,7 @@
     grid-column: 2;
     grid-row: 1 / 3;
     align-self: end;
+    transform: translateY(30px);
   }
 
   .hero__aside {
