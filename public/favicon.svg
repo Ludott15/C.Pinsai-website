@@ -1,1 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#4B2D20"/><path d="M41 22.5a12 12 0 1 0 0 19" fill="none" stroke="#F5EFE2" stroke-width="6" stroke-linecap="round"/><circle cx="46" cy="41" r="4" fill="#E04A95"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Background with rounded corners -->
+  <rect width="64" height="64" rx="14" fill="#4B2D20"/>
+  
+  <!-- Letter C - refined arc with better proportions -->
+  <path d="M40 20a14 14 0 1 0 0 24" fill="none" stroke="#F5EFE2" stroke-width="5.5" stroke-linecap="round"/>
+  
+  <!-- Pink dot - more detached from the C, slightly bigger for clarity at small sizes -->
+  <circle cx="49" cy="44" r="4.5" fill="#E04A95"/>
+</svg>
