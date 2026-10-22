@@ -1,10 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- Background with rounded corners -->
+  <!-- Background -->
   <rect width="64" height="64" rx="14" fill="#4B2D20"/>
-  
-  <!-- Letter C - refined arc with better proportions -->
-  <path d="M40 20a14 14 0 1 0 0 24" fill="none" stroke="#F5EFE2" stroke-width="5.5" stroke-linecap="round"/>
-  
-  <!-- Pink dot - more detached from the C, slightly bigger for clarity at small sizes -->
-  <circle cx="49" cy="44" r="4.5" fill="#E04A95"/>
+
+  <!-- Saucer -->
+  <ellipse cx="27" cy="50" rx="17" ry="4.5" fill="#F0E6D3" stroke="#2A3A4A" stroke-width="1.6"/>
+
+  <!-- Cup body -->
+  <path d="M14 33 h26 l-3.5 16 H17.5 Z" fill="#F0E6D3" stroke="#2A3A4A" stroke-width="1.6" stroke-linejoin="round"/>
+
+  <!-- Coffee liquid surface -->
+  <ellipse cx="27" cy="34" rx="12.5" ry="2.5" fill="#5C2A0E"/>
+
+  <!-- Cup handle -->
+  <path d="M40 36 q7 0.5 6.5 5.5 q-0.5 5 -6.5 5" fill="none" stroke="#2A3A4A" stroke-width="1.8" stroke-linecap="round"/>
+
+  <!-- Steam - pink organic wavy shape -->
+  <path d="M30 31 q-5 -4 -2 -9 q3 -5 0 -9 q-2 -3 1 -6 l3 0 q-3 3 -1 6 q3 5 0 9 q-3 5 2 9 Z" fill="#E8508C" opacity="0.95"/>
+  <path d="M24 30 q4 -5 1 -10 q-3 -4 0 -8 q2 -3 -1 -5.5 l-3 0 q3 2.5 1 5.5 q-3 4 0 8 q3 5 -1 10 Z" fill="#F06AA0" opacity="0.85"/>
+
+  <!-- Binary digits on steam -->
+  <text font-family="monospace,Courier" font-weight="bold" fill="#FFF" font-size="4.2">
+    <tspan x="24.5" y="25">0</tspan>
+    <tspan x="28" y="20">1</tspan>
+    <tspan x="24" y="16">0</tspan>
+    <tspan x="27.5" y="11">1</tspan>
+    <tspan x="24.5" y="7">0</tspan>
+    <tspan x="28.5" y="15">1</tspan>
+  </text>
 </svg>
