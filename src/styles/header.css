@@ -16,8 +16,16 @@
   background: var(--pink);
 }
 
+.logo__ai {
+  color: var(--pink);
+}
+
 .logo--light {
   color: var(--cream);
+}
+
+.logo--light .logo__ai {
+  color: var(--pink);
 }
 
 /* ==========================================================================
