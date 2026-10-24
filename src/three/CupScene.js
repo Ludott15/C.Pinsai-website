@@ -105,8 +105,8 @@ function reshape(node) {
   position.needsUpdate = true;
 }
 
-/** The wordmark printed on the front face, as in the header: C, pink dot, PINSAI. */
-const LOGO = { name: 'C.PINSAI', width: 0.05, y: 0.044, color: '#4B2D20', dot: '#E04A95' };
+/** The wordmark printed on the front face: "C.PINS" (dot included) in brown, "AI" in pink. */
+const LOGO = { name: 'C.PINSAI', accent: 'AI', width: 0.05, y: 0.044, color: '#5C2C14', dot: '#5C2C14', accentColor: '#D64B84' };
 
 function logoTexture() {
   const [initial, rest] = LOGO.name.split('.');
@@ -133,8 +133,11 @@ function logoTexture() {
   context.arc(x + dot / 2, baseline - dot / 2, dot / 2, 0, Math.PI * 2);
   context.fill();
   x += dot + gap;
+  const plain = rest.slice(0, rest.length - LOGO.accent.length);
   context.fillStyle = LOGO.color;
-  context.fillText(rest, x, baseline);
+  context.fillText(plain, x, baseline);
+  context.fillStyle = LOGO.accentColor;
+  context.fillText(LOGO.accent, x + context.measureText(plain).width, baseline);
   const texture = new CanvasTexture(canvas);
   texture.colorSpace = SRGBColorSpace;
   texture.anisotropy = 8;
